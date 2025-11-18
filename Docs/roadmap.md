@@ -140,14 +140,14 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add auto-logout on token expiration
 
 ### 4.3 Learning Mode
-- [ ] Create Learning Mode page
-- [ ] Display airport location/name
-- [ ] Show 4 multiple choice options
-- [ ] Implement answer selection logic
-- [ ] Show immediate feedback (correct/incorrect)
-- [ ] Add "Next Question" button
-- [ ] Track score during session
-- [ ] Add progress indicator
+- [x] Create Learning Mode page
+- [x] Display airport location/name
+- [x] Show 4 multiple choice options
+- [x] Implement answer selection logic
+- [x] Show immediate feedback (correct/incorrect)
+- [x] Add "Next Question" button
+- [x] Track score during session
+- [x] Add progress indicator
 
 ### 4.4 Test Mode
 - [ ] Create Test Mode page
