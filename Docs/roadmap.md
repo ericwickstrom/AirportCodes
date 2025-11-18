@@ -17,7 +17,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- Microsoft.AspNetCore.Authentication.JwtBearer
 	- Swagger/OpenAPI tools (built-in to Web API template)
 - [x] Configure appsettings.json (dev/prod configurations)
-- [ ] Set up logging configuration
+- [x] Set up logging configuration
 
 ### 1.2 Frontend Setup
 - [ ] Create Vite + React + TypeScript project (`AirportCodes.Web`)
@@ -34,7 +34,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Configure TypeScript (tsconfig.json)
 
 ### 1.3 Database Setup
-- [ ] Install PostgreSQL 16/17 locally or via Docker
+- [x] Install PostgreSQL 16/17 locally or via Docker
 - [ ] Create development database
 - [ ] Configure connection strings
 - [ ] Set up EF Core migrations infrastructure
@@ -51,15 +51,13 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ### 2.1 Database Schema Design
 - [ ] Design Airport entity model
-	- Id (Primary Key)
+	- Id (Primary Key) GUID
 	- IATA Code (3 letters, unique, indexed)
 	- Airport Name
 	- City
 	- Country
-	- Latitude/Longitude (optional, for future features)
-	- IsActive (for filtering)
 - [ ] Design User entity model (for auth)
-	- Id (Primary Key)
+	- Id (Primary Key) GUID
 	- Email
 	- PasswordHash
 	- CreatedAt
