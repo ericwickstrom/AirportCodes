@@ -122,21 +122,21 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 4: Frontend Development
 
 ### 4.1 Core Infrastructure
-- [ ] Set up React Router routes
-- [ ] Create layout components (Header, Footer, Navigation)
-- [ ] Create Zustand stores:
+- [x] Set up React Router routes
+- [x] Create layout components (Header, Footer, Navigation)
+- [x] Create Zustand stores:
 	- Auth store (user, token, login/logout)
 	- Quiz store (current question, score, progress)
 	- Settings store (preferences)
-- [ ] Create API service utilities (fetch wrappers)
-- [ ] Create TypeScript types/interfaces for API models
+- [x] Create API service utilities (fetch wrappers)
+- [x] Create TypeScript types/interfaces for API models
 
 ### 4.2 Authentication UI
-- [ ] Create Login page
-- [ ] Create Registration page
+- [x] Create Login page (placeholder)
+- [x] Create Registration page (placeholder)
 - [ ] Create authentication form components
-- [ ] Implement protected routes
-- [ ] Add token storage (localStorage/sessionStorage)
+- [x] Implement protected routes
+- [x] Add token storage (localStorage)
 - [ ] Add auto-logout on token expiration
 
 ### 4.3 Learning Mode
