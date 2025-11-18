@@ -81,19 +81,19 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 3: Backend API Development
 
 ### 3.1 Authentication & Authorization
-- [ ] Implement JWT token generation
-- [ ] Create user registration endpoint
-- [ ] Create user login endpoint
-- [ ] Create token refresh mechanism
-- [ ] Add JWT authentication middleware
-- [ ] Implement password hashing (BCrypt or PBKDF2)
+- [x] Implement JWT token generation
+- [x] Create user registration endpoint
+- [x] Create user login endpoint
+- [x] Create token refresh mechanism
+- [x] Add JWT authentication middleware
+- [x] Implement password hashing (ASP.NET Core Identity)
 
 ### 3.2 Airport Data API
-- [ ] Create Airport controller
-- [ ] GET /api/airports - Get all airports (paginated)
-- [ ] GET /api/airports/{id} - Get single airport
-- [ ] GET /api/airports/random - Get random airport(s) for quiz
-- [ ] Create Airport service layer
+- [X] Create Airport controller
+- [X] GET /api/airports - Get all airports (paginated)
+- [X] GET /api/airports/{id} - Get single airport
+- [X] GET /api/airports/random - Get random airport(s) for quiz
+- [X] Create Airport service layer
 - [ ] Add caching for frequently accessed data
 
 ### 3.3 Quiz/Learning API

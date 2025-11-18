@@ -1,9 +1,11 @@
 using AirportCodes.API.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirportCodes.API.Data;
 
-public class AirportCodesDbContext : DbContext
+public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
 	public AirportCodesDbContext(DbContextOptions<AirportCodesDbContext> options)
 		: base(options)
@@ -11,7 +13,6 @@ public class AirportCodesDbContext : DbContext
 	}
 
 	public DbSet<Airport> Airports { get; set; }
-	public DbSet<User> Users { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -28,15 +29,9 @@ public class AirportCodesDbContext : DbContext
 				.IsUnique();
 		});
 
-		// User configuration
+		// User configuration - only custom properties (Identity handles the rest)
 		modelBuilder.Entity<User>(entity =>
 		{
-			entity.HasKey(u => u.Id);
-			entity.Property(u => u.Email)
-				.IsRequired()
-				.HasMaxLength(256);
-			entity.HasIndex(u => u.Email)
-				.IsUnique();
 			entity.Property(u => u.DateCreated)
 				.HasDefaultValueSql("NOW()");
 			entity.Property(u => u.DateUpdated)
