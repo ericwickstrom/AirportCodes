@@ -72,9 +72,9 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Apply migration to development database
 
 ### 2.3 Seed Data
-- [ ] Import initial airport data (user-provided dataset)
-- [ ] Create seed data script
-- [ ] Validate data integrity
+- [x] Import initial airport data (user-provided dataset)
+- [x] Create seed data script
+- [x] Validate data integrity
 
 ---
 
