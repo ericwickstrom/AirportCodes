@@ -55,4 +55,90 @@ public class QuizController : ControllerBase
 			return BadRequest(new { message = ex.Message });
 		}
 	}
+
+	/// <summary>
+	/// Start a new test session
+	/// </summary>
+	/// <param name="totalQuestions">Number of questions for the test</param>
+	/// <returns>Test session information</returns>
+	[HttpPost("test/start")]
+	public async Task<ActionResult<TestSessionDto>> StartTest([FromQuery] int totalQuestions = 10)
+	{
+		try
+		{
+			if (totalQuestions < 1)
+			{
+				return BadRequest(new { message = "Total questions must be at least 1" });
+			}
+
+			var session = await _quizService.StartTestAsync(totalQuestions);
+			return Ok(session);
+		}
+		catch (InvalidOperationException ex)
+		{
+			_logger.LogError(ex, "Failed to start test with {TotalQuestions} questions", totalQuestions);
+			return BadRequest(new { message = ex.Message });
+		}
+	}
+
+	/// <summary>
+	/// Get the next question for a test session
+	/// </summary>
+	/// <param name="sessionId">The test session ID</param>
+	/// <returns>A question with 4 IATA code options</returns>
+	[HttpGet("test/{sessionId}/question")]
+	public async Task<ActionResult<TestQuestionDto>> GetTestQuestion(Guid sessionId)
+	{
+		try
+		{
+			var question = await _quizService.GetTestQuestionAsync(sessionId);
+			return Ok(question);
+		}
+		catch (InvalidOperationException ex)
+		{
+			_logger.LogError(ex, "Failed to get test question for session {SessionId}", sessionId);
+			return BadRequest(new { message = ex.Message });
+		}
+	}
+
+	/// <summary>
+	/// Submit an answer for a test question
+	/// </summary>
+	/// <param name="request">The session ID, question ID, and selected answer</param>
+	/// <returns>Immediate feedback indicating if the answer was correct</returns>
+	[HttpPost("test/answer")]
+	public async Task<ActionResult<TestAnswerResponse>> SubmitTestAnswer([FromBody] TestAnswerRequest request)
+	{
+		try
+		{
+			var response = await _quizService.SubmitTestAnswerAsync(request);
+			return Ok(response);
+		}
+		catch (InvalidOperationException ex)
+		{
+			_logger.LogError(ex, "Failed to submit test answer for session {SessionId}, question {QuestionId}",
+				request.SessionId, request.QuestionId);
+			return BadRequest(new { message = ex.Message });
+		}
+	}
+
+	/// <summary>
+	/// Get the final results for a completed test
+	/// </summary>
+	/// <param name="sessionId">The test session ID</param>
+	/// <returns>Test results including score percentage</returns>
+	[HttpGet("test/{sessionId}/results")]
+	public async Task<ActionResult<TestResultDto>> GetTestResults(Guid sessionId)
+	{
+		try
+		{
+			var results = await _quizService.GetTestResultsAsync(sessionId);
+			return Ok(results);
+		}
+		catch (InvalidOperationException ex)
+		{
+			_logger.LogError(ex, "Failed to get test results for session {SessionId}", sessionId);
+			return BadRequest(new { message = ex.Message });
+		}
+	}
 }
