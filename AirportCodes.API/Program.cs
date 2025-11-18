@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
 
 // Configure database
 builder.Services.AddDbContext<AirportCodesDbContext>(options =>
@@ -66,6 +67,7 @@ builder.Services.AddAuthentication(options =>
 // Register application services
 builder.Services.AddScoped<IAirportService, AirportService>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
 
 // Configure CORS
 var corsOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:5173" };

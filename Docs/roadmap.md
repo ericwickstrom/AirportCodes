@@ -97,11 +97,12 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add caching for frequently accessed data
 
 ### 3.3 Quiz/Learning API
-- [ ] Create Quiz controller
-- [ ] POST /api/quiz/learning - Get learning mode question (1 correct + 3 random options)
+- [x] Create Quiz controller
+- [x] GET /api/quiz/learning - Get learning mode question (1 correct + 3 random options)
+- [x] POST /api/quiz/learning/answer - Validate learning mode answer
 - [ ] POST /api/quiz/test - Validate test mode answer
 - [ ] POST /api/quiz/submit - Submit quiz results
-- [ ] Create quiz logic service (generate distractors, validate answers)
+- [x] Create quiz logic service (generate distractors, validate answers)
 
 ### 3.4 User Progress API
 - [ ] Create UserProgress controller
