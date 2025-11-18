@@ -50,25 +50,26 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 2: Database & Data Models
 
 ### 2.1 Database Schema Design
-- [ ] Design Airport entity model
-	- Id (Primary Key) GUID
+- [x] Design Airport entity model
+	- Id (Primary Key) (GUID)
 	- IATA Code (3 letters, unique, indexed)
-	- Airport Name
-	- City
-	- Country
-- [ ] Design User entity model (for auth)
+	- Airport Name (string)
+	- City (string)
+	- Country (string)
+- [x] Design User entity model (for auth)
 	- Id (Primary Key) GUID
-	- Email
-	- PasswordHash
-	- CreatedAt
-	- LastLogin
+	- Email (string)
+	- PasswordHash (string)
+	- DateCreated (datetime)
+	- DateUpdated (datetime)
+	- LastLogin (datetime)
 
 ### 2.2 EF Core Implementation
-- [ ] Create DbContext class
-- [ ] Create entity classes with data annotations
-- [ ] Configure entity relationships
-- [ ] Create initial migration
-- [ ] Apply migration to development database
+- [x] Create DbContext class
+- [x] Create entity classes with data annotations
+- [x] Configure entity relationships
+- [x] Create initial migration
+- [x] Apply migration to development database
 
 ### 2.3 Seed Data
 - [ ] Import initial airport data (user-provided dataset)
