@@ -122,7 +122,7 @@ public class QuizService : IQuizService
 			TotalQuestions = totalQuestions,
 			QuestionsAnswered = 0,
 			CorrectAnswers = 0,
-			UsedAirportIds = new HashSet<int>(),
+			UsedAirportIds = new HashSet<Guid>(),
 			CreatedAt = DateTime.UtcNow
 		};
 
@@ -257,7 +257,7 @@ public class QuizService : IQuizService
 		};
 	}
 
-	public async Task<TestResultDto> GetTestResultsAsync(Guid sessionId)
+	public Task<TestResultDto> GetTestResultsAsync(Guid sessionId)
 	{
 		// Retrieve session from cache
 		if (!_cache.TryGetValue($"quiz:test:session:{sessionId}", out TestSession? session) || session == null)
@@ -274,12 +274,12 @@ public class QuizService : IQuizService
 		// Clear session from cache
 		_cache.Remove($"quiz:test:session:{sessionId}");
 
-		return new TestResultDto
+		return Task.FromResult(new TestResultDto
 		{
 			TotalQuestions = session.QuestionsAnswered,
 			CorrectAnswers = session.CorrectAnswers,
 			IncorrectAnswers = incorrectAnswers,
 			ScorePercentage = scorePercentage
-		};
+		});
 	}
 }
