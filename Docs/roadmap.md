@@ -20,30 +20,30 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Set up logging configuration
 
 ### 1.2 Frontend Setup
-- [ ] Create Vite + React + TypeScript project (`AirportCodes.Web`)
-- [ ] Install required npm packages:
+- [x] Create Vite + React + TypeScript project (`AirportCodes.Web`)
+- [x] Install required npm packages:
 	- React 19.2.0
 	- TypeScript 5.9.3
-	- Vite 7.2.2
+	- Vite 6.0.0 (instead of 7.2.2 due to @tailwindcss/vite compatibility)
 	- Tailwind CSS 4.1.x + @tailwindcss/vite
 	- Zustand 5.0.8
 	- React Router 7.x
-- [ ] Configure Vite (plugins, build settings)
-- [ ] Configure Tailwind CSS v4
-- [ ] Set up project structure (components, pages, stores, utils, types)
-- [ ] Configure TypeScript (tsconfig.json)
+- [x] Configure Vite (plugins, build settings)
+- [x] Configure Tailwind CSS v4
+- [x] Set up project structure (components, pages, stores, utils, types)
+- [x] Configure TypeScript (tsconfig.json)
 
 ### 1.3 Database Setup
 - [x] Install PostgreSQL 16/17 locally or via Docker
-- [ ] Create development database
-- [ ] Configure connection strings
-- [ ] Set up EF Core migrations infrastructure
+- [x] Create development database
+- [x] Configure connection strings
+- [x] Set up EF Core migrations infrastructure
 
 ### 1.4 Development Environment
-- [ ] Update .gitignore for .NET and Node.js
-- [ ] Create README.md with setup instructions
-- [ ] Set up environment variables (.env files)
-- [ ] Configure CORS for local development
+- [x] Update .gitignore for .NET and Node.js
+- [x] Create README.md with setup instructions
+- [x] Set up environment variables (.env files)
+- [x] Configure CORS for local development
 
 ---
 

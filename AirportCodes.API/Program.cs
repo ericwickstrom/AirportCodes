@@ -1,4 +1,6 @@
+using AirportCodes.API.Data;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Configure database
+builder.Services.AddDbContext<AirportCodesDbContext>(options =>
+	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configure CORS
 var corsOrigins = builder.Configuration.GetSection("CorsSettings:AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:5173" };
