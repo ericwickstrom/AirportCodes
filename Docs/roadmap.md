@@ -100,8 +100,10 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Create Quiz controller
 - [x] GET /api/quiz/learning - Get learning mode question (1 correct + 3 random options)
 - [x] POST /api/quiz/learning/answer - Validate learning mode answer
-- [ ] POST /api/quiz/test - Validate test mode answer
-- [ ] POST /api/quiz/submit - Submit quiz results
+- [x] POST /api/quiz/test/start - Start test session
+- [x] GET /api/quiz/test/{sessionId}/question - Get test question (no duplicates per session)
+- [x] POST /api/quiz/test/answer - Submit test answer with immediate feedback
+- [x] GET /api/quiz/test/{sessionId}/results - Get final test results with score percentage
 - [x] Create quiz logic service (generate distractors, validate answers)
 
 ### 3.4 User Progress API
