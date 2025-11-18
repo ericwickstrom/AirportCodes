@@ -62,13 +62,6 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- PasswordHash
 	- CreatedAt
 	- LastLogin
-- [ ] Design UserProgress entity model (for tracking)
-	- Id (Primary Key)
-	- UserId (Foreign Key)
-	- AirportId (Foreign Key)
-	- CorrectAttempts
-	- IncorrectAttempts
-	- LastAttemptDate
 
 ### 2.2 EF Core Implementation
 - [ ] Create DbContext class
