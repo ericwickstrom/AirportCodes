@@ -8,15 +8,15 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 1: Project Setup & Infrastructure
 
 ### 1.1 Backend Setup
-- [ ] Create .NET 8 solution file (`AirportCodes.sln`)
-- [ ] Create ASP.NET Core Web API project (`AirportCodes.API`)
-- [ ] Configure project structure (Controllers, Models, Services, Data)
-- [ ] Install required NuGet packages:
+- [x] Create .NET 8 solution file (`AirportCodes.sln`)
+- [x] Create ASP.NET Core Web API project (`AirportCodes.API`)
+- [x] Configure project structure (Controllers, Models, Services, Data)
+- [x] Install required NuGet packages:
 	- Entity Framework Core 8.x
 	- Npgsql.EntityFrameworkCore.PostgreSQL
 	- Microsoft.AspNetCore.Authentication.JwtBearer
-	- Swagger/OpenAPI tools
-- [ ] Configure appsettings.json (dev/prod configurations)
+	- Swagger/OpenAPI tools (built-in to Web API template)
+- [x] Configure appsettings.json (dev/prod configurations)
 - [ ] Set up logging configuration
 
 ### 1.2 Frontend Setup

@@ -6,6 +6,11 @@
 # dotenv files
 .env
 
+# appsettings files with secrets
+appsettings.json
+appsettings.*.json
+!appsettings.Development.json.template
+
 # User-specific files
 *.rsuser
 *.suo
@@ -484,3 +489,4 @@ $RECYCLE.BIN/
 *.swp
 
 CLAUDE.md
+.claude
