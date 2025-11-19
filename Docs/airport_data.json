@@ -1,0 +1,1479 @@
+[
+  {
+    "IataCode": "ABQ",
+    "AirportName": "Albuquerque International Sunport",
+    "CityName": "Albuquerque",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ACA",
+    "AirportName": "General Juan N Alvarez International Airport",
+    "CityName": "Acapulco",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "AGS",
+    "AirportName": "Augusta Regional At Bush Field",
+    "CityName": "Bush Field",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ALB",
+    "AirportName": "Albany International Airport",
+    "CityName": "Albany",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "AMM",
+    "AirportName": "Queen Alia International Airport",
+    "CityName": "Amman",
+    "CountryName": "Jordan",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "AMS",
+    "AirportName": "Amsterdam Airport Schiphol",
+    "CityName": "Amsterdam",
+    "CountryName": "Netherlands",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ANC",
+    "AirportName": "Ted Stevens Anchorage International Airport",
+    "CityName": "Anchorage",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ANU",
+    "AirportName": "V.C. Bird International Airport",
+    "CityName": "Antigua",
+    "CountryName": "Antigua and Barbuda",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ATH",
+    "AirportName": "Eleftherios Venizelos International Airport",
+    "CityName": "Athens",
+    "CountryName": "Greece",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ATL",
+    "AirportName": "Hartsfield Jackson Atlanta International Airport",
+    "CityName": "Atlanta",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "AUA",
+    "AirportName": "Queen Beatrix International Airport",
+    "CityName": "Oranjestad",
+    "CountryName": "Aruba",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "AUS",
+    "AirportName": "Austin Bergstrom International Airport",
+    "CityName": "Austin",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BCN",
+    "AirportName": "Barcelona International Airport",
+    "CityName": "Barcelona",
+    "CountryName": "Spain",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BDA",
+    "AirportName": "L.F. Wade International International Airport",
+    "CityName": "Bermuda",
+    "CountryName": "Bermuda",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BDL",
+    "AirportName": "Bradley International Airport",
+    "CityName": "Windsor Locks",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BER",
+    "AirportName": "Berlin Brandenburg Airport",
+    "CityName": "Berlin",
+    "CountryName": "DE",
+    "Source": "OurAirports"
+  },
+  {
+    "IataCode": "BHM",
+    "AirportName": "Birmingham-Shuttlesworth International Airport",
+    "CityName": "Birmingham",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BIL",
+    "AirportName": "Billings Logan International Airport",
+    "CityName": "Billings",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BIS",
+    "AirportName": "Bismarck Municipal Airport",
+    "CityName": "Bismarck",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BKK",
+    "AirportName": "Suvarnabhumi Airport",
+    "CityName": "Bangkok",
+    "CountryName": "Thailand",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BNA",
+    "AirportName": "Nashville International Airport",
+    "CityName": "Nashville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BOG",
+    "AirportName": "El Dorado International Airport",
+    "CityName": "Bogota",
+    "CountryName": "Colombia",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BOI",
+    "AirportName": "Boise Air Terminal/Gowen Field",
+    "CityName": "Boise",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BOM",
+    "AirportName": "Chhatrapati Shivaji International Airport",
+    "CityName": "Mumbai",
+    "CountryName": "India",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BOS",
+    "AirportName": "General Edward Lawrence Logan International Airport",
+    "CityName": "Boston",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BRU",
+    "AirportName": "Brussels Airport",
+    "CityName": "Brussels",
+    "CountryName": "Belgium",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BTM",
+    "AirportName": "Bert Mooney Airport",
+    "CityName": "Butte",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BUD",
+    "AirportName": "Budapest Liszt Ferenc International Airport",
+    "CityName": "Budapest",
+    "CountryName": "Hungary",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BUF",
+    "AirportName": "Buffalo Niagara International Airport",
+    "CityName": "Buffalo",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BUR",
+    "AirportName": "Bob Hope Airport",
+    "CityName": "Burbank",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BWI",
+    "AirportName": "Baltimore/Washington International Thurgood Marshall Airport",
+    "CityName": "Baltimore",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BZE",
+    "AirportName": "Philip S. W. Goldson International Airport",
+    "CityName": "Belize City",
+    "CountryName": "Belize",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "BZN",
+    "AirportName": "Gallatin Field",
+    "CityName": "Bozeman",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CAE",
+    "AirportName": "Columbia Metropolitan Airport",
+    "CityName": "Columbia",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CAI",
+    "AirportName": "Cairo International Airport",
+    "CityName": "Cairo",
+    "CountryName": "Egypt",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CCS",
+    "AirportName": "Simón Bolívar International Airport",
+    "CityName": "Caracas",
+    "CountryName": "Venezuela",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CDC",
+    "AirportName": "Cedar City Regional Airport",
+    "CityName": "Cedar City",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CDG",
+    "AirportName": "Charles de Gaulle International Airport",
+    "CityName": "Paris",
+    "CountryName": "France",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CHA",
+    "AirportName": "Lovell Field",
+    "CityName": "Chattanooga",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CHS",
+    "AirportName": "Charleston Air Force Base-International Airport",
+    "CityName": "Charleston",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CLE",
+    "AirportName": "Cleveland Hopkins International Airport",
+    "CityName": "Cleveland",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CLT",
+    "AirportName": "Charlotte Douglas International Airport",
+    "CityName": "Charlotte",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CMH",
+    "AirportName": "John Glenn Columbus International Airport",
+    "CityName": "Columbus",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "COS",
+    "AirportName": "City of Colorado Springs Municipal Airport",
+    "CityName": "Colorado Springs",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CPH",
+    "AirportName": "Copenhagen Kastrup Airport",
+    "CityName": "Copenhagen",
+    "CountryName": "Denmark",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CPR",
+    "AirportName": "Casper-Natrona County International Airport",
+    "CityName": "Casper",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CUN",
+    "AirportName": "Cancún International Airport",
+    "CityName": "Cancun",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CVG",
+    "AirportName": "Cincinnati Northern Kentucky International Airport",
+    "CityName": "Cincinnati",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "CZM",
+    "AirportName": "Cozumel International Airport",
+    "CityName": "Cozumel",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DAB",
+    "AirportName": "Daytona Beach International Airport",
+    "CityName": "Daytona Beach",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DAL",
+    "AirportName": "Dallas Love Field",
+    "CityName": "Dallas",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DAY",
+    "AirportName": "James M Cox Dayton International Airport",
+    "CityName": "Dayton",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DCA",
+    "AirportName": "Ronald Reagan Washington National Airport",
+    "CityName": "Washington",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DEN",
+    "AirportName": "Denver International Airport",
+    "CityName": "Denver",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DFW",
+    "AirportName": "Dallas Fort Worth International Airport",
+    "CityName": "Dallas-Fort Worth",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DLH",
+    "AirportName": "Duluth International Airport",
+    "CityName": "Duluth",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DSM",
+    "AirportName": "Des Moines International Airport",
+    "CityName": "Des Moines",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DSS",
+    "AirportName": "Blaise Diagne International Airport",
+    "CityName": "Diass",
+    "CountryName": "Senegal",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DTW",
+    "AirportName": "Detroit Metropolitan Wayne County Airport",
+    "CityName": "Detroit",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DUB",
+    "AirportName": "Dublin Airport",
+    "CityName": "Dublin",
+    "CountryName": "Ireland",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DUS",
+    "AirportName": "Düsseldorf Airport",
+    "CityName": "Duesseldorf",
+    "CountryName": "Germany",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "DXB",
+    "AirportName": "Dubai International Airport",
+    "CityName": "Dubai",
+    "CountryName": "United Arab Emirates",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "EGE",
+    "AirportName": "Eagle County Regional Airport",
+    "CityName": "Vail",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ELP",
+    "AirportName": "El Paso International Airport",
+    "CityName": "El Paso",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "EWR",
+    "AirportName": "Newark Liberty International Airport",
+    "CityName": "Newark",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "EYW",
+    "AirportName": "Key West International Airport",
+    "CityName": "Key West",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "EZE",
+    "AirportName": "Ministro Pistarini International Airport",
+    "CityName": "Buenos Aires",
+    "CountryName": "Argentina",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FAI",
+    "AirportName": "Fairbanks International Airport",
+    "CityName": "Fairbanks",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FAR",
+    "AirportName": "Hector International Airport",
+    "CityName": "Fargo",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FAT",
+    "AirportName": "Fresno Yosemite International Airport",
+    "CityName": "Fresno",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FCA",
+    "AirportName": "Glacier Park International Airport",
+    "CityName": "Kalispell",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FCO",
+    "AirportName": "Leonardo da Vinci–Fiumicino Airport",
+    "CityName": "Rome",
+    "CountryName": "Italy",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FLL",
+    "AirportName": "Fort Lauderdale Hollywood International Airport",
+    "CityName": "Fort Lauderdale",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FNT",
+    "AirportName": "Bishop International Airport",
+    "CityName": "Flint",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FRA",
+    "AirportName": "Frankfurt am Main Airport",
+    "CityName": "Frankfurt",
+    "CountryName": "Germany",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "FSD",
+    "AirportName": "Joe Foss Field Airport",
+    "CityName": "Sioux Falls",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GCM",
+    "AirportName": "Owen Roberts International Airport",
+    "CityName": "Georgetown",
+    "CountryName": "Cayman Islands",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GDL",
+    "AirportName": "Don Miguel Hidalgo Y Costilla International Airport",
+    "CityName": "Guadalajara",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GEG",
+    "AirportName": "Spokane International Airport",
+    "CityName": "Spokane",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GIG",
+    "AirportName": "Rio Galeão – Tom Jobim International Airport",
+    "CityName": "Rio De Janeiro",
+    "CountryName": "Brazil",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GPT",
+    "AirportName": "Gulfport Biloxi International Airport",
+    "CityName": "Gulfport",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GRB",
+    "AirportName": "Austin Straubel International Airport",
+    "CityName": "Green Bay",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GRR",
+    "AirportName": "Gerald R. Ford International Airport",
+    "CityName": "Grand Rapids",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GRU",
+    "AirportName": "Guarulhos - Governador André Franco Montoro International Airport",
+    "CityName": "Sao Paulo",
+    "CountryName": "Brazil",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GSP",
+    "AirportName": "Greenville Spartanburg International Airport",
+    "CityName": "Greenville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GTF",
+    "AirportName": "Great Falls International Airport",
+    "CityName": "Great Falls",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GUA",
+    "AirportName": "La Aurora Airport",
+    "CityName": "Guatemala City",
+    "CountryName": "Guatemala",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GUC",
+    "AirportName": "Gunnison Crested Butte Regional Airport",
+    "CityName": "Gunnison",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "GUM",
+    "AirportName": "Antonio B. Won Pat International Airport",
+    "CityName": "Agana",
+    "CountryName": "Guam",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HDN",
+    "AirportName": "Yampa Valley Airport",
+    "CityName": "Hayden",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HKG",
+    "AirportName": "Hong Kong International Airport",
+    "CityName": "Hong Kong",
+    "CountryName": "Hong Kong",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HLN",
+    "AirportName": "Helena Regional Airport",
+    "CityName": "Helena",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HNL",
+    "AirportName": "Daniel K Inouye International Airport",
+    "CityName": "Honolulu",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HOU",
+    "AirportName": "William P Hobby Airport",
+    "CityName": "Houston",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "HSV",
+    "AirportName": "Huntsville International Carl T Jones Field",
+    "CityName": "Huntsville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "IAD",
+    "AirportName": "Washington Dulles International Airport",
+    "CityName": "Washington",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "IAH",
+    "AirportName": "George Bush Intercontinental Houston Airport",
+    "CityName": "Houston",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "IDA",
+    "AirportName": "Idaho Falls Regional Airport",
+    "CityName": "Idaho Falls",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "IND",
+    "AirportName": "Indianapolis International Airport",
+    "CityName": "Indianapolis",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "IST",
+    "AirportName": "Istanbul Airport",
+    "CityName": "Istanbul",
+    "CountryName": "Turkey",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "JAC",
+    "AirportName": "Jackson Hole Airport",
+    "CityName": "Jacksn Hole",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "JAN",
+    "AirportName": "Jackson-Medgar Wiley Evers International Airport",
+    "CityName": "Jackson",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "JAX",
+    "AirportName": "Jacksonville International Airport",
+    "CityName": "Jacksonville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "JFK",
+    "AirportName": "John F Kennedy International Airport",
+    "CityName": "New York",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "JNB",
+    "AirportName": "OR Tambo International Airport",
+    "CityName": "Johannesburg",
+    "CountryName": "South Africa",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "KIX",
+    "AirportName": "Kansai International Airport",
+    "CityName": "Osaka",
+    "CountryName": "Japan",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "KOA",
+    "AirportName": "Ellison Onizuka Kona International At Keahole Airport",
+    "CityName": "Kona",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "KWI",
+    "AirportName": "Kuwait International Airport",
+    "CityName": "Kuwait",
+    "CountryName": "Kuwait",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LAS",
+    "AirportName": "McCarran International Airport",
+    "CityName": "Las Vegas",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LAX",
+    "AirportName": "Los Angeles International Airport",
+    "CityName": "Los Angeles",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LEX",
+    "AirportName": "Blue Grass Airport",
+    "CityName": "Lexington KY",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LGA",
+    "AirportName": "La Guardia Airport",
+    "CityName": "New York",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LGB",
+    "AirportName": "Long Beach /Daugherty Field/ Airport",
+    "CityName": "Long Beach",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LGW",
+    "AirportName": "London Gatwick Airport",
+    "CityName": "London",
+    "CountryName": "United Kingdom",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LHR",
+    "AirportName": "London Heathrow Airport",
+    "CityName": "London",
+    "CountryName": "United Kingdom",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LIH",
+    "AirportName": "Lihue Airport",
+    "CityName": "Lihue",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LIM",
+    "AirportName": "Jorge Chávez International Airport",
+    "CityName": "Lima",
+    "CountryName": "Peru",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LIR",
+    "AirportName": "Daniel Oduber Quiros International Airport",
+    "CityName": "Liberia",
+    "CountryName": "Costa Rica",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LIT",
+    "AirportName": "Bill & Hillary Clinton National Airport/Adams Field",
+    "CityName": "Little Rock",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "LOS",
+    "AirportName": "Murtala Muhammed International Airport",
+    "CityName": "Lagos",
+    "CountryName": "Nigeria",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MAD",
+    "AirportName": "Adolfo Suárez Madrid–Barajas Airport",
+    "CityName": "Madrid",
+    "CountryName": "Spain",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MAN",
+    "AirportName": "Manchester Airport",
+    "CityName": "Manchester",
+    "CountryName": "United Kingdom",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MBJ",
+    "AirportName": "Sangster International Airport",
+    "CityName": "Montego Bay",
+    "CountryName": "Jamaica",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MCI",
+    "AirportName": "Kansas City International Airport",
+    "CityName": "Kansas City",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MCO",
+    "AirportName": "Orlando International Airport",
+    "CityName": "Orlando",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MDW",
+    "AirportName": "Chicago Midway International Airport",
+    "CityName": "Chicago",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MEM",
+    "AirportName": "Memphis International Airport",
+    "CityName": "Memphis",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MEX",
+    "AirportName": "Licenciado Benito Juarez International Airport",
+    "CityName": "Mexico City",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MFR",
+    "AirportName": "Rogue Valley International Medford Airport",
+    "CityName": "Medford",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MHT",
+    "AirportName": "Manchester-Boston Regional Airport",
+    "CityName": "Manchester NH",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MIA",
+    "AirportName": "Miami International Airport",
+    "CityName": "Miami",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MKE",
+    "AirportName": "General Mitchell International Airport",
+    "CityName": "Milwaukee",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MLB",
+    "AirportName": "Melbourne International Airport",
+    "CityName": "Melbourne",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MNL",
+    "AirportName": "Ninoy Aquino International Airport",
+    "CityName": "Manila",
+    "CountryName": "Philippines",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MSN",
+    "AirportName": "Dane County Regional Truax Field",
+    "CityName": "Madison",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MSO",
+    "AirportName": "Missoula International Airport",
+    "CityName": "Missoula",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MSP",
+    "AirportName": "Minneapolis-St Paul International/Wold-Chamberlain Airport",
+    "CityName": "Minneapolis",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MSY",
+    "AirportName": "Louis Armstrong New Orleans International Airport",
+    "CityName": "New Orleans",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MTJ",
+    "AirportName": "Montrose Regional Airport",
+    "CityName": "Montrose CO",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MUC",
+    "AirportName": "Munich Airport",
+    "CityName": "Munich",
+    "CountryName": "Germany",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MXP",
+    "AirportName": "Malpensa International Airport",
+    "CityName": "Milano",
+    "CountryName": "Italy",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MYR",
+    "AirportName": "Myrtle Beach International Airport",
+    "CityName": "Myrtle Beach",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "MZT",
+    "AirportName": "General Rafael Buelna International Airport",
+    "CityName": "Mazatlan",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "NAS",
+    "AirportName": "Lynden Pindling International Airport",
+    "CityName": "Nassau",
+    "CountryName": "Bahamas",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "NCE",
+    "AirportName": "Nice-Côte d'Azur Airport",
+    "CityName": "Nice",
+    "CountryName": "France",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "NGO",
+    "AirportName": "Chubu Centrair International Airport",
+    "CityName": "Nagoya",
+    "CountryName": "Japan",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "NRT",
+    "AirportName": "Narita International Airport",
+    "CityName": "Tokyo",
+    "CountryName": "Japan",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "OAK",
+    "AirportName": "Metropolitan Oakland International Airport",
+    "CityName": "Oakland",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "OGG",
+    "AirportName": "Kahului Airport",
+    "CityName": "Kahului",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "OMA",
+    "AirportName": "Eppley Airfield",
+    "CityName": "Omaha",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ONT",
+    "AirportName": "Ontario International Airport",
+    "CityName": "Ontario",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ORD",
+    "AirportName": "Chicago O'Hare International Airport",
+    "CityName": "Chicago",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ORF",
+    "AirportName": "Norfolk International Airport",
+    "CityName": "Norfolk",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PBI",
+    "AirportName": "Palm Beach International Airport",
+    "CityName": "West Palm Beach",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PDX",
+    "AirportName": "Portland International Airport",
+    "CityName": "Portland",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PEK",
+    "AirportName": "Beijing Capital International Airport",
+    "CityName": "Beijing",
+    "CountryName": "China",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PHL",
+    "AirportName": "Philadelphia International Airport",
+    "CityName": "Philadelphia",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PHX",
+    "AirportName": "Phoenix Sky Harbor International Airport",
+    "CityName": "Phoenix",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PIT",
+    "AirportName": "Pittsburgh International Airport",
+    "CityName": "Pittsburgh",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PNS",
+    "AirportName": "Pensacola Regional Airport",
+    "CityName": "Pensacola",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PRG",
+    "AirportName": "Václav Havel Airport Prague",
+    "CityName": "Prague",
+    "CountryName": "Czech Republic",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PSC",
+    "AirportName": "Tri Cities Airport",
+    "CityName": "Pasco",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PSP",
+    "AirportName": "Palm Springs International Airport",
+    "CityName": "Palm Springs",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PTY",
+    "AirportName": "Tocumen International Airport",
+    "CityName": "Panama City",
+    "CountryName": "Panama",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PVD",
+    "AirportName": "Theodore Francis Green State Airport",
+    "CityName": "Providence",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "PVR",
+    "AirportName": "Licenciado Gustavo Díaz Ordaz International Airport",
+    "CityName": "Puerto Vallarta",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "RAP",
+    "AirportName": "Rapid City Regional Airport",
+    "CityName": "Rapid City",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "RDU",
+    "AirportName": "Raleigh Durham International Airport",
+    "CityName": "Raleigh-durham",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "RIC",
+    "AirportName": "Richmond International Airport",
+    "CityName": "Richmond",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "RNO",
+    "AirportName": "Reno Tahoe International Airport",
+    "CityName": "Reno",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ROC",
+    "AirportName": "Greater Rochester International Airport",
+    "CityName": "Rochester",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "RSW",
+    "AirportName": "Southwest Florida International Airport",
+    "CityName": "Fort Myers",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SAN",
+    "AirportName": "San Diego International Airport",
+    "CityName": "San Diego",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SAT",
+    "AirportName": "San Antonio International Airport",
+    "CityName": "San Antonio",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SAV",
+    "AirportName": "Savannah Hilton Head International Airport",
+    "CityName": "Savannah",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SCL",
+    "AirportName": "Comodoro Arturo Merino Benítez International Airport",
+    "CityName": "Santiago",
+    "CountryName": "Chile",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SDF",
+    "AirportName": "Louisville International Standiford Field",
+    "CityName": "Louisville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SEA",
+    "AirportName": "Seattle Tacoma International Airport",
+    "CityName": "Seattle",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SFO",
+    "AirportName": "San Francisco International Airport",
+    "CityName": "San Francisco",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SGU",
+    "AirportName": "St George Municipal Airport",
+    "CityName": "Saint George",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SIN",
+    "AirportName": "Singapore Changi Airport",
+    "CityName": "Singapore",
+    "CountryName": "Singapore",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SJC",
+    "AirportName": "Norman Y. Mineta San Jose International Airport",
+    "CityName": "San Jose",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SJD",
+    "AirportName": "Los Cabos International Airport",
+    "CityName": "San Jose Del Cabo",
+    "CountryName": "Mexico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SJO",
+    "AirportName": "Juan Santamaria International Airport",
+    "CityName": "San Jose",
+    "CountryName": "Costa Rica",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SJU",
+    "AirportName": "Luis Munoz Marin International Airport",
+    "CityName": "San Juan",
+    "CountryName": "Puerto Rico",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SLC",
+    "AirportName": "Salt Lake City International Airport",
+    "CityName": "Salt Lake City",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SMF",
+    "AirportName": "Sacramento International Airport",
+    "CityName": "Sacramento",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SNA",
+    "AirportName": "John Wayne Airport-Orange County Airport",
+    "CityName": "Santa Ana",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SNN",
+    "AirportName": "Shannon Airport",
+    "CityName": "Shannon",
+    "CountryName": "Ireland",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SPN",
+    "AirportName": "Saipan International Airport",
+    "CityName": "Saipan",
+    "CountryName": "Northern Mariana Islands",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SRQ",
+    "AirportName": "Sarasota Bradenton International Airport",
+    "CityName": "Sarasota",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "STL",
+    "AirportName": "St Louis Lambert International Airport",
+    "CityName": "St. Louis",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "STR",
+    "AirportName": "Stuttgart Airport",
+    "CityName": "Stuttgart",
+    "CountryName": "Germany",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "STT",
+    "AirportName": "Cyril E. King Airport",
+    "CityName": "St. Thomas",
+    "CountryName": "Virgin Islands",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SUN",
+    "AirportName": "Friedman Memorial Airport",
+    "CityName": "Hailey",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SVO",
+    "AirportName": "Sheremetyevo International Airport",
+    "CityName": "Moscow",
+    "CountryName": "Russia",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "SYD",
+    "AirportName": "Sydney Kingsford Smith International Airport",
+    "CityName": "Sydney",
+    "CountryName": "Australia",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TLH",
+    "AirportName": "Tallahassee Regional Airport",
+    "CityName": "Tallahassee",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TLV",
+    "AirportName": "Ben Gurion International Airport",
+    "CityName": "Tel-aviv",
+    "CountryName": "Israel",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TPA",
+    "AirportName": "Tampa International Airport",
+    "CityName": "Tampa",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TPE",
+    "AirportName": "Taiwan Taoyuan International Airport",
+    "CityName": "Taipei",
+    "CountryName": "Taiwan",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TUS",
+    "AirportName": "Tucson International Airport",
+    "CityName": "Tucson",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "TYS",
+    "AirportName": "McGhee Tyson Airport",
+    "CityName": "Knoxville",
+    "CountryName": "United States",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "UVF",
+    "AirportName": "Hewanorra International Airport",
+    "CityName": "Hewandorra",
+    "CountryName": "Saint Lucia",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "VCE",
+    "AirportName": "Venice Marco Polo Airport",
+    "CityName": "Venice",
+    "CountryName": "Italy",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "YEG",
+    "AirportName": "Edmonton International Airport",
+    "CityName": "Edmonton",
+    "CountryName": "Canada",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "YUL",
+    "AirportName": "Montreal / Pierre Elliott Trudeau International Airport",
+    "CityName": "Montreal",
+    "CountryName": "Canada",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "YVR",
+    "AirportName": "Vancouver International Airport",
+    "CityName": "Vancouver",
+    "CountryName": "Canada",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "YWG",
+    "AirportName": "Winnipeg / James Armstrong Richardson International Airport",
+    "CityName": "Winnipeg",
+    "CountryName": "Canada",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "YYC",
+    "AirportName": "Calgary International Airport",
+    "CityName": "Calgary",
+    "CountryName": "Canada",
+    "Source": "OpenFlights"
+  },
+  {
+    "IataCode": "ZRH",
+    "AirportName": "Zürich Airport",
+    "CityName": "Zurich",
+    "CountryName": "Switzerland",
+    "Source": "OpenFlights"
+  }
+]

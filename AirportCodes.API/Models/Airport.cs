@@ -18,10 +18,8 @@ public class Airport
 	public string AirportName { get; set; } = string.Empty;
 
 	[Required]
-	[StringLength(100)]
-	public string City { get; set; } = string.Empty;
+	public Guid CityId { get; set; }
 
-	[Required]
-	[StringLength(100)]
-	public string Country { get; set; } = string.Empty;
+	// Navigation property
+	public City City { get; set; } = null!;
 }

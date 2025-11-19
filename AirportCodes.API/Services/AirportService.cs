@@ -17,6 +17,8 @@ public class AirportService : IAirportService
 	{
 		var totalCount = await _context.Airports.CountAsync();
 		var airports = await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
 			.OrderBy(a => a.AirportName)
 			.Skip((page - 1) * pageSize)
 			.Take(pageSize)
@@ -27,12 +29,17 @@ public class AirportService : IAirportService
 
 	public async Task<Airport?> GetByIdAsync(Guid id)
 	{
-		return await _context.Airports.FindAsync(id);
+		return await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
+			.FirstOrDefaultAsync(a => a.Id == id);
 	}
 
 	public async Task<Airport?> GetByIataCodeAsync(string iataCode)
 	{
 		return await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
 			.FirstOrDefaultAsync(a => a.IataCode == iataCode.ToUpper());
 	}
 
@@ -42,11 +49,17 @@ public class AirportService : IAirportService
 
 		if (count >= totalCount)
 		{
-			return await _context.Airports.ToListAsync();
+			return await _context.Airports
+				.Include(a => a.City)
+					.ThenInclude(c => c.Country)
+				.ToListAsync();
 		}
 
 		// Get random airports using a simple approach
-		var allAirports = await _context.Airports.ToListAsync();
+		var allAirports = await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
+			.ToListAsync();
 		var random = new Random();
 		return allAirports.OrderBy(_ => random.Next()).Take(count).ToList();
 	}

@@ -13,10 +13,31 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 	}
 
 	public DbSet<Airport> Airports { get; set; }
+	public DbSet<Country> Countries { get; set; }
+	public DbSet<City> Cities { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
+
+		// Country configuration
+		modelBuilder.Entity<Country>(entity =>
+		{
+			entity.HasKey(c => c.Id);
+			entity.HasIndex(c => c.Name)
+				.IsUnique();
+		});
+
+		// City configuration
+		modelBuilder.Entity<City>(entity =>
+		{
+			entity.HasKey(c => c.Id);
+			entity.HasIndex(c => c.CountryId);
+			entity.HasOne(c => c.Country)
+				.WithMany(co => co.Cities)
+				.HasForeignKey(c => c.CountryId)
+				.OnDelete(DeleteBehavior.Restrict);
+		});
 
 		// Airport configuration
 		modelBuilder.Entity<Airport>(entity =>
@@ -27,6 +48,11 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 				.HasMaxLength(3);
 			entity.HasIndex(a => a.IataCode)
 				.IsUnique();
+			entity.HasIndex(a => a.CityId);
+			entity.HasOne(a => a.City)
+				.WithMany(c => c.Airports)
+				.HasForeignKey(a => a.CityId)
+				.OnDelete(DeleteBehavior.Restrict);
 		});
 
 		// User configuration - only custom properties (Identity handles the rest)

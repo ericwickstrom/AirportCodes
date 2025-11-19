@@ -35,8 +35,8 @@ public class AirportsController : ControllerBase
 			Id = a.Id,
 			IataCode = a.IataCode,
 			AirportName = a.AirportName,
-			City = a.City,
-			Country = a.Country
+			City = a.City.Name,
+			Country = a.City.Country.Name
 		});
 
 		var response = new PaginatedResponse<AirportDto>
@@ -68,8 +68,8 @@ public class AirportsController : ControllerBase
 			Id = airport.Id,
 			IataCode = airport.IataCode,
 			AirportName = airport.AirportName,
-			City = airport.City,
-			Country = airport.Country
+			City = airport.City.Name,
+			Country = airport.City.Country.Name
 		};
 
 		return Ok(airportDto);
@@ -93,8 +93,8 @@ public class AirportsController : ControllerBase
 			Id = a.Id,
 			IataCode = a.IataCode,
 			AirportName = a.AirportName,
-			City = a.City,
-			Country = a.Country
+			City = a.City.Name,
+			Country = a.City.Country.Name
 		});
 
 		return Ok(airportDtos);

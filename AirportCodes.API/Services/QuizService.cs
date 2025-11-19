@@ -30,6 +30,8 @@ public class QuizService : IQuizService
 		var random = new Random();
 		var skipCount = random.Next(0, totalCount);
 		var correctAirport = await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
 			.Skip(skipCount)
 			.Take(1)
 			.FirstOrDefaultAsync();
@@ -65,8 +67,8 @@ public class QuizService : IQuizService
 		{
 			QuestionId = questionId,
 			AirportName = correctAirport.AirportName,
-			City = correctAirport.City,
-			Country = correctAirport.Country,
+			City = correctAirport.City.Name,
+			Country = correctAirport.City.Country.Name,
 			Options = options
 		};
 	}
@@ -161,6 +163,8 @@ public class QuizService : IQuizService
 			var totalCount = await _context.Airports.CountAsync();
 			var skipCount = random.Next(0, totalCount);
 			var candidate = await _context.Airports
+				.Include(a => a.City)
+					.ThenInclude(c => c.Country)
 				.Skip(skipCount)
 				.Take(1)
 				.FirstOrDefaultAsync();
@@ -203,8 +207,8 @@ public class QuizService : IQuizService
 		{
 			QuestionId = questionId,
 			AirportName = correctAirport.AirportName,
-			City = correctAirport.City,
-			Country = correctAirport.Country,
+			City = correctAirport.City.Name,
+			Country = correctAirport.City.Country.Name,
 			Options = options,
 			QuestionNumber = session.QuestionsAnswered + 1,
 			TotalQuestions = session.TotalQuestions

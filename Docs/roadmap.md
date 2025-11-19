@@ -344,6 +344,112 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
+## Phase 9: Airport Data
+
+### 9.1 Database Schema Updates
+- [ ] Create Country model
+	- [ ] Id (Guid, Primary Key)
+	- [ ] Name (string, required, indexed)
+	- [ ] CountryCode (string, 2-3 letters, optional, ISO 3166)
+- [ ] Create City model
+	- [ ] Id (Guid, Primary Key)
+	- [ ] Name (string, required)
+	- [ ] CountryId (Guid, Foreign Key to Country)
+	- [ ] Navigation property to Country
+- [ ] Update Airport model
+	- [ ] Remove City and Country string fields
+	- [ ] Add CityId (Guid, Foreign Key to City)
+	- [ ] Add navigation property to City
+	- [ ] Keep IataCode and AirportName as-is
+- [ ] Update DbContext
+	- [ ] Add DbSet<Country>
+	- [ ] Add DbSet<City>
+	- [ ] Configure relationships (Country → Cities → Airports)
+	- [ ] Add indexes (City.CountryId, Airport.CityId)
+- [ ] Create and apply EF Core migration
+	- [ ] Generate migration for new schema
+	- [ ] Test migration rollback
+	- [ ] Apply to development database
+
+### 9.2 Initial Data Strategy
+- [ ] Analyze delta_airport_codes.csv structure and content (212 airports)
+- [ ] Define complete Airport data model requirements
+	- [ ] Determine if additional fields needed beyond IATA code
+	- [ ] Research data sources for missing metadata (city, country info)
+- [ ] Create data import/migration script
+	- [ ] Parse delta_airport_codes.csv
+	- [ ] Extract unique countries from enriched data
+	- [ ] Extract unique cities with country associations
+	- [ ] Map airports to cities via UUIDs
+	- [ ] Enrich with additional airport details (full name, etc.)
+	- [ ] Validate IATA codes against official sources
+	- [ ] Handle duplicates and data quality issues
+- [ ] Create database seeding mechanism
+	- [ ] Seed countries first
+	- [ ] Seed cities with country references
+	- [ ] Seed airports with city references
+	- [ ] Option to reset/refresh data in development
+	- [ ] Production-safe seeding (idempotent)
+
+### 9.3 Data Sources & Enrichment
+- [ ] Research comprehensive airport data sources
+	- [ ] Evaluate OurAirports.com (open source, comprehensive)
+	- [ ] Consider IATA official data (licensing/cost)
+	- [ ] Check OpenFlights.org airport database
+	- [ ] Evaluate FAA data for US airports
+- [ ] Define data completeness requirements for MVP
+	- [ ] Required fields: IATA code, airport name, city, country
+	- [ ] Optional fields: ICAO code, timezone, coordinates, etc.
+- [ ] Create data validation rules
+	- [ ] IATA code format (3 uppercase letters)
+	- [ ] Required field validation
+	- [ ] Duplicate detection
+- [ ] Build data enrichment pipeline
+	- [ ] Map delta codes to full airport data
+	- [ ] Fill in missing information
+	- [ ] Standardize formats (country names, city names)
+
+### 9.4 Future Data Management
+- [ ] Design admin interface for data management (post-MVP)
+	- [ ] Add new airports
+	- [ ] Edit existing airports
+	- [ ] Deactivate/archive airports
+	- [ ] Bulk import capability
+- [ ] Create data update strategy
+	- [ ] Periodic refresh from authoritative sources
+	- [ ] Version control for airport data
+	- [ ] Change log/audit trail
+- [ ] Handle data changes over time
+	- [ ] Airport code reassignments
+	- [ ] Airport closures
+	- [ ] New airport additions
+	- [ ] Name changes
+- [ ] Define data expansion plan
+	- [ ] Regional expansion (more airports per region)
+	- [ ] Metadata expansion (images, additional details)
+	- [ ] User-requested airports
+	- [ ] Priority airports based on traffic/popularity
+
+### 9.5 Data Quality & Maintenance
+- [ ] Create data validation tests
+	- [ ] Ensure all IATA codes are unique
+	- [ ] Verify required fields are populated
+	- [ ] Check for common data entry errors
+- [ ] Implement data monitoring
+	- [ ] Track data completeness metrics
+	- [ ] Identify gaps or missing information
+	- [ ] Monitor for stale/outdated data
+- [ ] Document data lineage
+	- [ ] Source attribution for each airport
+	- [ ] Last updated timestamps
+	- [ ] Data quality scores/confidence levels
+- [ ] Create data backup strategy
+	- [ ] Regular backups of airport database
+	- [ ] Version snapshots before major updates
+	- [ ] Recovery procedures
+
+---
+
 ## Future Enhancements (Post-MVP)
 
 - Advanced quiz modes (timed challenges, regional focus, etc.)
