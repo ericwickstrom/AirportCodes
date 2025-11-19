@@ -167,13 +167,26 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add data visualization (charts/graphs)
 
 ### 4.6 Navigation & UX
-- [ ] Create Home/Landing page
-- [ ] Create mode selection interface
-- [ ] Add navigation menu
-- [ ] Implement responsive design (mobile-first)
-- [ ] Add loading states
-- [ ] Add error handling UI
+- [x] Create Home/Landing page
+- [x] Create mode selection interface
+- [x] Add navigation menu
+- [x] Implement responsive design (mobile-first)
+- [x] Add loading states
+- [x] Add error handling UI
 - [ ] Create 404 page
+
+### 4.7 Authentication Forms
+- [ ] Create login form component
+- [ ] Add email and password input fields
+- [ ] Implement form validation (email format, password requirements)
+- [ ] Add error handling for failed login attempts
+- [ ] Show loading state during authentication
+- [ ] Create registration form component
+- [ ] Add email, password, and confirm password fields
+- [ ] Implement password strength validation
+- [ ] Add error handling for registration failures (duplicate email, etc.)
+- [ ] Redirect to dashboard after successful login/registration
+- [ ] Add "Forgot Password" link (placeholder for future)
 
 ---
 
