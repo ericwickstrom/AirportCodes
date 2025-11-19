@@ -42,7 +42,11 @@ export default function Login() {
 		try {
 			await login({ email, password });
 			navigate('/dashboard');
-		} catch (err) {
+		} catch (err: any) {
+			// Check if error is due to unconfirmed email
+			if (err?.emailNotConfirmed) {
+				navigate('/confirmation-pending', { state: { email } });
+			}
 			// Error is handled by the auth store
 		}
 	};

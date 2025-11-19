@@ -32,6 +32,14 @@ export interface AuthResponse {
 	user: User;
 }
 
+export interface ConfirmEmailRequest {
+	token: string;
+}
+
+export interface ResendConfirmationRequest {
+	email: string;
+}
+
 // Learning Mode DTOs
 export interface LearningQuestion {
 	questionId: string;

@@ -2,6 +2,8 @@ import type {
 	LoginRequest,
 	RegisterRequest,
 	AuthResponse,
+	ConfirmEmailRequest,
+	ResendConfirmationRequest,
 	LearningQuestion,
 	LearningAnswerRequest,
 	LearningAnswerResponse,
@@ -16,10 +18,12 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5296
 
 export class ApiError extends Error {
 	status: number;
+	emailNotConfirmed?: boolean;
 
-	constructor(status: number, message: string) {
+	constructor(status: number, message: string, emailNotConfirmed?: boolean) {
 		super(message);
 		this.status = status;
+		this.emailNotConfirmed = emailNotConfirmed;
 		this.name = 'ApiError';
 	}
 }
@@ -50,10 +54,10 @@ async function fetchApi<T>(
 	});
 
 	if (!response.ok) {
-		const error: { message: string } = await response.json().catch(() => ({
+		const error: { message: string; emailNotConfirmed?: boolean } = await response.json().catch(() => ({
 			message: `HTTP ${response.status}: ${response.statusText}`,
 		}));
-		throw new ApiError(response.status, error.message);
+		throw new ApiError(response.status, error.message, error.emailNotConfirmed);
 	}
 
 	return response.json();
@@ -69,6 +73,18 @@ export const authApi = {
 
 	register: (data: RegisterRequest) =>
 		fetchApi<AuthResponse>('/auth/register', {
+			method: 'POST',
+			body: JSON.stringify(data),
+		}),
+
+	confirmEmail: (data: ConfirmEmailRequest) =>
+		fetchApi<{ message: string }>('/auth/confirm-email', {
+			method: 'POST',
+			body: JSON.stringify(data),
+		}),
+
+	resendConfirmation: (data: ResendConfirmationRequest) =>
+		fetchApi<{ message: string }>('/auth/resend-confirmation', {
 			method: 'POST',
 			body: JSON.stringify(data),
 		}),

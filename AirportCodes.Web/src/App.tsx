@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import LearningMode from './pages/LearningMode';
 import TestMode from './pages/TestMode';
+import ConfirmationPending from './pages/ConfirmationPending';
+import ConfirmEmail from './pages/ConfirmEmail';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
+					<Route path="/confirmation-pending" element={<ConfirmationPending />} />
+					<Route path="/confirm-email" element={<ConfirmEmail />} />
 					<Route path="/learning" element={<LearningMode />} />
 					<Route path="/test" element={<TestMode />} />
 					<Route

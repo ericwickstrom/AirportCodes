@@ -16,4 +16,8 @@ public class User : IdentityUser<Guid>
 	public string? RefreshToken { get; set; }
 
 	public DateTime? RefreshTokenExpiry { get; set; }
+
+	public string? EmailConfirmationToken { get; set; }
+
+	public DateTime? EmailConfirmationTokenExpiry { get; set; }
 }

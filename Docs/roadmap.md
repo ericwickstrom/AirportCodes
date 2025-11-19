@@ -173,20 +173,71 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Implement responsive design (mobile-first)
 - [x] Add loading states
 - [x] Add error handling UI
-- [ ] Create 404 page
+- [x] Create 404 page
 
 ### 4.7 Authentication Forms
-- [ ] Create login form component
-- [ ] Add email and password input fields
-- [ ] Implement form validation (email format, password requirements)
-- [ ] Add error handling for failed login attempts
-- [ ] Show loading state during authentication
-- [ ] Create registration form component
-- [ ] Add email, password, and confirm password fields
-- [ ] Implement password strength validation
-- [ ] Add error handling for registration failures (duplicate email, etc.)
-- [ ] Redirect to dashboard after successful login/registration
-- [ ] Add "Forgot Password" link (placeholder for future)
+- [x] Create login form component
+- [x] Add email and password input fields
+- [x] Implement form validation (email format, password requirements)
+- [x] Add error handling for failed login attempts
+- [x] Show loading state during authentication
+- [x] Create registration form component
+- [x] Add email, password, and confirm password fields
+- [x] Implement password strength validation
+- [x] Add error handling for registration failures (duplicate email, etc.)
+- [x] Redirect to dashboard after successful login/registration
+- [x] Add "Forgot Password" link (placeholder for future)
+
+### 4.8 Email Confirmation
+- [ ] Install SendGrid NuGet package
+- [ ] Add SendGrid API key to appsettings.json and user secrets
+- [ ] Update User model with email confirmation fields
+	- [ ] Add EmailConfirmed (bool, default false)
+	- [ ] Add EmailConfirmationToken (string, nullable)
+	- [ ] Add EmailConfirmationTokenExpiry (DateTime, nullable)
+- [ ] Create database migration for new email confirmation fields
+- [ ] Create IEmailService interface and EmailService implementation
+	- [ ] Configure SendGrid client
+	- [ ] Create method to send confirmation emails
+	- [ ] Create email template for confirmation
+- [ ] Update registration endpoint
+	- [ ] Generate email confirmation token
+	- [ ] Store token and expiry in database
+	- [ ] Send confirmation email
+	- [ ] Don't auto-login user after registration
+	- [ ] Return success message instructing to check email
+- [ ] Create email confirmation endpoint
+	- [ ] POST /api/auth/confirm-email
+	- [ ] Validate token and expiry
+	- [ ] Mark email as confirmed
+	- [ ] Return success/error response
+- [ ] Create resend confirmation email endpoint
+	- [ ] POST /api/auth/resend-confirmation
+	- [ ] Generate new token
+	- [ ] Send new confirmation email
+- [ ] Update login endpoint
+	- [ ] Check EmailConfirmed status
+	- [ ] Return error if email not confirmed
+	- [ ] Provide option to resend confirmation
+- [ ] Create frontend confirmation pending page
+	- [ ] Show after registration
+	- [ ] Display "Check your email" message
+	- [ ] Add "Resend email" button
+- [ ] Create frontend email confirmation page
+	- [ ] Parse token from URL query params
+	- [ ] Call confirm-email endpoint
+	- [ ] Show success/error message
+	- [ ] Redirect to login on success
+- [ ] Update registration flow
+	- [ ] Remove auto-redirect to dashboard
+	- [ ] Show confirmation pending page instead
+- [ ] Add email confirmation status to login error handling
+- [ ] Test email confirmation flow end-to-end
+	- [ ] Test successful confirmation
+	- [ ] Test expired token
+	- [ ] Test invalid token
+	- [ ] Test resend functionality
+	- [ ] Test login blocking when unconfirmed
 
 ---
 
