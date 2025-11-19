@@ -10,14 +10,16 @@ import type {
 	TestAnswerRequest,
 	TestAnswerResponse,
 	TestResult,
-	ApiError,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://localhost:7062/api';
 
-class ApiError extends Error {
-	constructor(public status: number, message: string) {
+export class ApiError extends Error {
+	status: number;
+
+	constructor(status: number, message: string) {
 		super(message);
+		this.status = status;
 		this.name = 'ApiError';
 	}
 }
@@ -34,9 +36,8 @@ async function fetchApi<T>(
 ): Promise<T> {
 	const token = getAuthToken();
 
-	const headers: HeadersInit = {
+	const headers: Record<string, string> = {
 		'Content-Type': 'application/json',
-		...options.headers,
 	};
 
 	if (token) {
@@ -49,7 +50,7 @@ async function fetchApi<T>(
 	});
 
 	if (!response.ok) {
-		const error: ApiError = await response.json().catch(() => ({
+		const error: { message: string } = await response.json().catch(() => ({
 			message: `HTTP ${response.status}: ${response.statusText}`,
 		}));
 		throw new ApiError(response.status, error.message);
@@ -104,5 +105,3 @@ export const testApi = {
 	getResults: (sessionId: string) =>
 		fetchApi<TestResult>(`/quiz/test/${sessionId}/results`),
 };
-
-export { ApiError };

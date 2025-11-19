@@ -84,8 +84,3 @@ export interface TestResult {
 	incorrectAnswers: number;
 	scorePercentage: number;
 }
-
-// API Response wrapper
-export interface ApiError {
-	message: string;
-}
