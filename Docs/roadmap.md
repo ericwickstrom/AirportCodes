@@ -347,67 +347,74 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 9: Airport Data
 
 ### 9.1 Database Schema Updates
-- [ ] Create Country model
-	- [ ] Id (Guid, Primary Key)
-	- [ ] Name (string, required, indexed)
-	- [ ] CountryCode (string, 2-3 letters, optional, ISO 3166)
-- [ ] Create City model
-	- [ ] Id (Guid, Primary Key)
-	- [ ] Name (string, required)
-	- [ ] CountryId (Guid, Foreign Key to Country)
-	- [ ] Navigation property to Country
-- [ ] Update Airport model
-	- [ ] Remove City and Country string fields
-	- [ ] Add CityId (Guid, Foreign Key to City)
-	- [ ] Add navigation property to City
-	- [ ] Keep IataCode and AirportName as-is
-- [ ] Update DbContext
-	- [ ] Add DbSet<Country>
-	- [ ] Add DbSet<City>
-	- [ ] Configure relationships (Country → Cities → Airports)
-	- [ ] Add indexes (City.CountryId, Airport.CityId)
-- [ ] Create and apply EF Core migration
-	- [ ] Generate migration for new schema
-	- [ ] Test migration rollback
-	- [ ] Apply to development database
+- [x] Create Country model
+	- [x] Id (Guid, Primary Key)
+	- [x] Name (string, required, indexed)
+	- [x] CountryCode (string, 2-3 letters, optional, ISO 3166)
+- [x] Create City model
+	- [x] Id (Guid, Primary Key)
+	- [x] Name (string, required)
+	- [x] CountryId (Guid, Foreign Key to Country)
+	- [x] Navigation property to Country
+- [x] Update Airport model
+	- [x] Remove City and Country string fields
+	- [x] Add CityId (Guid, Foreign Key to City)
+	- [x] Add navigation property to City
+	- [x] Keep IataCode and AirportName as-is
+- [x] Update DbContext
+	- [x] Add DbSet<Country>
+	- [x] Add DbSet<City>
+	- [x] Configure relationships (Country → Cities → Airports)
+	- [x] Add indexes (City.CountryId, Airport.CityId)
+- [x] Create and apply EF Core migration
+	- [x] Generate migration for new schema
+	- [x] Test migration rollback
+	- [x] Apply to development database
 
 ### 9.2 Initial Data Strategy
-- [ ] Analyze delta_airport_codes.csv structure and content (212 airports)
-- [ ] Define complete Airport data model requirements
-	- [ ] Determine if additional fields needed beyond IATA code
-	- [ ] Research data sources for missing metadata (city, country info)
-- [ ] Create data import/migration script
-	- [ ] Parse delta_airport_codes.csv
-	- [ ] Extract unique countries from enriched data
-	- [ ] Extract unique cities with country associations
-	- [ ] Map airports to cities via UUIDs
-	- [ ] Enrich with additional airport details (full name, etc.)
-	- [ ] Validate IATA codes against official sources
-	- [ ] Handle duplicates and data quality issues
-- [ ] Create database seeding mechanism
-	- [ ] Seed countries first
-	- [ ] Seed cities with country references
-	- [ ] Seed airports with city references
-	- [ ] Option to reset/refresh data in development
-	- [ ] Production-safe seeding (idempotent)
+- [x] Analyze delta_airport_codes.csv structure and content (212 airports)
+- [x] Define complete Airport data model requirements
+	- [x] Determine if additional fields needed beyond IATA code
+	- [x] Research data sources for missing metadata (city, country info)
+- [x] Create data import/migration script
+	- [x] Parse delta_airport_codes.csv
+	- [x] Extract unique countries from enriched data (57 countries)
+	- [x] Extract unique cities with country associations (206 cities)
+	- [x] Map airports to cities via UUIDs
+	- [x] Enrich with additional airport details (full name, etc.)
+	- [x] Validate IATA codes against official sources
+	- [x] Handle duplicates and data quality issues
+- [x] Create database seeding mechanism (C# with deterministic GUIDs)
+	- [x] Seed countries first
+	- [x] Seed cities with country references
+	- [x] Seed airports with city references
+	- [x] Option to reset/refresh data in development
+	- [x] Production-safe seeding (idempotent with upsert logic)
+- [ ] Create SQL seed scripts (alternative approach for production)
+	- [ ] Generate Countries INSERT statements with hardcoded UUIDs
+	- [ ] Generate Cities INSERT statements with hardcoded UUIDs
+	- [ ] Generate Airports INSERT statements with hardcoded UUIDs
+	- [ ] Create upsert (ON CONFLICT) logic for safe re-running
+	- [ ] Add to database migration or separate seed script
 
 ### 9.3 Data Sources & Enrichment
-- [ ] Research comprehensive airport data sources
-	- [ ] Evaluate OurAirports.com (open source, comprehensive)
-	- [ ] Consider IATA official data (licensing/cost)
-	- [ ] Check OpenFlights.org airport database
-	- [ ] Evaluate FAA data for US airports
-- [ ] Define data completeness requirements for MVP
-	- [ ] Required fields: IATA code, airport name, city, country
-	- [ ] Optional fields: ICAO code, timezone, coordinates, etc.
-- [ ] Create data validation rules
-	- [ ] IATA code format (3 uppercase letters)
-	- [ ] Required field validation
-	- [ ] Duplicate detection
-- [ ] Build data enrichment pipeline
-	- [ ] Map delta codes to full airport data
-	- [ ] Fill in missing information
-	- [ ] Standardize formats (country names, city names)
+- [x] Research comprehensive airport data sources
+	- [x] Evaluate OurAirports.com (open source, comprehensive)
+	- [x] Consider IATA official data (licensing/cost)
+	- [x] Check OpenFlights.org airport database
+	- [x] Evaluate FAA data for US airports
+- [x] Define data completeness requirements for MVP
+	- [x] Required fields: IATA code, airport name, city, country
+	- [x] Optional fields: ICAO code, timezone, coordinates, etc.
+- [x] Create data validation rules
+	- [x] IATA code format (3 uppercase letters)
+	- [x] Required field validation
+	- [x] Duplicate detection
+- [x] Build data enrichment pipeline
+	- [x] Map delta codes to full airport data
+	- [x] Fill in missing information
+	- [x] Standardize formats (country names, city names)
+- [x] Store enriched data in airport_data.json (211 airports with complete metadata)
 
 ### 9.4 Future Data Management
 - [ ] Design admin interface for data management (post-MVP)
