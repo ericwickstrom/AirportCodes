@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import LearningMode from './pages/LearningMode';
 import TestMode from './pages/TestMode';
+import NotFound from './pages/NotFound';
 
 function App() {
 	const initializeAuth = useAuthStore((state) => state.initializeAuth);
@@ -34,6 +35,7 @@ function App() {
 							</ProtectedRoute>
 						}
 					/>
+					<Route path="*" element={<NotFound />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
