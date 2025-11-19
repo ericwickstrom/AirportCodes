@@ -346,7 +346,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ## Phase 9: Airport Data
 
-### 9.1 Database Schema Updates
+### 9.1 Database Schema Updates ✅
 - [x] Create Country model
 	- [x] Id (Guid, Primary Key)
 	- [x] Name (string, required, indexed)
