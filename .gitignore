@@ -496,5 +496,9 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 
+# Airport data source files (can be regenerated via extract_airport_data.py)
+Docs/openflights_airports.dat
+Docs/ourairports.csv
+
 CLAUDE.md
 .claude
