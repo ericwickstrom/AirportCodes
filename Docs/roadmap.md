@@ -150,13 +150,13 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Add progress indicator
 
 ### 4.4 Test Mode
-- [ ] Create Test Mode page
-- [ ] Display airport location/name
-- [ ] Create text input for IATA code
-- [ ] Implement answer validation (3 letters, uppercase)
-- [ ] Show immediate feedback
-- [ ] Add "Next Question" button
-- [ ] Track score during session
+- [x] Create Test Mode page
+- [x] Display airport location/name
+- [x] Create text input for IATA code
+- [x] Implement answer validation (3 letters, uppercase)
+- [x] Show immediate feedback
+- [x] Add "Next Question" button
+- [x] Track score during session
 - [ ] Add timer (optional)
 
 ### 4.5 User Dashboard
