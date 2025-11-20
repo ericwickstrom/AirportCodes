@@ -399,6 +399,99 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
+## Phase 8: Custom Test Creation
+
+### 8.1 Backend - Custom Test Data Model ✅
+- [x] Create CustomTest entity
+	- [x] Id (Guid, Primary Key)
+	- [x] Name (string, required)
+	- [x] CreatedByUserId (Guid, Foreign Key to User)
+	- [x] IsPublic (bool, default false)
+	- [x] IsAnonymous (bool, default false - only applies if IsPublic is true)
+	- [x] TimerEnabled (bool, default false)
+	- [x] TimerDurationSeconds (int, nullable)
+	- [x] IsDeleted (bool, default false - soft delete)
+	- [x] CreatedDate (DateTime)
+	- [x] UpdatedDate (DateTime)
+- [x] Create CustomTestAirport junction table
+	- [x] CustomTestId (Guid, Foreign Key)
+	- [x] AirportId (Guid, Foreign Key)
+	- [x] Composite Primary Key (CustomTestId, AirportId)
+- [x] Create database migration for custom test tables
+- [x] Apply migration to development database
+
+### 8.2 Backend - Custom Test API
+- [ ] Create CustomTest controller
+- [ ] POST /api/custom-tests - Create new custom test
+- [ ] GET /api/custom-tests - Get user's custom tests (including soft-deleted with flag)
+- [ ] GET /api/custom-tests/{id} - Get single custom test details
+- [ ] PUT /api/custom-tests/{id} - Update custom test
+- [ ] DELETE /api/custom-tests/{id} - Soft delete custom test
+- [ ] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
+- [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
+- [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
+- [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
+- [ ] GET /api/custom-tests/test/{sessionId}/question - Get next question in custom test
+- [ ] POST /api/custom-tests/test/answer - Submit test mode answer
+- [ ] GET /api/custom-tests/test/{sessionId}/results - Get final results
+
+### 8.3 Frontend - Custom Test Management UI
+- [ ] Create Custom Tests page (list view)
+- [ ] Display user's created custom tests
+- [ ] Show test name, # of airports, public/private status, created date
+- [ ] Add "Create New Test" button
+- [ ] Add edit/delete actions for each test
+- [ ] Implement soft delete confirmation dialog
+- [ ] Add filter/search for user's tests
+
+### 8.4 Frontend - Custom Test Creation/Edit Form
+- [ ] Create Custom Test Form page
+- [ ] Add test name input field
+- [ ] Add airport selection interface (searchable list)
+	- [ ] Search by IATA code, airport name, city, country
+	- [ ] Multi-select checkboxes
+	- [ ] Show selected count
+	- [ ] Display selected airports with remove option
+- [ ] Add timer toggle (enable/disable)
+- [ ] Add timer duration input (when enabled)
+- [ ] Add public/private toggle
+- [ ] Add anonymous/named toggle (when public is enabled)
+- [ ] Add save button with validation
+- [ ] Add cancel button
+- [ ] Reuse form for edit mode (pre-populate fields)
+
+### 8.5 Frontend - Public Custom Tests Discovery
+- [ ] Create Public Tests page (browse interface)
+- [ ] List all public custom tests
+- [ ] Show test name, creator (or "Anonymous"), # of airports
+- [ ] Add search/filter functionality
+- [ ] Add "Practice" button (learning mode)
+- [ ] Add "Take Test" button (test mode)
+
+### 8.6 Frontend - Custom Test Modes
+- [ ] Integrate custom tests with Learning Mode
+	- [ ] Load custom test questions (shuffled)
+	- [ ] Display same UI as regular learning mode
+	- [ ] Track progress through custom test
+- [ ] Integrate custom tests with Test Mode
+	- [ ] Start test session with custom test
+	- [ ] Load custom test questions (shuffled)
+	- [ ] Apply timer if enabled in custom test config
+	- [ ] Display same UI as regular test mode
+	- [ ] Show results at completion
+
+### 8.7 Testing & Validation
+- [ ] Test CRUD operations for custom tests
+- [ ] Test airport selection with large datasets
+- [ ] Test public/private visibility
+- [ ] Test anonymous/named creator toggle
+- [ ] Test timer functionality in test mode
+- [ ] Test question shuffling
+- [ ] Test soft delete and restore
+- [ ] Test permissions (only creator can edit/delete)
+
+---
+
 ## Phase 100: Deployment Preparation
 
 ### 100.1 Backend Deployment
@@ -453,6 +546,16 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ## Future Enhancements (Post-MVP)
 
+### Custom Test Enhancements
+- Custom test results tracking (save all attempts, show personal best)
+- Custom test metadata (description field, tags/categories)
+- Custom test leaderboards for public tests
+- Custom test analytics (show "X people have taken this test", average score)
+- Timer option for learning mode
+- Custom test sharing via links
+- Custom test templates/presets
+
+### General Enhancements
 - Advanced quiz modes (timed challenges, regional focus, etc.)
 - Leaderboards and competitive features
 - Social features (share scores, challenge friends)

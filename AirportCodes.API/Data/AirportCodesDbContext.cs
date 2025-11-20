@@ -15,6 +15,8 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 	public DbSet<Airport> Airports { get; set; }
 	public DbSet<Country> Countries { get; set; }
 	public DbSet<City> Cities { get; set; }
+	public DbSet<CustomTest> CustomTests { get; set; }
+	public DbSet<CustomTestAirport> CustomTestAirports { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -62,6 +64,37 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 				.HasDefaultValueSql("NOW()");
 			entity.Property(u => u.DateUpdated)
 				.HasDefaultValueSql("NOW()");
+		});
+
+		// CustomTest configuration
+		modelBuilder.Entity<CustomTest>(entity =>
+		{
+			entity.HasKey(ct => ct.Id);
+			entity.HasIndex(ct => ct.CreatedByUserId);
+			entity.HasIndex(ct => ct.IsPublic);
+			entity.HasIndex(ct => ct.IsDeleted);
+			entity.HasOne(ct => ct.CreatedBy)
+				.WithMany()
+				.HasForeignKey(ct => ct.CreatedByUserId)
+				.OnDelete(DeleteBehavior.Restrict);
+			entity.Property(ct => ct.CreatedDate)
+				.HasDefaultValueSql("NOW()");
+			entity.Property(ct => ct.UpdatedDate)
+				.HasDefaultValueSql("NOW()");
+		});
+
+		// CustomTestAirport configuration (junction table)
+		modelBuilder.Entity<CustomTestAirport>(entity =>
+		{
+			entity.HasKey(cta => new { cta.CustomTestId, cta.AirportId });
+			entity.HasOne(cta => cta.CustomTest)
+				.WithMany(ct => ct.CustomTestAirports)
+				.HasForeignKey(cta => cta.CustomTestId)
+				.OnDelete(DeleteBehavior.Cascade);
+			entity.HasOne(cta => cta.Airport)
+				.WithMany()
+				.HasForeignKey(cta => cta.AirportId)
+				.OnDelete(DeleteBehavior.Restrict);
 		});
 	}
 }
