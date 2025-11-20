@@ -30,15 +30,15 @@ export default function LearningMode() {
 	const handleSubmit = async () => {
 		if (!selectedAnswer) return;
 
-		await submitLearningAnswer(selectedAnswer);
+		const feedback = await submitLearningAnswer(selectedAnswer);
 		setQuestionsAnswered((prev) => prev + 1);
+
+		if (feedback?.isCorrect) {
+			setCorrectAnswers((prev) => prev + 1);
+		}
 	};
 
 	const handleNextQuestion = async () => {
-		if (learningFeedback?.isCorrect) {
-			setCorrectAnswers((prev) => prev + 1);
-		}
-
 		setSelectedAnswer(null);
 		await nextLearningQuestion();
 	};

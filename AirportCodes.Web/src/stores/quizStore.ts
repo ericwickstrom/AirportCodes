@@ -28,7 +28,7 @@ interface QuizState {
 
 	// Actions
 	startLearningMode: () => Promise<void>;
-	submitLearningAnswer: (selectedAnswer: string) => Promise<void>;
+	submitLearningAnswer: (selectedAnswer: string) => Promise<LearningAnswerResponse | undefined>;
 	nextLearningQuestion: () => Promise<void>;
 
 	startTestMode: (totalQuestions?: number) => Promise<void>;
@@ -70,7 +70,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 
 	submitLearningAnswer: async (selectedAnswer: string) => {
 		const { learningQuestion } = get();
-		if (!learningQuestion) return;
+		if (!learningQuestion) return undefined;
 
 		set({ isLoading: true, error: null });
 		try {
@@ -79,6 +79,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 				selectedAnswer,
 			});
 			set({ learningFeedback: feedback, isLoading: false });
+			return feedback;
 		} catch (error) {
 			set({
 				error: error instanceof Error ? error.message : 'Failed to submit answer',
