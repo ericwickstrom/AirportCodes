@@ -421,13 +421,13 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Apply migration to development database
 
 ### 8.2 Backend - Custom Test API
-- [ ] Create CustomTest controller
-- [ ] POST /api/custom-tests - Create new custom test
-- [ ] GET /api/custom-tests - Get user's custom tests (including soft-deleted with flag)
-- [ ] GET /api/custom-tests/{id} - Get single custom test details
-- [ ] PUT /api/custom-tests/{id} - Update custom test
-- [ ] DELETE /api/custom-tests/{id} - Soft delete custom test
-- [ ] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
+- [x] Create CustomTest controller
+- [x] POST /api/custom-tests - Create new custom test
+- [x] GET /api/custom-tests - Get user's custom tests (including soft-deleted with flag)
+- [x] GET /api/custom-tests/{id} - Get single custom test details
+- [x] PUT /api/custom-tests/{id} - Update custom test
+- [x] DELETE /api/custom-tests/{id} - Soft delete custom test
+- [x] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
 - [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
 - [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
 - [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
