@@ -371,7 +371,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [x] Test migration rollback
 	- [x] Apply to development database
 
-### 9.2 Initial Data Strategy
+### 9.2 Initial Data Strategy ✅
 - [x] Analyze delta_airport_codes.csv structure and content (212 airports)
 - [x] Define complete Airport data model requirements
 	- [x] Determine if additional fields needed beyond IATA code
@@ -384,18 +384,12 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [x] Enrich with additional airport details (full name, etc.)
 	- [x] Validate IATA codes against official sources
 	- [x] Handle duplicates and data quality issues
-- [x] Create database seeding mechanism (C# with deterministic GUIDs)
-	- [x] Seed countries first
-	- [x] Seed cities with country references
-	- [x] Seed airports with city references
-	- [x] Option to reset/refresh data in development
-	- [x] Production-safe seeding (idempotent with upsert logic)
-- [ ] Create SQL seed scripts (alternative approach for production)
-	- [ ] Generate Countries INSERT statements with hardcoded UUIDs
-	- [ ] Generate Cities INSERT statements with hardcoded UUIDs
-	- [ ] Generate Airports INSERT statements with hardcoded UUIDs
-	- [ ] Create upsert (ON CONFLICT) logic for safe re-running
-	- [ ] Add to database migration or separate seed script
+- [x] Create SQL seed scripts
+	- [x] Generate Countries INSERT statements with hardcoded UUIDs
+	- [x] Generate Cities INSERT statements with hardcoded UUIDs
+	- [x] Generate Airports INSERT statements with hardcoded UUIDs
+	- [x] Create upsert (ON CONFLICT) logic for safe re-running
+	- [x] Add to database migration or separate seed script
 
 ### 9.3 Data Sources & Enrichment
 - [x] Research comprehensive airport data sources

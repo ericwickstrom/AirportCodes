@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace AirportCodes.API.Models;
 
+[Index(nameof(Name), IsUnique = true)]
 public class City
 {
 	[Key]
