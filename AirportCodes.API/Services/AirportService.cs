@@ -63,4 +63,28 @@ public class AirportService : IAirportService
 		var random = new Random();
 		return allAirports.OrderBy(_ => random.Next()).Take(count).ToList();
 	}
+
+	public async Task<IEnumerable<Airport>> SearchAsync(string query, int limit = 20)
+	{
+		if (string.IsNullOrWhiteSpace(query))
+		{
+			return new List<Airport>();
+		}
+
+		var searchTerm = $"%{query}%";
+
+		var airports = await _context.Airports
+			.Include(a => a.City)
+				.ThenInclude(c => c.Country)
+			.Where(a =>
+				EF.Functions.ILike(a.IataCode, searchTerm) ||
+				EF.Functions.ILike(a.AirportName, searchTerm) ||
+				EF.Functions.ILike(a.City.Name, searchTerm))
+			.OrderBy(a => EF.Functions.ILike(a.IataCode, query + "%") ? 0 : 1)
+			.ThenBy(a => a.IataCode)
+			.Take(limit)
+			.ToListAsync();
+
+		return airports;
+	}
 }

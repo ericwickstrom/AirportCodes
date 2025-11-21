@@ -35,6 +35,7 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 		{
 			entity.HasKey(c => c.Id);
 			entity.HasIndex(c => c.CountryId);
+			entity.HasIndex(c => c.Name);
 			entity.HasOne(c => c.Country)
 				.WithMany(co => co.Cities)
 				.HasForeignKey(c => c.CountryId)
@@ -51,6 +52,7 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 			entity.HasIndex(a => a.IataCode)
 				.IsUnique();
 			entity.HasIndex(a => a.CityId);
+			entity.HasIndex(a => a.AirportName);
 			entity.HasOne(a => a.City)
 				.WithMany(c => c.Airports)
 				.HasForeignKey(a => a.CityId)

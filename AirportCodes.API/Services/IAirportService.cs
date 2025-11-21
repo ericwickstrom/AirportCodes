@@ -8,4 +8,5 @@ public interface IAirportService
 	Task<Airport?> GetByIdAsync(Guid id);
 	Task<Airport?> GetByIataCodeAsync(string iataCode);
 	Task<IEnumerable<Airport>> GetRandomAsync(int count);
+	Task<IEnumerable<Airport>> SearchAsync(string query, int limit = 20);
 }

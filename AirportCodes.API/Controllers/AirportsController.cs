@@ -99,4 +99,34 @@ public class AirportsController : ControllerBase
 
 		return Ok(airportDtos);
 	}
+
+	/// <summary>
+	/// Search airports by IATA code, airport name, or city name
+	/// </summary>
+	[HttpGet("search")]
+	public async Task<ActionResult<IEnumerable<AirportDto>>> SearchAirports([FromQuery] string? q, [FromQuery] int limit = 20)
+	{
+		if (string.IsNullOrWhiteSpace(q))
+		{
+			return Ok(new List<AirportDto>());
+		}
+
+		if (limit < 1 || limit > 50)
+		{
+			return BadRequest(new { error = "Limit must be between 1 and 50" });
+		}
+
+		var airports = await _airportService.SearchAsync(q, limit);
+
+		var airportDtos = airports.Select(a => new AirportDto
+		{
+			Id = a.Id,
+			IataCode = a.IataCode,
+			AirportName = a.AirportName,
+			City = a.City.Name,
+			Country = a.City.Country.Name
+		});
+
+		return Ok(airportDtos);
+	}
 }
