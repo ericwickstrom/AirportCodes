@@ -450,16 +450,16 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ### 8.4 Frontend - Custom Test Creation/Edit Form
 - [ ] Create Custom Test Form page
 - [x] Add test name input field
-- [ ] Add airport selection interface (searchable list)
-	- [ ] Create two-column layout (search on left, selected list on right)
-	- [ ] Search by IATA code, airport name, city, country
-	- [ ] Show dropdown with matching results (limit to ~10)
-	- [ ] Click to add airport to test
-	- [ ] Prevent duplicate selections
-	- [ ] Display selected airports in list format: "CODE - City, Country"
-	- [ ] Add remove button (X) for each selected airport
-	- [ ] Show selected count ("5 airports selected")
-	- [ ] Add minimum selection validation (e.g., need at least 5 airports)
+- [x] Add airport selection interface (searchable list)
+	- [x] Create two-column layout (search on left, selected list on right)
+	- [x] Search by IATA code, airport name, city, country
+	- [x] Show dropdown with matching results (limit to ~10)
+	- [x] Click to add airport to test
+	- [x] Prevent duplicate selections
+	- [x] Display selected airports in list format: "CODE - City, Country"
+	- [x] Add remove button (X) for each selected airport
+	- [x] Show selected count ("5 airports selected")
+	- [x] Add minimum selection validation (e.g., need at least 5 airports)
 	- [ ] Optional: Add quick filters (US Only, Europe Only, by region/continent)
 - [x] Add timer toggle (enable/disable)
 - [x] Add timer duration input (when enabled)
