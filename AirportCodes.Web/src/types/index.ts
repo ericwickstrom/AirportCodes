@@ -1,7 +1,7 @@
 // API Models
 
 export interface Airport {
-	id: number;
+	id: string;
 	iataCode: string;
 	airportName: string;
 	city: string;

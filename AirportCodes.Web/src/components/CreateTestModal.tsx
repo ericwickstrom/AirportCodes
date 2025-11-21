@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from './Modal';
+import { airportApi } from '../services/api';
+import type { Airport } from '../types';
 
 interface CreateTestModalProps {
 	isOpen: boolean;
@@ -12,9 +14,68 @@ export default function CreateTestModal({ isOpen, onClose }: CreateTestModalProp
 	const [timerDuration, setTimerDuration] = useState(10);
 	const [isPublic, setIsPublic] = useState(false);
 
+	// Airport selection state
+	const [searchQuery, setSearchQuery] = useState('');
+	const [searchResults, setSearchResults] = useState<Airport[]>([]);
+	const [selectedAirports, setSelectedAirports] = useState<Airport[]>([]);
+	const [isSearching, setIsSearching] = useState(false);
+	const [showDropdown, setShowDropdown] = useState(false);
+	const [duplicateMessage, setDuplicateMessage] = useState('');
+	const searchTimeoutRef = useRef<NodeJS.Timeout>();
+
+	// Debounced search
+	useEffect(() => {
+		if (searchTimeoutRef.current) {
+			clearTimeout(searchTimeoutRef.current);
+		}
+
+		if (searchQuery.trim().length < 2) {
+			setSearchResults([]);
+			setShowDropdown(false);
+			return;
+		}
+
+		setIsSearching(true);
+		searchTimeoutRef.current = setTimeout(async () => {
+			try {
+				const results = await airportApi.search(searchQuery, 10);
+				setSearchResults(results);
+				setShowDropdown(true);
+			} catch (error) {
+				console.error('Search error:', error);
+				setSearchResults([]);
+			} finally {
+				setIsSearching(false);
+			}
+		}, 300);
+
+		return () => {
+			if (searchTimeoutRef.current) {
+				clearTimeout(searchTimeoutRef.current);
+			}
+		};
+	}, [searchQuery]);
+
+	const handleAddAirport = (airport: Airport) => {
+		if (selectedAirports.some(a => a.id === airport.id)) {
+			setDuplicateMessage('Already added');
+			setTimeout(() => setDuplicateMessage(''), 2000);
+			return;
+		}
+
+		setSelectedAirports([...selectedAirports, airport]);
+		setSearchQuery('');
+		setShowDropdown(false);
+	};
+
+	const handleRemoveAirport = (airportId: string) => {
+		setSelectedAirports(selectedAirports.filter(a => a.id !== airportId));
+	};
+
 	const handleSave = () => {
 		// TODO: Implement save functionality
-		console.log({ testName, isTimerEnabled, timerDuration, isPublic });
+		const airportIds = selectedAirports.map(a => a.id);
+		console.log({ testName, isTimerEnabled, timerDuration, isPublic, airportIds });
 		onClose();
 	};
 
@@ -23,8 +84,13 @@ export default function CreateTestModal({ isOpen, onClose }: CreateTestModalProp
 		setIsTimerEnabled(false);
 		setTimerDuration(10);
 		setIsPublic(false);
+		setSelectedAirports([]);
+		setSearchQuery('');
 		onClose();
 	};
+
+	const minAirports = 5;
+	const isValid = testName.trim() && selectedAirports.length >= minAirports;
 
 	return (
 		<Modal isOpen={isOpen} onClose={handleCancel} title="Create Custom Test">
@@ -42,6 +108,92 @@ export default function CreateTestModal({ isOpen, onClose }: CreateTestModalProp
 						className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
 						placeholder="Enter test name"
 					/>
+				</div>
+
+				{/* Airport Selection */}
+				<div>
+					<label className="block text-sm font-medium text-gray-700 mb-3">
+						Select Airports
+					</label>
+					<div className="grid grid-cols-2 gap-4">
+						{/* Search Column */}
+						<div className="relative">
+							<input
+								type="text"
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+								placeholder="Search by code, city, or name..."
+								className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+							/>
+							{isSearching && (
+								<div className="absolute right-3 top-3 text-gray-400">
+									Searching...
+								</div>
+							)}
+							{duplicateMessage && (
+								<div className="absolute right-3 top-3 text-orange-600 text-sm">
+									{duplicateMessage}
+								</div>
+							)}
+
+							{/* Search Results Dropdown */}
+							{showDropdown && (
+								<div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+									{searchResults.length === 0 ? (
+										<div className="px-3 py-2 text-gray-500 text-sm">No results found</div>
+									) : (
+										searchResults.map((airport) => (
+											<button
+												key={airport.id}
+												onClick={() => handleAddAirport(airport)}
+												className="w-full px-3 py-2 text-left hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+											>
+												<div className="font-medium text-gray-900">
+													{airport.iataCode} - {airport.airportName}
+												</div>
+												<div className="text-sm text-gray-600">
+													{airport.city}, {airport.country}
+												</div>
+											</button>
+										))
+									)}
+								</div>
+							)}
+						</div>
+
+						{/* Selected Airports Column */}
+						<div className="border border-gray-300 rounded-lg p-3 max-h-60 overflow-y-auto">
+							<div className={`text-sm font-medium mb-2 ${selectedAirports.length < minAirports ? 'text-red-600' : 'text-green-600'}`}>
+								{selectedAirports.length} airport{selectedAirports.length !== 1 ? 's' : ''} selected
+								{selectedAirports.length < minAirports && ` (need ${minAirports - selectedAirports.length} more)`}
+							</div>
+							{selectedAirports.length === 0 ? (
+								<div className="text-gray-500 text-sm">No airports selected</div>
+							) : (
+								<div className="space-y-1">
+									{selectedAirports.map((airport) => (
+										<div
+											key={airport.id}
+											className="flex items-center justify-between px-2 py-1 bg-gray-50 rounded hover:bg-gray-100"
+										>
+											<div className="text-sm">
+												<span className="font-medium">{airport.iataCode}</span> - {airport.city}, {airport.country}
+											</div>
+											<button
+												onClick={() => handleRemoveAirport(airport.id)}
+												className="text-red-600 hover:text-red-800 font-bold"
+											>
+												×
+											</button>
+										</div>
+									))}
+								</div>
+							)}
+						</div>
+					</div>
+					{selectedAirports.length < minAirports && (
+						<p className="text-xs text-red-600 mt-2">Select at least {minAirports} airports to create a test</p>
+					)}
 				</div>
 
 				{/* Timer Toggle */}
@@ -121,7 +273,7 @@ export default function CreateTestModal({ isOpen, onClose }: CreateTestModalProp
 					</button>
 					<button
 						onClick={handleSave}
-						disabled={!testName.trim()}
+						disabled={!isValid}
 						className="px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
 					>
 						Save

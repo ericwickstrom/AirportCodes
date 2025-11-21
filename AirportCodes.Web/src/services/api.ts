@@ -12,6 +12,7 @@ import type {
 	TestAnswerRequest,
 	TestAnswerResponse,
 	TestResult,
+	Airport,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5296/api';
@@ -120,4 +121,10 @@ export const testApi = {
 
 	getResults: (sessionId: string) =>
 		fetchApi<TestResult>(`/quiz/test/${sessionId}/results`),
+};
+
+// Airport API
+export const airportApi = {
+	search: (query: string, limit: number = 20) =>
+		fetchApi<Airport[]>(`/airports/search?q=${encodeURIComponent(query)}&limit=${limit}`),
 };
