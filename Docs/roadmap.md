@@ -429,8 +429,8 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] DELETE /api/custom-tests/{id} - Soft delete custom test
 - [x] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
 - [x] GET /api/airports/search?q={query} - Search airports by code, city, or name (return limited results for autocomplete)
-- [ ] Update POST /api/custom-tests to accept airport_ids array and bulk insert into custom_test_airports junction table (use transaction)
-- [ ] Update PUT /api/custom-tests/{id} to accept airport_ids array and replace existing airports (delete all + insert new, use transaction)
+- [x] Update POST /api/custom-tests to accept airport_ids array and bulk insert into custom_test_airports junction table (use transaction)
+- [x] Update PUT /api/custom-tests/{id} to accept airport_ids array and replace existing airports (delete all + insert new, use transaction)
 - [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
 - [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
 - [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
