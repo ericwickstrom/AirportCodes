@@ -428,6 +428,9 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] PUT /api/custom-tests/{id} - Update custom test
 - [x] DELETE /api/custom-tests/{id} - Soft delete custom test
 - [x] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
+- [ ] GET /api/airports/search?q={query} - Search airports by code, city, or name (return limited results for autocomplete)
+- [ ] Update POST /api/custom-tests to accept airport_ids array and bulk insert into custom_test_airports junction table (use transaction)
+- [ ] Update PUT /api/custom-tests/{id} to accept airport_ids array and replace existing airports (delete all + insert new, use transaction)
 - [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
 - [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
 - [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
@@ -446,18 +449,24 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ### 8.4 Frontend - Custom Test Creation/Edit Form
 - [ ] Create Custom Test Form page
-- [ ] Add test name input field
+- [x] Add test name input field
 - [ ] Add airport selection interface (searchable list)
+	- [ ] Create two-column layout (search on left, selected list on right)
 	- [ ] Search by IATA code, airport name, city, country
-	- [ ] Multi-select checkboxes
-	- [ ] Show selected count
-	- [ ] Display selected airports with remove option
-- [ ] Add timer toggle (enable/disable)
-- [ ] Add timer duration input (when enabled)
-- [ ] Add public/private toggle
+	- [ ] Show dropdown with matching results (limit to ~10)
+	- [ ] Click to add airport to test
+	- [ ] Prevent duplicate selections
+	- [ ] Display selected airports in list format: "CODE - City, Country"
+	- [ ] Add remove button (X) for each selected airport
+	- [ ] Show selected count ("5 airports selected")
+	- [ ] Add minimum selection validation (e.g., need at least 5 airports)
+	- [ ] Optional: Add quick filters (US Only, Europe Only, by region/continent)
+- [x] Add timer toggle (enable/disable)
+- [x] Add timer duration input (when enabled)
+- [x] Add public/private toggle
 - [ ] Add anonymous/named toggle (when public is enabled)
-- [ ] Add save button with validation
-- [ ] Add cancel button
+- [x] Add save button with validation
+- [x] Add cancel button
 - [ ] Reuse form for edit mode (pre-populate fields)
 
 ### 8.5 Frontend - Public Custom Tests Discovery
@@ -565,3 +574,4 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - Multi-language support
 - Airport images and additional information
 - Study streak tracking and gamification
+- Dark Mode
