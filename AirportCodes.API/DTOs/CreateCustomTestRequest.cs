@@ -9,7 +9,7 @@ public class CreateCustomTestRequest
 	public string Name { get; set; } = string.Empty;
 
 	[Required]
-	[MinLength(1, ErrorMessage = "At least one airport must be selected")]
+	[MinLength(5, ErrorMessage = "At least 5 airports must be selected")]
 	public List<Guid> AirportIds { get; set; } = new();
 
 	public bool IsPublic { get; set; } = false;

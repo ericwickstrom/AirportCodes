@@ -28,35 +28,46 @@ public class CustomTestService : ICustomTestService
 			throw new ArgumentException("One or more airport IDs are invalid");
 		}
 
-		var customTest = new CustomTest
+		// Use transaction to ensure atomicity
+		using var transaction = await _context.Database.BeginTransactionAsync();
+		try
 		{
-			Id = Guid.NewGuid(),
-			Name = request.Name,
-			CreatedByUserId = userId,
-			IsPublic = request.IsPublic,
-			IsAnonymous = request.IsAnonymous,
-			TimerEnabled = request.TimerEnabled,
-			TimerDurationSeconds = request.TimerDurationSeconds,
-			CreatedDate = DateTime.UtcNow,
-			UpdatedDate = DateTime.UtcNow
-		};
+			var customTest = new CustomTest
+			{
+				Id = Guid.NewGuid(),
+				Name = request.Name,
+				CreatedByUserId = userId,
+				IsPublic = request.IsPublic,
+				IsAnonymous = request.IsAnonymous,
+				TimerEnabled = request.TimerEnabled,
+				TimerDurationSeconds = request.TimerDurationSeconds,
+				CreatedDate = DateTime.UtcNow,
+				UpdatedDate = DateTime.UtcNow
+			};
 
-		_context.CustomTests.Add(customTest);
+			_context.CustomTests.Add(customTest);
+			await _context.SaveChangesAsync();
 
-		// Add airport associations
-		foreach (var airportId in airportIds)
-		{
-			_context.CustomTestAirports.Add(new CustomTestAirport
+			// Bulk insert airport associations
+			var customTestAirports = airportIds.Select(airportId => new CustomTestAirport
 			{
 				CustomTestId = customTest.Id,
 				AirportId = airportId
-			});
+			}).ToList();
+
+			_context.CustomTestAirports.AddRange(customTestAirports);
+			await _context.SaveChangesAsync();
+
+			await transaction.CommitAsync();
+
+			return await GetCustomTestByIdAsync(customTest.Id, userId)
+				?? throw new InvalidOperationException("Failed to retrieve created custom test");
 		}
-
-		await _context.SaveChangesAsync();
-
-		return await GetCustomTestByIdAsync(customTest.Id, userId)
-			?? throw new InvalidOperationException("Failed to retrieve created custom test");
+		catch
+		{
+			await transaction.RollbackAsync();
+			throw;
+		}
 	}
 
 	public async Task<List<CustomTestDto>> GetUserCustomTestsAsync(Guid userId, bool includeDeleted = false)
@@ -163,31 +174,41 @@ public class CustomTestService : ICustomTestService
 			throw new ArgumentException("One or more airport IDs are invalid");
 		}
 
-		// Update custom test properties
-		customTest.Name = request.Name;
-		customTest.IsPublic = request.IsPublic;
-		customTest.IsAnonymous = request.IsAnonymous;
-		customTest.TimerEnabled = request.TimerEnabled;
-		customTest.TimerDurationSeconds = request.TimerDurationSeconds;
-		customTest.UpdatedDate = DateTime.UtcNow;
-
-		// Remove all existing airport associations
-		_context.CustomTestAirports.RemoveRange(customTest.CustomTestAirports);
-
-		// Add new airport associations
-		foreach (var airportId in airportIds)
+		// Use transaction to ensure atomicity
+		using var transaction = await _context.Database.BeginTransactionAsync();
+		try
 		{
-			_context.CustomTestAirports.Add(new CustomTestAirport
+			// Update custom test properties
+			customTest.Name = request.Name;
+			customTest.IsPublic = request.IsPublic;
+			customTest.IsAnonymous = request.IsAnonymous;
+			customTest.TimerEnabled = request.TimerEnabled;
+			customTest.TimerDurationSeconds = request.TimerDurationSeconds;
+			customTest.UpdatedDate = DateTime.UtcNow;
+
+			// Remove all existing airport associations
+			_context.CustomTestAirports.RemoveRange(customTest.CustomTestAirports);
+
+			// Bulk insert new airport associations
+			var customTestAirports = airportIds.Select(airportId => new CustomTestAirport
 			{
 				CustomTestId = customTest.Id,
 				AirportId = airportId
-			});
+			}).ToList();
+
+			_context.CustomTestAirports.AddRange(customTestAirports);
+			await _context.SaveChangesAsync();
+
+			await transaction.CommitAsync();
+
+			return await GetCustomTestByIdAsync(customTest.Id, userId)
+				?? throw new InvalidOperationException("Failed to retrieve updated custom test");
 		}
-
-		await _context.SaveChangesAsync();
-
-		return await GetCustomTestByIdAsync(customTest.Id, userId)
-			?? throw new InvalidOperationException("Failed to retrieve updated custom test");
+		catch
+		{
+			await transaction.RollbackAsync();
+			throw;
+		}
 	}
 
 	public async Task<bool> SoftDeleteCustomTestAsync(Guid customTestId, Guid userId)
