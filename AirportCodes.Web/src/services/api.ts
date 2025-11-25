@@ -4,6 +4,7 @@ import type {
 	AuthResponse,
 	ConfirmEmailRequest,
 	ResendConfirmationRequest,
+	RefreshTokenRequest,
 	LearningQuestion,
 	LearningAnswerRequest,
 	LearningAnswerResponse,
@@ -41,10 +42,24 @@ const getAuthToken = (): string | null => {
 	return localStorage.getItem('auth_token');
 };
 
+// Track if we're already refreshing to avoid multiple simultaneous refresh attempts
+let isRefreshing = false;
+let refreshSubscribers: ((token: string) => void)[] = [];
+
+const onRefreshed = (token: string) => {
+	refreshSubscribers.forEach(callback => callback(token));
+	refreshSubscribers = [];
+};
+
+const addRefreshSubscriber = (callback: (token: string) => void) => {
+	refreshSubscribers.push(callback);
+};
+
 // Generic fetch wrapper with auth and error handling
 async function fetchApi<T>(
 	endpoint: string,
-	options: RequestInit = {}
+	options: RequestInit = {},
+	isRetry: boolean = false
 ): Promise<T> {
 	const token = getAuthToken();
 
@@ -60,6 +75,50 @@ async function fetchApi<T>(
 		...options,
 		headers,
 	});
+
+	// Handle 401 Unauthorized - try to refresh token
+	if (response.status === 401 && !isRetry && endpoint !== '/auth/refresh' && endpoint !== '/auth/login') {
+		if (!isRefreshing) {
+			isRefreshing = true;
+			const refreshToken = localStorage.getItem('refresh_token');
+
+			if (refreshToken) {
+				try {
+					const authResponse = await authApi.refresh({ refreshToken });
+					localStorage.setItem('auth_token', authResponse.accessToken);
+					localStorage.setItem('refresh_token', authResponse.refreshToken);
+					localStorage.setItem('user', JSON.stringify(authResponse.user));
+
+					isRefreshing = false;
+					onRefreshed(authResponse.accessToken);
+
+					// Retry original request with new token
+					return fetchApi<T>(endpoint, options, true);
+				} catch (error) {
+					isRefreshing = false;
+					// Refresh failed, logout user
+					localStorage.removeItem('auth_token');
+					localStorage.removeItem('refresh_token');
+					localStorage.removeItem('user');
+					window.location.href = '/login';
+					throw error;
+				}
+			} else {
+				// No refresh token available
+				localStorage.removeItem('auth_token');
+				localStorage.removeItem('user');
+				window.location.href = '/login';
+			}
+		} else {
+			// Already refreshing, wait for it to complete
+			return new Promise((resolve, reject) => {
+				addRefreshSubscriber(() => {
+					// Retry original request with new token
+					fetchApi<T>(endpoint, options, true).then(resolve).catch(reject);
+				});
+			});
+		}
+	}
 
 	if (!response.ok) {
 		const error: { message: string; emailNotConfirmed?: boolean } = await response.json().catch(() => ({
@@ -93,6 +152,12 @@ export const authApi = {
 
 	resendConfirmation: (data: ResendConfirmationRequest) =>
 		fetchApi<{ message: string }>('/auth/resend-confirmation', {
+			method: 'POST',
+			body: JSON.stringify(data),
+		}),
+
+	refresh: (data: RefreshTokenRequest) =>
+		fetchApi<AuthResponse>('/auth/refresh', {
 			method: 'POST',
 			body: JSON.stringify(data),
 		}),

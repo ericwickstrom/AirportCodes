@@ -49,6 +49,10 @@ export interface ResendConfirmationRequest {
 	email: string;
 }
 
+export interface RefreshTokenRequest {
+	refreshToken: string;
+}
+
 // Learning Mode DTOs
 export interface LearningQuestion {
 	questionId: string;
