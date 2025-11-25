@@ -86,6 +86,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Seed database
+using (var scope = app.Services.CreateScope())
+{
+	var context = scope.ServiceProvider.GetRequiredService<AirportCodesDbContext>();
+	SeedData.SeedCustomTests(context);
+}
+
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
