@@ -160,7 +160,9 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add timer (optional)
 
 ### 4.5 User Dashboard
-- [ ] Create Dashboard page
+- [x] Create Dashboard page
+- [x] Add Learning Mode and Test Mode navigation cards
+- [x] Display My Tests section with user's custom tests
 - [ ] Display user statistics
 - [ ] Show learning progress (airports mastered vs remaining)
 - [ ] Show recent quiz history
@@ -424,13 +426,15 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Create CustomTest controller
 - [x] POST /api/custom-tests - Create new custom test
 - [x] GET /api/custom-tests - Get user's custom tests (including soft-deleted with flag)
-- [x] GET /api/custom-tests/{id} - Get single custom test details
+- [x] GET /api/custom-tests/{id} - Get single custom test details (allow anonymous access)
 - [x] PUT /api/custom-tests/{id} - Update custom test
 - [x] DELETE /api/custom-tests/{id} - Soft delete custom test
 - [x] GET /api/custom-tests/public - Get all public custom tests (exclude soft-deleted)
 - [x] GET /api/airports/search?q={query} - Search airports by code, city, or name (return limited results for autocomplete)
+- [x] POST /api/airports/bulk-lookup - Bulk validate airport codes for CSV import
 - [x] Update POST /api/custom-tests to accept airport_ids array and bulk insert into custom_test_airports junction table (use transaction)
 - [x] Update PUT /api/custom-tests/{id} to accept airport_ids array and replace existing airports (delete all + insert new, use transaction)
+- [x] Refine authorization attributes (move from controller-level to action-level)
 - [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
 - [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
 - [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
@@ -439,19 +443,21 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] GET /api/custom-tests/test/{sessionId}/results - Get final results
 
 ### 8.3 Frontend - Custom Test Management UI
-- [ ] Create Custom Tests page (list view)
-- [ ] Display user's created custom tests
-- [ ] Show test name, # of airports, public/private status, created date
-- [ ] Add "Create New Test" button
-- [ ] Add edit/delete actions for each test
-- [ ] Implement soft delete confirmation dialog
+- [x] Create Custom Tests section on Dashboard (list view)
+- [x] Display user's created custom tests
+- [x] Show test name, # of airports, public/private status, timer badge
+- [x] Add "Create Test" button
+- [x] Add action buttons for each test (Practice, Take Test, View, Edit, Delete)
+- [ ] Implement delete functionality with confirmation dialog
+- [ ] Implement view details modal/page
+- [ ] Implement edit functionality
 - [ ] Add filter/search for user's tests
 
 ### 8.4 Frontend - Custom Test Creation/Edit Form
-- [ ] Create Custom Test Form page
+- [x] Create Custom Test Form modal (CreateTestModal)
 - [x] Add test name input field
 - [x] Add airport selection interface (searchable list)
-	- [x] Create two-column layout (search on left, selected list on right)
+	- [x] Create search input with dropdown results
 	- [x] Search by IATA code, airport name, city, country
 	- [x] Show dropdown with matching results (limit to ~10)
 	- [x] Click to add airport to test
@@ -459,12 +465,13 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [x] Display selected airports in list format: "CODE - City, Country"
 	- [x] Add remove button (X) for each selected airport
 	- [x] Show selected count ("5 airports selected")
-	- [x] Add minimum selection validation (e.g., need at least 5 airports)
+	- [x] Add minimum selection validation (need at least 5 airports)
+	- [x] Add CSV bulk import functionality (paste or file upload)
 	- [ ] Optional: Add quick filters (US Only, Europe Only, by region/continent)
 - [x] Add timer toggle (enable/disable)
 - [x] Add timer duration input (when enabled)
 - [x] Add public/private toggle
-- [ ] Add anonymous/named toggle (when public is enabled)
+- [x] Add anonymous/named toggle (when public is enabled)
 - [x] Add save button with validation
 - [x] Add cancel button
 - [ ] Reuse form for edit mode (pre-populate fields)
