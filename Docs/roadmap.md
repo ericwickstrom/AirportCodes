@@ -679,6 +679,53 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
+## Phase 11: Custom Test Favorites
+
+### 11.1 Backend - Favorites Data Model
+- [ ] Create CustomTestFavorite entity
+	- [ ] Id (Guid, Primary Key)
+	- [ ] UserId (Guid, Foreign Key to User)
+	- [ ] CustomTestId (Guid, Foreign Key to CustomTest)
+	- [ ] CreatedDate (DateTime)
+	- [ ] Unique constraint on (UserId, CustomTestId)
+- [ ] Create database migration for favorites table
+- [ ] Apply migration to development database
+
+### 11.2 Backend - Favorites API
+- [ ] Create Favorites controller or extend CustomTest controller
+- [ ] POST /api/custom-tests/{id}/favorite - Add test to favorites
+- [ ] DELETE /api/custom-tests/{id}/favorite - Remove test from favorites
+- [ ] GET /api/custom-tests/favorites - Get user's favorited tests
+- [ ] Update GET /api/custom-tests and GET /api/custom-tests/public to include isFavorited boolean for authenticated users
+- [ ] Add authorization (users can only manage their own favorites)
+
+### 11.3 Frontend - Favorites UI
+- [ ] Add favorite button/icon to custom test cards (both My Tests and Public Tests sections)
+- [ ] Implement favorite toggle functionality (add/remove)
+- [ ] Show visual indicator for favorited tests (filled heart/star vs outline)
+- [ ] Add "Favorites" filter/section on Dashboard
+- [ ] Display favorited tests in a dedicated section or filtered view
+- [ ] Add unfavorite option in favorites view
+- [ ] Show loading state during favorite operations
+- [ ] Show success/error toast notifications
+
+### 11.4 Integration & Polish
+- [ ] Update customTestApi service with favorite endpoints
+- [ ] Update custom test types to include isFavorited property
+- [ ] Persist favorite state in frontend after operations
+- [ ] Handle edge cases (favoriting deleted tests, permission errors)
+- [ ] Add keyboard shortcut for favoriting (optional)
+
+### 11.5 Testing
+- [ ] Test favorite/unfavorite operations
+- [ ] Test favorites list retrieval
+- [ ] Test favorite persistence across sessions
+- [ ] Test permissions (users can't favorite their own tests, or allow it)
+- [ ] Test UI updates after favorite state changes
+- [ ] Test favoriting public vs private tests
+
+---
+
 ## Future Enhancements (Post-MVP)
 
 ### Custom Test Enhancements
