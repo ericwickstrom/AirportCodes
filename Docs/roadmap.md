@@ -508,6 +508,64 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
+## Phase 9: User Settings & Profile
+
+### 9.1 Backend - User Settings
+- [ ] Create UserSettings entity
+	- [ ] Id (Guid, Primary Key)
+	- [ ] UserId (Guid, Foreign Key to User)
+	- [ ] DefaultQuizLength (int, nullable)
+	- [ ] PreferredRegions (string, nullable - JSON array or comma-separated)
+	- [ ] Theme (string, nullable - "light", "dark", "system")
+	- [ ] EmailNotifications (bool, default true)
+	- [ ] CreatedDate (DateTime)
+	- [ ] UpdatedDate (DateTime)
+- [ ] Create database migration for user settings table
+- [ ] Create UserSettings controller
+- [ ] GET /api/user/settings - Get current user's settings
+- [ ] PUT /api/user/settings - Update user settings
+- [ ] Create UserSettings service layer
+
+### 9.2 Frontend - Settings Page
+- [ ] Create Settings page component
+- [ ] Add route for /settings
+- [ ] Update header to link username to settings page
+- [ ] Create settings form with sections:
+	- [ ] Account Information section
+		- [ ] Display email (read-only)
+		- [ ] Display account creation date
+		- [ ] Add "Change Password" button (future)
+	- [ ] Quiz Preferences section
+		- [ ] Default quiz length selector (5, 10, 15, 20, 25, 50)
+		- [ ] Preferred regions/countries multi-select
+	- [ ] Appearance section
+		- [ ] Theme selector (Light, Dark, System)
+	- [ ] Notifications section
+		- [ ] Email notifications toggle
+	- [ ] Danger Zone section
+		- [ ] Delete account button (with confirmation, future)
+- [ ] Add save button with validation
+- [ ] Add cancel/reset button
+- [ ] Show success/error messages
+- [ ] Handle loading states
+
+### 9.3 Integration
+- [ ] Apply user settings to quiz modes
+	- [ ] Use default quiz length when starting tests
+	- [ ] Filter airports by preferred regions (optional)
+- [ ] Apply theme settings to entire application
+- [ ] Persist settings in backend database
+- [ ] Cache settings in frontend store (Zustand)
+
+### 9.4 Testing
+- [ ] Test settings CRUD operations
+- [ ] Test settings application to quiz modes
+- [ ] Test theme switching
+- [ ] Test form validation
+- [ ] Test persistence across sessions
+
+---
+
 ## Phase 100: Deployment Preparation
 
 ### 100.1 Backend Deployment
