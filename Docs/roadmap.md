@@ -511,19 +511,30 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 ## Phase 9: User Settings & Profile
 
 ### 9.1 Backend - User Settings
+- [ ] Create Theme entity
+	- [ ] Id (Guid, Primary Key)
+	- [ ] Name (string, required - "Light", "Dark", "System")
+	- [ ] Code (string, required - "light", "dark", "system")
+	- [ ] IsActive (bool, default true)
 - [ ] Create UserSettings entity
 	- [ ] Id (Guid, Primary Key)
 	- [ ] UserId (Guid, Foreign Key to User)
 	- [ ] DefaultQuizLength (int, nullable)
 	- [ ] PreferredRegions (string, nullable - JSON array or comma-separated)
-	- [ ] Theme (string, nullable - "light", "dark", "system")
+	- [ ] ThemeId (Guid, nullable, Foreign Key to Theme)
 	- [ ] EmailNotifications (bool, default true)
 	- [ ] CreatedDate (DateTime)
 	- [ ] UpdatedDate (DateTime)
-- [ ] Create database migration for user settings table
+- [ ] Create database migration for Theme and UserSettings tables
+- [ ] Create seed data migration to populate Theme table with default themes:
+	- [ ] Light theme (deterministic GUID)
+	- [ ] Dark theme (deterministic GUID)
+	- [ ] System theme (deterministic GUID)
+- [ ] Apply migration to development database
 - [ ] Create UserSettings controller
 - [ ] GET /api/user/settings - Get current user's settings
 - [ ] PUT /api/user/settings - Update user settings
+- [ ] GET /api/themes - Get available themes
 - [ ] Create UserSettings service layer
 
 ### 9.2 Frontend - Settings Page
