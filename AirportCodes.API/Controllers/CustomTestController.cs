@@ -8,7 +8,6 @@ namespace AirportCodes.API.Controllers;
 
 [ApiController]
 [Route("api/custom-tests")]
-[Authorize]
 public class CustomTestController : ControllerBase
 {
 	private readonly ICustomTestService _customTestService;
@@ -34,6 +33,7 @@ public class CustomTestController : ControllerBase
 	/// Create a new custom test
 	/// </summary>
 	[HttpPost]
+	[Authorize]
 	public async Task<ActionResult<CustomTestDetailDto>> CreateCustomTest([FromBody] CreateCustomTestRequest request)
 	{
 		try
@@ -58,6 +58,7 @@ public class CustomTestController : ControllerBase
 	/// Get all custom tests created by the current user
 	/// </summary>
 	[HttpGet]
+	//[Authorize]
 	public async Task<ActionResult<List<CustomTestDto>>> GetUserCustomTests([FromQuery] bool includeDeleted = false)
 	{
 		try
@@ -77,11 +78,19 @@ public class CustomTestController : ControllerBase
 	/// Get a specific custom test by ID
 	/// </summary>
 	[HttpGet("{id}")]
+	[AllowAnonymous]
 	public async Task<ActionResult<CustomTestDetailDto>> GetCustomTestById(Guid id)
 	{
 		try
 		{
-			var userId = GetCurrentUserId();
+			// Try to get user ID if authenticated, otherwise null
+			Guid? userId = null;
+			var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			if (userIdClaim != null && Guid.TryParse(userIdClaim, out var parsedUserId))
+			{
+				userId = parsedUserId;
+			}
+
 			var customTest = await _customTestService.GetCustomTestByIdAsync(id, userId);
 
 			if (customTest == null)
@@ -102,6 +111,7 @@ public class CustomTestController : ControllerBase
 	/// Update an existing custom test
 	/// </summary>
 	[HttpPut("{id}")]
+	[Authorize]
 	public async Task<ActionResult<CustomTestDetailDto>> UpdateCustomTest(Guid id, [FromBody] UpdateCustomTestRequest request)
 	{
 		try
@@ -136,6 +146,7 @@ public class CustomTestController : ControllerBase
 	/// Soft delete a custom test
 	/// </summary>
 	[HttpDelete("{id}")]
+	[Authorize]
 	public async Task<ActionResult> DeleteCustomTest(Guid id)
 	{
 		try
