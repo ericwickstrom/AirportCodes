@@ -67,7 +67,7 @@ export default function Dashboard() {
 						<h2 className="text-2xl font-bold text-gray-900">My Tests</h2>
 						<button
 							onClick={() => setIsCreateTestModalOpen(true)}
-							className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+							className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer"
 						>
 							Create Test
 						</button>
