@@ -140,3 +140,29 @@ export interface CustomTestDetail {
 	createdDate: string;
 	updatedDate: string;
 }
+
+// User Settings DTOs
+export interface Theme {
+	id: string;
+	name: string;
+	code: string;
+	isActive: boolean;
+}
+
+export interface UserSettings {
+	id: string;
+	userId: string;
+	defaultQuizLength?: number;
+	preferredRegions?: string;
+	themeId?: string;
+	emailNotifications: boolean;
+	createdDate: string;
+	updatedDate: string;
+}
+
+export interface UpdateUserSettingsRequest {
+	defaultQuizLength?: number;
+	preferredRegions?: string;
+	themeId?: string;
+	emailNotifications: boolean;
+}

@@ -17,6 +17,9 @@ import type {
 	CustomTest,
 	CreateCustomTestRequest,
 	CustomTestDetail,
+	Theme,
+	UserSettings,
+	UpdateUserSettingsRequest,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5296/api';
@@ -152,4 +155,19 @@ export const customTestApi = {
 
 	getPublicTests: () =>
 		fetchApi<CustomTest[]>('/custom-tests/public'),
+};
+
+// User Settings API
+export const settingsApi = {
+	getUserSettings: () =>
+		fetchApi<UserSettings>('/user/settings'),
+
+	updateUserSettings: (data: UpdateUserSettingsRequest) =>
+		fetchApi<UserSettings>('/user/settings', {
+			method: 'PUT',
+			body: JSON.stringify(data),
+		}),
+
+	getThemes: () =>
+		fetchApi<Theme[]>('/themes'),
 };
