@@ -100,14 +100,14 @@ async function fetchApi<T>(
 					localStorage.removeItem('auth_token');
 					localStorage.removeItem('refresh_token');
 					localStorage.removeItem('user');
-					window.location.href = '/login';
+					window.location.href = '/';
 					throw error;
 				}
 			} else {
 				// No refresh token available
 				localStorage.removeItem('auth_token');
 				localStorage.removeItem('user');
-				window.location.href = '/login';
+				window.location.href = '/';
 			}
 		} else {
 			// Already refreshing, wait for it to complete

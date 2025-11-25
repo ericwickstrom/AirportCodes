@@ -116,6 +116,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			isAuthenticated: false,
 			error: null,
 		});
+		window.location.href = '/';
 	},
 
 	clearError: () => set({ error: null }),
