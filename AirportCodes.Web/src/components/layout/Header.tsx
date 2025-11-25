@@ -17,7 +17,7 @@ export default function Header() {
 							<span className="text-sm text-gray-600">{user?.email}</span>
 							<button
 								onClick={logout}
-								className="text-sm text-gray-700 hover:text-indigo-600 font-medium"
+								className="text-sm text-gray-700 hover:text-indigo-600 font-medium cursor-pointer"
 							>
 								Logout
 							</button>
