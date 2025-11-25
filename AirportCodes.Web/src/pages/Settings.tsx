@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 
 export default function Settings() {
+	const navigate = useNavigate();
 	const { user } = useAuthStore();
 	const [isSaving, setIsSaving] = useState(false);
 	const [saveSuccess, setSaveSuccess] = useState(false);
@@ -40,12 +42,37 @@ export default function Settings() {
 		setEmailNotifications(true);
 	};
 
+	const handleBack = () => {
+		if (user) {
+			navigate('/dashboard');
+		} else {
+			navigate('/');
+		}
+	};
+
 	const quizLengthOptions = [5, 10, 15, 20, 25, 50];
 
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
 			<div className="max-w-4xl mx-auto space-y-6">
-				<h1 className="text-4xl font-bold text-gray-900">Settings</h1>
+				<div className="flex items-center gap-4">
+					<button
+						onClick={handleBack}
+						className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+						aria-label="Go back"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-8 w-8"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+						</svg>
+					</button>
+					<h1 className="text-4xl font-bold text-gray-900">Settings</h1>
+				</div>
 
 				{/* Account Information */}
 				<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
