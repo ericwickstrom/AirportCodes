@@ -30,6 +30,7 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 	const [csvInput, setCsvInput] = useState('');
 	const [isValidating, setIsValidating] = useState(false);
 	const [validationResult, setValidationResult] = useState<{ valid: Airport[]; invalid: string[] } | null>(null);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	// Save state
 	const [isSaving, setIsSaving] = useState(false);
@@ -136,6 +137,25 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 		setCsvInput('');
 		setValidationResult(null);
 		setShowCsvImport(false);
+		if (fileInputRef.current) {
+			fileInputRef.current.value = '';
+		}
+	};
+
+	const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const text = e.target?.result as string;
+			setCsvInput(text);
+		};
+		reader.readAsText(file);
+	};
+
+	const handleChooseFile = () => {
+		fileInputRef.current?.click();
 	};
 
 	const handleSave = async () => {
@@ -336,9 +356,25 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 					{showCsvImport && (
 						<div className="mb-4 p-4 bg-gray-50 border border-gray-300 rounded-lg space-y-3">
 							<div>
-								<label htmlFor="csv-input" className="block text-sm text-gray-700 mb-2">
-									Paste airport codes (comma or line separated)
-								</label>
+								<div className="flex items-center justify-between mb-2">
+									<label htmlFor="csv-input" className="block text-sm text-gray-700">
+										Paste airport codes (comma or line separated)
+									</label>
+									<button
+										type="button"
+										onClick={handleChooseFile}
+										className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+									>
+										Choose File
+									</button>
+									<input
+										ref={fileInputRef}
+										type="file"
+										accept=".csv,.txt"
+										onChange={handleFileUpload}
+										className="hidden"
+									/>
+								</div>
 								<textarea
 									id="csv-input"
 									value={csvInput}
