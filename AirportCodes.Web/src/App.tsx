@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
 import LearningMode from './pages/LearningMode';
 import TestMode from './pages/TestMode';
 import ConfirmationPending from './pages/ConfirmationPending';
@@ -36,6 +37,14 @@ function App() {
 						element={
 							<ProtectedRoute>
 								<Dashboard />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<Settings />
 							</ProtectedRoute>
 						}
 					/>
