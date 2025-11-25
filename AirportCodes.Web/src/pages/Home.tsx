@@ -1,12 +1,6 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import CreateTestModal from '../components/CreateTestModal';
-import ViewCustomTestsModal from '../components/ViewCustomTestsModal';
 
 export default function Home() {
-	const [isCreateTestModalOpen, setIsCreateTestModalOpen] = useState(false);
-	const [isViewTestsModalOpen, setIsViewTestsModalOpen] = useState(false);
-
 	return (
 		<div className="bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-8 min-h-full">
 			<div className="max-w-4xl w-full space-y-8">
@@ -39,40 +33,15 @@ export default function Home() {
 					</Link>
 				</div>
 
-				<div className="text-center space-y-4">
-					<div className="flex gap-4 justify-center">
-						<button
-							onClick={() => setIsCreateTestModalOpen(true)}
-							className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
-						>
-							Create Test (Temp - Phase 8.3)
-						</button>
-						<button
-							onClick={() => setIsViewTestsModalOpen(true)}
-							className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
-						>
-							View Custom Tests (Temp - Phase 8.3)
-						</button>
-					</div>
-					<div>
-						<Link
-							to="/login"
-							className="text-indigo-600 hover:text-indigo-800 font-semibold"
-						>
-							Sign in to track your progress
-						</Link>
-					</div>
+				<div className="text-center">
+					<Link
+						to="/login"
+						className="text-indigo-600 hover:text-indigo-800 font-semibold"
+					>
+						Sign in to track your progress
+					</Link>
 				</div>
 			</div>
-
-			<CreateTestModal
-				isOpen={isCreateTestModalOpen}
-				onClose={() => setIsCreateTestModalOpen(false)}
-			/>
-			<ViewCustomTestsModal
-				isOpen={isViewTestsModalOpen}
-				onClose={() => setIsViewTestsModalOpen(false)}
-			/>
 		</div>
 	);
 }

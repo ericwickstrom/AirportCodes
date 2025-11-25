@@ -7,33 +7,21 @@ export default function Header() {
 	return (
 		<header className="bg-white shadow-sm">
 			<div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-				<Link to="/" className="text-2xl font-bold text-indigo-600">
+				<Link to={isAuthenticated ? "/dashboard" : "/"} className="text-2xl font-bold text-indigo-600">
 					AirportCodes
 				</Link>
 
 				<nav className="flex items-center gap-6">
-					<Link to="/learning" className="text-gray-700 hover:text-indigo-600 font-medium">
-						Learning
-					</Link>
-					<Link to="/test" className="text-gray-700 hover:text-indigo-600 font-medium">
-						Test
-					</Link>
-
 					{isAuthenticated ? (
-						<>
-							<Link to="/dashboard" className="text-gray-700 hover:text-indigo-600 font-medium">
-								Dashboard
-							</Link>
-							<div className="flex items-center gap-3">
-								<span className="text-sm text-gray-600">{user?.email}</span>
-								<button
-									onClick={logout}
-									className="text-sm text-gray-700 hover:text-indigo-600 font-medium"
-								>
-									Logout
-								</button>
-							</div>
-						</>
+						<div className="flex items-center gap-3">
+							<span className="text-sm text-gray-600">{user?.email}</span>
+							<button
+								onClick={logout}
+								className="text-sm text-gray-700 hover:text-indigo-600 font-medium"
+							>
+								Logout
+							</button>
+						</div>
 					) : (
 						<>
 							<Link to="/login" className="text-gray-700 hover:text-indigo-600 font-medium">
