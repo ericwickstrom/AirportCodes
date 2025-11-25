@@ -6,9 +6,10 @@ interface ModalProps {
 	onClose: () => void;
 	children: ReactNode;
 	title?: string;
+	headerActions?: ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, children, title }: ModalProps) {
+export default function Modal({ isOpen, onClose, children, title, headerActions }: ModalProps) {
 	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflow = 'hidden';
@@ -29,11 +30,12 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
 				onClick={onClose}
 			/>
 			<div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-				<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+				<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between gap-4">
 					{title && <h2 className="text-2xl font-bold text-gray-900">{title}</h2>}
+					{headerActions && <div className="flex gap-3">{headerActions}</div>}
 					<button
 						onClick={onClose}
-						className="ml-auto text-gray-400 hover:text-gray-600 text-2xl leading-none"
+						className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
 						aria-label="Close modal"
 					>
 						×
