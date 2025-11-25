@@ -577,6 +577,56 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
+## Phase 10: Toast Notifications System
+
+### 10.1 Toast Infrastructure
+- [ ] Research toast/notification libraries (react-hot-toast, react-toastify, sonner)
+- [ ] Choose library based on bundle size, features, and simplicity
+- [ ] Install chosen toast library
+- [ ] Configure toast provider in App.tsx
+- [ ] Set up default toast styling to match application theme
+- [ ] Create toast utility functions/hooks for common use cases
+
+### 10.2 Toast Implementation
+- [ ] Replace inline success/error messages with toast notifications:
+	- [ ] Settings page save success/error
+	- [ ] Custom test creation success/error
+	- [ ] Login/registration success/error
+	- [ ] Email confirmation success/error
+	- [ ] Quiz submission feedback (optional)
+- [ ] Add toast notifications for:
+	- [ ] Network errors (API failures)
+	- [ ] Session expiration warnings
+	- [ ] Copy-to-clipboard confirmations
+	- [ ] Form validation errors (optional)
+- [ ] Implement toast types:
+	- [ ] Success toasts (green)
+	- [ ] Error toasts (red)
+	- [ ] Warning toasts (yellow)
+	- [ ] Info toasts (blue)
+	- [ ] Loading toasts (for async operations)
+
+### 10.3 User Experience Enhancements
+- [ ] Configure toast positioning (top-right, bottom-right, etc.)
+- [ ] Set appropriate toast duration by type:
+	- [ ] Success: 3 seconds
+	- [ ] Error: 5 seconds
+	- [ ] Warning: 4 seconds
+	- [ ] Info: 3 seconds
+- [ ] Add toast dismiss button
+- [ ] Enable toast stacking/queuing
+- [ ] Add toast animations (slide-in, fade-out)
+- [ ] Ensure toasts are accessible (ARIA labels, keyboard navigation)
+
+### 10.4 Testing
+- [ ] Test toast notifications across all pages
+- [ ] Verify toast positioning on mobile devices
+- [ ] Test toast behavior with multiple simultaneous notifications
+- [ ] Ensure toasts don't block critical UI elements
+- [ ] Test keyboard accessibility (ESC to dismiss)
+
+---
+
 ## Phase 100: Deployment Preparation
 
 ### 100.1 Backend Deployment
