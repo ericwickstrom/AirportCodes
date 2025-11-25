@@ -14,7 +14,9 @@ export default function Header() {
 				<nav className="flex items-center gap-6">
 					{isAuthenticated ? (
 						<div className="flex items-center gap-3">
-							<span className="text-sm text-gray-600">{user?.email}</span>
+							<Link to="/settings" className="text-sm text-gray-600 hover:text-indigo-600 cursor-pointer">
+								{user?.email}
+							</Link>
 							<button
 								onClick={logout}
 								className="text-sm text-gray-700 hover:text-indigo-600 font-medium cursor-pointer"
