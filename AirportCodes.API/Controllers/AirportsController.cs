@@ -129,4 +129,62 @@ public class AirportsController : ControllerBase
 
 		return Ok(airportDtos);
 	}
+
+	/// <summary>
+	/// Bulk lookup airports by IATA codes
+	/// </summary>
+	[HttpPost("bulk-lookup")]
+	public async Task<ActionResult<BulkLookupResponse>> BulkLookupAirports([FromBody] BulkLookupRequest request)
+	{
+		if (request.IataCodes == null || !request.IataCodes.Any())
+		{
+			return BadRequest(new { error = "No IATA codes provided" });
+		}
+
+		if (request.IataCodes.Count > 1000)
+		{
+			return BadRequest(new { error = "Maximum 1000 codes allowed per request" });
+		}
+
+		var validAirports = new List<AirportDto>();
+		var invalidCodes = new List<string>();
+
+		foreach (var code in request.IataCodes)
+		{
+			var trimmedCode = code.Trim().ToUpper();
+			if (string.IsNullOrWhiteSpace(trimmedCode))
+			{
+				continue;
+			}
+
+			var airports = await _airportService.SearchAsync(trimmedCode, 1);
+			var exactMatch = airports.FirstOrDefault(a => a.IataCode.Equals(trimmedCode, StringComparison.OrdinalIgnoreCase));
+
+			if (exactMatch != null)
+			{
+				// Avoid duplicates in the valid list
+				if (!validAirports.Any(a => a.Id == exactMatch.Id))
+				{
+					validAirports.Add(new AirportDto
+					{
+						Id = exactMatch.Id,
+						IataCode = exactMatch.IataCode,
+						AirportName = exactMatch.AirportName,
+						City = exactMatch.City.Name,
+						Country = exactMatch.City.Country.Name
+					});
+				}
+			}
+			else
+			{
+				invalidCodes.Add(trimmedCode);
+			}
+		}
+
+		return Ok(new BulkLookupResponse
+		{
+			ValidAirports = validAirports,
+			InvalidCodes = invalidCodes
+		});
+	}
 }

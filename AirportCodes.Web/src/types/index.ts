@@ -8,6 +8,15 @@ export interface Airport {
 	country: string;
 }
 
+export interface BulkLookupRequest {
+	iataCodes: string[];
+}
+
+export interface BulkLookupResponse {
+	validAirports: Airport[];
+	invalidCodes: string[];
+}
+
 export interface User {
 	id: string;
 	email: string;
@@ -92,4 +101,42 @@ export interface TestResult {
 	correctAnswers: number;
 	incorrectAnswers: number;
 	scorePercentage: number;
+}
+
+// Custom Test DTOs
+export interface CustomTest {
+	id: string;
+	name: string;
+	airportCount: number;
+	isPublic: boolean;
+	isAnonymous: boolean;
+	creatorName?: string;
+	timerEnabled: boolean;
+	timerDurationSeconds?: number;
+	isDeleted: boolean;
+	createdDate: string;
+	updatedDate: string;
+}
+
+export interface CreateCustomTestRequest {
+	name: string;
+	airportIds: string[];
+	isPublic: boolean;
+	isAnonymous: boolean;
+	timerEnabled: boolean;
+	timerDurationSeconds?: number;
+}
+
+export interface CustomTestDetail {
+	id: string;
+	name: string;
+	airports: Airport[];
+	isPublic: boolean;
+	isAnonymous: boolean;
+	creatorName?: string;
+	timerEnabled: boolean;
+	timerDurationSeconds?: number;
+	isDeleted: boolean;
+	createdDate: string;
+	updatedDate: string;
 }

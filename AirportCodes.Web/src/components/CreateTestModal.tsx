@@ -25,6 +25,12 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 	const [duplicateMessage, setDuplicateMessage] = useState('');
 	const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+	// CSV import state
+	const [showCsvImport, setShowCsvImport] = useState(false);
+	const [csvInput, setCsvInput] = useState('');
+	const [isValidating, setIsValidating] = useState(false);
+	const [validationResult, setValidationResult] = useState<{ valid: Airport[]; invalid: string[] } | null>(null);
+
 	// Save state
 	const [isSaving, setIsSaving] = useState(false);
 	const [saveError, setSaveError] = useState<string | null>(null);
@@ -76,6 +82,60 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 
 	const handleRemoveAirport = (airportId: string) => {
 		setSelectedAirports(selectedAirports.filter(a => a.id !== airportId));
+	};
+
+	const parseCsvInput = (input: string): string[] => {
+		// Split by commas and newlines, trim, uppercase, and filter empty
+		const codes = input
+			.split(/[,\n\r]+/)
+			.map(code => code.trim().toUpperCase())
+			.filter(code => code.length > 0);
+
+		// Remove duplicates
+		return [...new Set(codes)];
+	};
+
+	const handleValidateCsv = async () => {
+		const codes = parseCsvInput(csvInput);
+
+		if (codes.length === 0) {
+			setValidationResult({ valid: [], invalid: [] });
+			return;
+		}
+
+		setIsValidating(true);
+		try {
+			const result = await airportApi.bulkLookup(codes);
+			setValidationResult({
+				valid: result.validAirports,
+				invalid: result.invalidCodes,
+			});
+		} catch (error) {
+			console.error('CSV validation error:', error);
+			setValidationResult(null);
+		} finally {
+			setIsValidating(false);
+		}
+	};
+
+	const handleAddValidAirports = () => {
+		if (!validationResult) return;
+
+		// Add only airports that aren't already selected
+		const newAirports = validationResult.valid.filter(
+			airport => !selectedAirports.some(a => a.id === airport.id)
+		);
+
+		setSelectedAirports([...selectedAirports, ...newAirports]);
+		setCsvInput('');
+		setValidationResult(null);
+		setShowCsvImport(false);
+	};
+
+	const handleCancelCsvImport = () => {
+		setCsvInput('');
+		setValidationResult(null);
+		setShowCsvImport(false);
 	};
 
 	const handleSave = async () => {
@@ -259,9 +319,84 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 
 				{/* Airport Selection */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-3">
-						Select Airports
-					</label>
+					<div className="flex items-center justify-between mb-3">
+						<label className="block text-sm font-medium text-gray-700">
+							Select Airports
+						</label>
+						<button
+							type="button"
+							onClick={() => setShowCsvImport(!showCsvImport)}
+							className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+						>
+							{showCsvImport ? 'Hide' : 'Import from CSV'}
+						</button>
+					</div>
+
+					{/* CSV Import Section */}
+					{showCsvImport && (
+						<div className="mb-4 p-4 bg-gray-50 border border-gray-300 rounded-lg space-y-3">
+							<div>
+								<label htmlFor="csv-input" className="block text-sm text-gray-700 mb-2">
+									Paste airport codes (comma or line separated)
+								</label>
+								<textarea
+									id="csv-input"
+									value={csvInput}
+									onChange={(e) => setCsvInput(e.target.value)}
+									placeholder="LAX,JFK,ORD&#10;or one per line..."
+									className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm"
+									rows={4}
+								/>
+							</div>
+
+							{/* Validation Results */}
+							{validationResult && (
+								<div className="space-y-2">
+									{validationResult.valid.length > 0 && (
+										<div className="text-sm">
+											<span className="text-green-600 font-medium">
+												{validationResult.valid.length} valid airport{validationResult.valid.length !== 1 ? 's' : ''} found
+											</span>
+										</div>
+									)}
+									{validationResult.invalid.length > 0 && (
+										<div className="text-sm">
+											<span className="text-red-600 font-medium">Invalid codes: </span>
+											<span className="text-red-600">{validationResult.invalid.join(', ')}</span>
+										</div>
+									)}
+								</div>
+							)}
+
+							{/* CSV Import Buttons */}
+							<div className="flex gap-2">
+								<button
+									type="button"
+									onClick={handleValidateCsv}
+									disabled={!csvInput.trim() || isValidating}
+									className="px-3 py-2 text-sm bg-indigo-600 text-white hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+								>
+									{isValidating ? 'Validating...' : 'Validate'}
+								</button>
+								{validationResult && validationResult.valid.length > 0 && (
+									<button
+										type="button"
+										onClick={handleAddValidAirports}
+										className="px-3 py-2 text-sm bg-green-600 text-white hover:bg-green-700 rounded-lg font-medium transition-colors"
+									>
+										Add {validationResult.valid.length} Airport{validationResult.valid.length !== 1 ? 's' : ''}
+									</button>
+								)}
+								<button
+									type="button"
+									onClick={handleCancelCsvImport}
+									className="px-3 py-2 text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 rounded-lg font-medium transition-colors"
+								>
+									Cancel
+								</button>
+							</div>
+						</div>
+					)}
 
 					{/* Search Box */}
 					<div className="relative">

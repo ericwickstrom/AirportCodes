@@ -13,6 +13,10 @@ import type {
 	TestAnswerResponse,
 	TestResult,
 	Airport,
+	BulkLookupResponse,
+	CustomTest,
+	CreateCustomTestRequest,
+	CustomTestDetail,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5296/api';
@@ -127,4 +131,25 @@ export const testApi = {
 export const airportApi = {
 	search: (query: string, limit: number = 20) =>
 		fetchApi<Airport[]>(`/airports/search?q=${encodeURIComponent(query)}&limit=${limit}`),
+
+	bulkLookup: (iataCodes: string[]) =>
+		fetchApi<BulkLookupResponse>('/airports/bulk-lookup', {
+			method: 'POST',
+			body: JSON.stringify({ iataCodes }),
+		}),
+};
+
+// Custom Test API
+export const customTestApi = {
+	create: (data: CreateCustomTestRequest) =>
+		fetchApi<CustomTestDetail>('/custom-tests', {
+			method: 'POST',
+			body: JSON.stringify(data),
+		}),
+
+	getUserTests: (includeDeleted: boolean = false) =>
+		fetchApi<CustomTest[]>(`/custom-tests?includeDeleted=${includeDeleted}`),
+
+	getPublicTests: () =>
+		fetchApi<CustomTest[]>('/custom-tests/public'),
 };
