@@ -192,7 +192,7 @@ export default function Settings() {
 								id="email-notifications"
 								type="button"
 								role="switch"
-								aria-checked={emailNotifications}
+								aria-checked={emailNotifications ? "true" : "false"}
 								aria-label="Toggle email notifications"
 								onClick={() => setEmailNotifications(!emailNotifications)}
 								className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
