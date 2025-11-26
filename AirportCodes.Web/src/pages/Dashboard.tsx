@@ -111,12 +111,12 @@ export default function Dashboard() {
 											>
 												Practice
 											</Link>
-											<button
-												className="flex-1 px-3 py-2 text-sm bg-green-600 text-white hover:bg-green-700 rounded-lg font-medium transition-colors"
-												onClick={() => {/* TODO: Start test mode */}}
+											<Link
+												to={`/test/${test.id}`}
+												className="flex-1 px-3 py-2 text-sm bg-green-600 text-white hover:bg-green-700 rounded-lg font-medium transition-colors text-center"
 											>
 												Take Test
-											</button>
+											</Link>
 										</div>
 										<div className="flex gap-2">
 											<button

@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuizStore } from '../stores/quizStore';
+import { customTestApi } from '../services/api';
 
 export default function TestMode() {
+	const { customTestId } = useParams<{ customTestId?: string }>();
 	const {
 		testSession,
 		testQuestion,
@@ -19,9 +22,29 @@ export default function TestMode() {
 	const [answer, setAnswer] = useState('');
 	const [selectedQuestionCount, setSelectedQuestionCount] = useState(10);
 
+	// Fetch custom test details if customTestId is present
+	useEffect(() => {
+		const fetchCustomTest = async () => {
+			if (customTestId) {
+				try {
+					// Get the test from public tests or user tests
+					const publicTests = await customTestApi.getPublicTests();
+					const test = publicTests.find(t => t.id === customTestId);
+					if (test) {
+						// Set default question count to airport count
+						setSelectedQuestionCount(test.airportCount);
+					}
+				} catch (err) {
+					console.error('Failed to load custom test:', err);
+				}
+			}
+		};
+		fetchCustomTest();
+	}, [customTestId]);
+
 	// Start screen
 	const handleStartTest = async () => {
-		await startTestMode(selectedQuestionCount);
+		await startTestMode(selectedQuestionCount, customTestId);
 	};
 
 	// Question screen
