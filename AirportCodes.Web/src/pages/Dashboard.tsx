@@ -105,12 +105,12 @@ export default function Dashboard() {
 									</div>
 									<div className="flex flex-col gap-2 pt-2 border-t border-gray-200">
 										<div className="flex gap-2">
-											<button
-												className="flex-1 px-3 py-2 text-sm bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg font-medium transition-colors"
-												onClick={() => {/* TODO: Start learning mode */}}
+											<Link
+												to={`/learning/${test.id}`}
+												className="flex-1 px-3 py-2 text-sm bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg font-medium transition-colors text-center"
 											>
 												Practice
-											</button>
+											</Link>
 											<button
 												className="flex-1 px-3 py-2 text-sm bg-green-600 text-white hover:bg-green-700 rounded-lg font-medium transition-colors"
 												onClick={() => {/* TODO: Start test mode */}}

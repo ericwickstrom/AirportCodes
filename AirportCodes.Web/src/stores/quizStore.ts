@@ -19,6 +19,7 @@ interface QuizState {
 	// Learning Mode
 	learningQuestion: LearningQuestion | null;
 	learningFeedback: LearningAnswerResponse | null;
+	customTestId: string | null;
 
 	// Test Mode
 	testSession: TestSession | null;
@@ -27,7 +28,7 @@ interface QuizState {
 	testResult: TestResult | null;
 
 	// Actions
-	startLearningMode: () => Promise<void>;
+	startLearningMode: (customTestId?: string) => Promise<void>;
 	submitLearningAnswer: (selectedAnswer: string) => Promise<LearningAnswerResponse | undefined>;
 	nextLearningQuestion: () => Promise<void>;
 
@@ -47,6 +48,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 
 	learningQuestion: null,
 	learningFeedback: null,
+	customTestId: null,
 
 	testSession: null,
 	testQuestion: null,
@@ -54,10 +56,16 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 	testResult: null,
 
 	// Learning Mode Actions
-	startLearningMode: async () => {
-		set({ mode: 'learning', isLoading: true, error: null, learningFeedback: null });
+	startLearningMode: async (customTestId?: string) => {
+		set({
+			mode: 'learning',
+			isLoading: true,
+			error: null,
+			learningFeedback: null,
+			customTestId: customTestId || null
+		});
 		try {
-			const question = await learningApi.getQuestion();
+			const question = await learningApi.getQuestion(customTestId);
 			set({ learningQuestion: question, isLoading: false });
 		} catch (error) {
 			set({
@@ -90,9 +98,10 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 	},
 
 	nextLearningQuestion: async () => {
+		const { customTestId } = get();
 		set({ isLoading: true, error: null, learningFeedback: null });
 		try {
-			const question = await learningApi.getQuestion();
+			const question = await learningApi.getQuestion(customTestId || undefined);
 			set({ learningQuestion: question, isLoading: false });
 		} catch (error) {
 			set({
@@ -185,6 +194,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 			mode: null,
 			learningQuestion: null,
 			learningFeedback: null,
+			customTestId: null,
 			testSession: null,
 			testQuestion: null,
 			testFeedback: null,

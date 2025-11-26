@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useQuizStore } from '../stores/quizStore';
 
 export default function LearningMode() {
+	const { customTestId } = useParams<{ customTestId?: string }>();
 	const {
 		learningQuestion,
 		learningFeedback,
@@ -18,8 +20,8 @@ export default function LearningMode() {
 
 	// Load first question on mount
 	useEffect(() => {
-		startLearningMode();
-	}, [startLearningMode]);
+		startLearningMode(customTestId);
+	}, [startLearningMode, customTestId]);
 
 	const handleAnswerSelect = (answer: string) => {
 		if (!learningFeedback) {

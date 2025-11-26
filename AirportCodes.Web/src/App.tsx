@@ -30,7 +30,7 @@ function App() {
 					<Route path="/register" element={<Register />} />
 					<Route path="/confirmation-pending" element={<ConfirmationPending />} />
 					<Route path="/confirm-email" element={<ConfirmEmail />} />
-					<Route path="/learning" element={<LearningMode />} />
+					<Route path="/learning/:customTestId?" element={<LearningMode />} />
 					<Route path="/test" element={<TestMode />} />
 					<Route
 						path="/dashboard"

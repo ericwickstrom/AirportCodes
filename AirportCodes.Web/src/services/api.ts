@@ -165,8 +165,10 @@ export const authApi = {
 
 // Learning Mode API
 export const learningApi = {
-	getQuestion: () =>
-		fetchApi<LearningQuestion>('/quiz/learning'),
+	getQuestion: (customTestId?: string) =>
+		fetchApi<LearningQuestion>(
+			customTestId ? `/quiz/learning?customTestId=${customTestId}` : '/quiz/learning'
+		),
 
 	submitAnswer: (data: LearningAnswerRequest) =>
 		fetchApi<LearningAnswerResponse>('/quiz/learning/answer', {
