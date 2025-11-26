@@ -179,10 +179,15 @@ export const learningApi = {
 
 // Test Mode API
 export const testApi = {
-	startTest: (totalQuestions: number = 10) =>
-		fetchApi<TestSession>(`/quiz/test/start?totalQuestions=${totalQuestions}`, {
-			method: 'POST',
-		}),
+	startTest: (totalQuestions: number = 10, customTestId?: string) =>
+		fetchApi<TestSession>(
+			customTestId
+				? `/quiz/test/start?totalQuestions=${totalQuestions}&customTestId=${customTestId}`
+				: `/quiz/test/start?totalQuestions=${totalQuestions}`,
+			{
+				method: 'POST',
+			}
+		),
 
 	getQuestion: (sessionId: string) =>
 		fetchApi<TestQuestion>(`/quiz/test/${sessionId}/question`),

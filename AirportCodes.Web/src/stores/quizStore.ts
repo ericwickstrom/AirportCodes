@@ -32,7 +32,7 @@ interface QuizState {
 	submitLearningAnswer: (selectedAnswer: string) => Promise<LearningAnswerResponse | undefined>;
 	nextLearningQuestion: () => Promise<void>;
 
-	startTestMode: (totalQuestions?: number) => Promise<void>;
+	startTestMode: (totalQuestions?: number, customTestId?: string) => Promise<void>;
 	getTestQuestion: () => Promise<void>;
 	submitTestAnswer: (selectedAnswer: string) => Promise<void>;
 	completeTest: () => Promise<void>;
@@ -113,16 +113,17 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 	},
 
 	// Test Mode Actions
-	startTestMode: async (totalQuestions = 10) => {
+	startTestMode: async (totalQuestions = 10, customTestId?: string) => {
 		set({
 			mode: 'test',
 			isLoading: true,
 			error: null,
 			testFeedback: null,
 			testResult: null,
+			customTestId: customTestId || null,
 		});
 		try {
-			const session = await testApi.startTest(totalQuestions);
+			const session = await testApi.startTest(totalQuestions, customTestId);
 			set({ testSession: session, isLoading: false });
 			await get().getTestQuestion();
 		} catch (error) {
