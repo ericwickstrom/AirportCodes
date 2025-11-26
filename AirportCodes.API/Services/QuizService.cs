@@ -17,19 +17,58 @@ public class QuizService : IQuizService
 		_cache = cache;
 	}
 
-	public async Task<LearningQuestionDto> GetLearningQuestionAsync()
+	public async Task<LearningQuestionDto> GetLearningQuestionAsync(Guid? customTestId = null, Guid? userId = null)
 	{
-		// Get total airport count
-		var totalCount = await _context.Airports.CountAsync();
+		IQueryable<Airport> airportQuery;
+
+		// If customTestId is provided, query from custom test's airports
+		if (customTestId.HasValue)
+		{
+			// Validate custom test exists and is not deleted
+			var customTest = await _context.CustomTests
+				.Include(ct => ct.CustomTestAirports)
+				.FirstOrDefaultAsync(ct => ct.Id == customTestId.Value && !ct.IsDeleted);
+
+			if (customTest == null)
+			{
+				throw new InvalidOperationException("Custom test not found");
+			}
+
+			// Check authorization: test must be public OR user must be the creator
+			if (!customTest.IsPublic && (!userId.HasValue || customTest.CreatedByUserId != userId.Value))
+			{
+				throw new UnauthorizedAccessException("You do not have access to this custom test");
+			}
+
+			// Get airport IDs from the custom test
+			var airportIds = customTest.CustomTestAirports.Select(cta => cta.AirportId).ToList();
+
+			if (airportIds.Count < 4)
+			{
+				throw new InvalidOperationException("Custom test must have at least 4 airports to generate multiple choice questions");
+			}
+
+			// Query only the airports in this custom test
+			airportQuery = _context.Airports
+				.Where(a => airportIds.Contains(a.Id));
+		}
+		else
+		{
+			// Use all airports (standard learning mode)
+			airportQuery = _context.Airports;
+		}
+
+		// Get total airport count from the selected query
+		var totalCount = await airportQuery.CountAsync();
 		if (totalCount < 4)
 		{
-			throw new InvalidOperationException("Not enough airports in database to generate a question (minimum 4 required)");
+			throw new InvalidOperationException("Not enough airports to generate a question (minimum 4 required)");
 		}
 
 		// Get a random airport as the correct answer
 		var random = new Random();
 		var skipCount = random.Next(0, totalCount);
-		var correctAirport = await _context.Airports
+		var correctAirport = await airportQuery
 			.Include(a => a.City)
 				.ThenInclude(c => c.Country)
 			.Skip(skipCount)
@@ -41,8 +80,8 @@ public class QuizService : IQuizService
 			throw new InvalidOperationException("Failed to retrieve airport for question");
 		}
 
-		// Get 3 random distractor airports (excluding the correct one)
-		var distractors = await _context.Airports
+		// Get 3 random distractor airports (excluding the correct one) from same query
+		var distractors = await airportQuery
 			.Where(a => a.Id != correctAirport.Id)
 			.OrderBy(a => Guid.NewGuid())
 			.Take(3)

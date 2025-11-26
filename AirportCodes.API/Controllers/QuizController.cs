@@ -20,18 +20,32 @@ public class QuizController : ControllerBase
 	/// <summary>
 	/// Get a new learning mode question with multiple choice options
 	/// </summary>
+	/// <param name="customTestId">Optional custom test ID to generate questions from</param>
 	/// <returns>A question with 4 IATA code options (1 correct + 3 distractors)</returns>
 	[HttpGet("learning")]
-	public async Task<ActionResult<LearningQuestionDto>> GetLearningQuestion()
+	public async Task<ActionResult<LearningQuestionDto>> GetLearningQuestion([FromQuery] Guid? customTestId = null)
 	{
 		try
 		{
-			var question = await _quizService.GetLearningQuestionAsync();
+			// Get userId from JWT claims if user is authenticated
+			Guid? userId = null;
+			var userIdClaim = User.FindFirst("sub") ?? User.FindFirst("userId");
+			if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var parsedUserId))
+			{
+				userId = parsedUserId;
+			}
+
+			var question = await _quizService.GetLearningQuestionAsync(customTestId, userId);
 			return Ok(question);
+		}
+		catch (UnauthorizedAccessException ex)
+		{
+			_logger.LogWarning(ex, "Unauthorized access to custom test {CustomTestId}", customTestId);
+			return Forbid();
 		}
 		catch (InvalidOperationException ex)
 		{
-			_logger.LogError(ex, "Failed to generate learning question");
+			_logger.LogError(ex, "Failed to generate learning question for custom test {CustomTestId}", customTestId);
 			return BadRequest(new { message = ex.Message });
 		}
 	}

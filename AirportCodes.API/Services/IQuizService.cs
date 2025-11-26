@@ -4,7 +4,7 @@ namespace AirportCodes.API.Services;
 
 public interface IQuizService
 {
-	Task<LearningQuestionDto> GetLearningQuestionAsync();
+	Task<LearningQuestionDto> GetLearningQuestionAsync(Guid? customTestId = null, Guid? userId = null);
 	Task<LearningAnswerResponse> ValidateLearningAnswerAsync(LearningAnswerRequest request);
 
 	Task<TestSessionDto> StartTestAsync(int totalQuestions);
