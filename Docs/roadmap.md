@@ -484,11 +484,66 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add "Practice" button (learning mode)
 - [ ] Add "Take Test" button (test mode)
 
-### 8.6 Frontend - Custom Test Modes
-- [ ] Integrate custom tests with Learning Mode
-	- [ ] Load custom test questions (shuffled)
-	- [ ] Display same UI as regular learning mode
-	- [ ] Track progress through custom test
+### 8.6 Frontend - Custom Test Learning Mode Integration
+
+#### 8.6.1 Backend - Custom Test Learning Endpoints
+- [ ] Create GET /api/custom-tests/{id}/learning endpoint
+	- [ ] Validate custom test exists and user has access (public or owned)
+	- [ ] Select random airport from test's airport list
+	- [ ] Generate 3 distractors from same test's airports (if available) or global pool
+	- [ ] Return same LearningQuestion DTO format
+	- [ ] Add proper authorization (public tests accessible to all, private only to creator)
+- [ ] Create POST /api/custom-tests/{id}/learning/answer endpoint
+	- [ ] Accept same LearningAnswerRequest format
+	- [ ] Validate answer against correct IATA code
+	- [ ] Return same LearningAnswerResponse format
+	- [ ] Handle edge case: custom test with < 4 airports
+
+#### 8.6.2 Frontend - API Service Layer
+- [ ] Extend customTestApi in api.ts
+	- [ ] Add getCustomTestQuestion(testId: string) method
+	- [ ] Add submitCustomTestAnswer(testId: string, data: LearningAnswerRequest) method
+	- [ ] Reuse existing TypeScript types (LearningQuestion, LearningAnswerRequest, etc.)
+
+#### 8.6.3 Frontend - Quiz Store Refactoring
+- [ ] Add customTestId state to quizStore (string | null)
+- [ ] Create startCustomTestLearning(customTestId: string) action
+- [ ] Create submitCustomTestLearningAnswer(selectedAnswer: string) action
+- [ ] Create nextCustomTestQuestion() action
+- [ ] Modify actions to check customTestId and use appropriate API endpoints
+- [ ] Reset customTestId in resetQuiz() action
+
+#### 8.6.4 Frontend - Routing & URL Structure
+- [ ] Update /learning route to support optional customTestId parameter: /learning/:customTestId?
+- [ ] Update App.tsx route definition
+- [ ] Support both /learning (regular) and /learning/{testId} (custom test)
+
+#### 8.6.5 Frontend - LearningMode Component Refactoring
+- [ ] Import useParams from react-router-dom to get customTestId
+- [ ] Update useEffect to check customTestId and call appropriate start method
+- [ ] Update handleSubmit to use appropriate submit method based on customTestId
+- [ ] Update handleNextQuestion to use appropriate next method based on customTestId
+- [ ] Add custom test name to header when in custom test mode
+- [ ] Add "Back to Dashboard" or "Exit" button
+- [ ] Handle edge cases (invalid test ID, deleted test, insufficient airports)
+
+#### 8.6.6 Frontend - Dashboard Integration
+- [ ] Update "Practice" button in My Tests section to navigate to /learning/{testId}
+- [ ] Update "Practice" button in ViewCustomTestsModal to navigate to /learning/{testId}
+- [ ] Test navigation flow from dashboard to custom learning mode
+
+#### 8.6.7 Testing & Validation
+- [ ] Test regular learning mode still works (/learning)
+- [ ] Test custom test learning mode with valid test ID
+- [ ] Test custom test with insufficient airports (< 4 for multiple choice)
+- [ ] Test authorization (private tests accessible only to creator)
+- [ ] Test navigation between regular and custom learning modes
+- [ ] Test score tracking across custom test questions
+- [ ] Test error handling (invalid test ID, deleted test, etc.)
+- [ ] Test showing custom test name in header
+- [ ] Test exit/back navigation
+
+### 8.7 Frontend - Custom Test Test Mode Integration
 - [ ] Integrate custom tests with Test Mode
 	- [ ] Start test session with custom test
 	- [ ] Load custom test questions (shuffled)
@@ -496,7 +551,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [ ] Display same UI as regular test mode
 	- [ ] Show results at completion
 
-### 8.7 Testing & Validation
+### 8.8 Testing & Validation
 - [ ] Test CRUD operations for custom tests
 - [ ] Test airport selection with large datasets
 - [ ] Test public/private visibility
