@@ -504,3 +504,4 @@ CLAUDE.md
 .claude
 *.csv
 nul
+.hintrc
