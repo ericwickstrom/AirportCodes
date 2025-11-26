@@ -79,30 +79,35 @@ export default function Settings() {
 					<h2 className="text-2xl font-bold text-gray-900">Account Information</h2>
 					<div className="space-y-4">
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-1">
+							<label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
 								Email
 							</label>
 							<input
+								id="email"
 								type="text"
 								value={user?.email || ''}
 								disabled
+								aria-label="Email address"
 								className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
 							/>
 						</div>
 						<div>
-							<label className="block text-sm font-medium text-gray-700 mb-1">
+							<label htmlFor="account-created" className="block text-sm font-medium text-gray-700 mb-1">
 								Account Created
 							</label>
 							<input
+								id="account-created"
 								type="text"
 								value="January 1, 2025"
 								disabled
+								aria-label="Account creation date"
 								className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
 							/>
 						</div>
 						<div>
 							<button
 								disabled
+								aria-label="Change password - Coming soon"
 								className="px-4 py-2 text-gray-400 bg-gray-100 rounded-lg cursor-not-allowed"
 							>
 								Change Password (Coming Soon)
@@ -147,7 +152,7 @@ export default function Settings() {
 							<label className="block text-sm font-medium text-gray-700 mb-2">
 								Theme
 							</label>
-							<div className="space-y-2">
+							<div className="space-y-2" role="radiogroup" aria-label="Theme selection">
 								{['light', 'dark', 'system'].map((theme) => (
 									<label key={theme} className="flex items-center space-x-3 cursor-pointer">
 										<input
@@ -156,6 +161,7 @@ export default function Settings() {
 											value={theme}
 											checked={selectedTheme === theme}
 											onChange={(e) => setSelectedTheme(e.target.value)}
+											aria-label={`${theme.charAt(0).toUpperCase() + theme.slice(1)} theme`}
 											className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
 										/>
 										<span className="text-gray-700 capitalize">{theme}</span>
@@ -185,6 +191,9 @@ export default function Settings() {
 							<button
 								id="email-notifications"
 								type="button"
+								role="switch"
+								aria-checked={emailNotifications}
+								aria-label="Toggle email notifications"
 								onClick={() => setEmailNotifications(!emailNotifications)}
 								className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
 									emailNotifications ? 'bg-indigo-600' : 'bg-gray-200'
@@ -207,6 +216,7 @@ export default function Settings() {
 						<div>
 							<button
 								disabled
+								aria-label="Delete account - Coming soon"
 								className="px-4 py-2 text-red-400 bg-red-50 rounded-lg cursor-not-allowed"
 							>
 								Delete Account (Coming Soon)
@@ -233,6 +243,7 @@ export default function Settings() {
 							<button
 								onClick={handleCancel}
 								disabled={isSaving}
+								aria-label="Cancel changes"
 								className="px-6 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
 							>
 								Cancel
@@ -240,6 +251,7 @@ export default function Settings() {
 							<button
 								onClick={handleSave}
 								disabled={isSaving}
+								aria-label={isSaving ? 'Saving changes' : 'Save changes'}
 								className="px-6 py-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
 							>
 								{isSaving ? 'Saving...' : 'Save Changes'}
