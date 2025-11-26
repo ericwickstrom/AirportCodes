@@ -501,48 +501,48 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [x] Works seamlessly with both regular and custom test questions
 
 #### 8.6.2 Frontend - API Service Layer
-- [ ] Extend customTestApi in api.ts
-	- [ ] Add getCustomTestQuestion(testId: string) method
-	- [ ] Add submitCustomTestAnswer(testId: string, data: LearningAnswerRequest) method
-	- [ ] Reuse existing TypeScript types (LearningQuestion, LearningAnswerRequest, etc.)
+- [ ] Update learningApi.getQuestion() in api.ts to accept optional customTestId parameter
+	- [ ] Change signature: getQuestion: (customTestId?: string) => ...
+	- [ ] Append query param if provided: /quiz/learning?customTestId=${customTestId}
+	- [ ] Reuse existing TypeScript types (no changes needed)
+	- [ ] Answer submission endpoint works unchanged (no modifications needed)
 
 #### 8.6.3 Frontend - Quiz Store Refactoring
 - [ ] Add customTestId state to quizStore (string | null)
-- [ ] Create startCustomTestLearning(customTestId: string) action
-- [ ] Create submitCustomTestLearningAnswer(selectedAnswer: string) action
-- [ ] Create nextCustomTestQuestion() action
-- [ ] Modify actions to check customTestId and use appropriate API endpoints
-- [ ] Reset customTestId in resetQuiz() action
+- [ ] Update startLearningMode() to accept optional customTestId parameter
+	- [ ] Store customTestId in state
+	- [ ] Pass customTestId to learningApi.getQuestion(customTestId)
+- [ ] Update nextLearningQuestion() to use stored customTestId
+	- [ ] Pass customTestId to learningApi.getQuestion(customTestId)
+- [ ] Update resetQuiz() to clear customTestId
+- [ ] No changes needed to submitLearningAnswer (works with both modes)
 
 #### 8.6.4 Frontend - Routing & URL Structure
-- [ ] Update /learning route to support optional customTestId parameter: /learning/:customTestId?
-- [ ] Update App.tsx route definition
-- [ ] Support both /learning (regular) and /learning/{testId} (custom test)
+- [ ] Update App.tsx route definition from /learning to /learning/:customTestId?
+	- [ ] Support both /learning (regular mode) and /learning/{guid} (custom test mode)
 
 #### 8.6.5 Frontend - LearningMode Component Refactoring
-- [ ] Import useParams from react-router-dom to get customTestId
-- [ ] Update useEffect to check customTestId and call appropriate start method
-- [ ] Update handleSubmit to use appropriate submit method based on customTestId
-- [ ] Update handleNextQuestion to use appropriate next method based on customTestId
-- [ ] Add custom test name to header when in custom test mode
-- [ ] Add "Back to Dashboard" or "Exit" button
-- [ ] Handle edge cases (invalid test ID, deleted test, insufficient airports)
+- [ ] Import useParams from react-router-dom to extract customTestId from URL
+- [ ] Update useEffect to pass customTestId from route params to startLearningMode(customTestId)
+- [ ] Optionally fetch and display custom test name in header when customTestId is present
+- [ ] Optionally add "Back to Dashboard" button for custom test mode
+- [ ] Error handling works automatically via existing error state
 
 #### 8.6.6 Frontend - Dashboard Integration
 - [ ] Update "Practice" button in My Tests section to navigate to /learning/{testId}
-- [ ] Update "Practice" button in ViewCustomTestsModal to navigate to /learning/{testId}
+	- [ ] Change from TODO comment to actual Link or navigate() call
+- [ ] Optionally update "Practice" button in ViewCustomTestsModal (if exists)
 - [ ] Test navigation flow from dashboard to custom learning mode
 
 #### 8.6.7 Testing & Validation
-- [ ] Test regular learning mode still works (/learning)
-- [ ] Test custom test learning mode with valid test ID
-- [ ] Test custom test with insufficient airports (< 4 for multiple choice)
-- [ ] Test authorization (private tests accessible only to creator)
-- [ ] Test navigation between regular and custom learning modes
+- [ ] Test regular learning mode still works (/learning without customTestId)
+- [ ] Test custom test learning mode with valid test ID (/learning/{guid})
+- [ ] Test navigation from Dashboard Practice button to custom learning mode
 - [ ] Test score tracking across custom test questions
-- [ ] Test error handling (invalid test ID, deleted test, etc.)
-- [ ] Test showing custom test name in header
-- [ ] Test exit/back navigation
+- [ ] Test error handling (invalid test ID, deleted test, insufficient airports)
+- [ ] Test that distractors come from custom test's airports
+- [ ] Optionally test showing custom test name in header
+- [ ] Test backward compatibility with existing learning mode users
 
 ### 8.7 Frontend - Custom Test Test Mode Integration
 - [ ] Integrate custom tests with Test Mode
