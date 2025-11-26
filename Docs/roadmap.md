@@ -500,37 +500,37 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 	- [x] Return same LearningAnswerResponse format
 	- [x] Works seamlessly with both regular and custom test questions
 
-#### 8.6.2 Frontend - API Service Layer
-- [ ] Update learningApi.getQuestion() in api.ts to accept optional customTestId parameter
-	- [ ] Change signature: getQuestion: (customTestId?: string) => ...
-	- [ ] Append query param if provided: /quiz/learning?customTestId=${customTestId}
-	- [ ] Reuse existing TypeScript types (no changes needed)
-	- [ ] Answer submission endpoint works unchanged (no modifications needed)
+#### 8.6.2 Frontend - API Service Layer ✅
+- [x] Update learningApi.getQuestion() in api.ts to accept optional customTestId parameter
+	- [x] Change signature: getQuestion: (customTestId?: string) => ...
+	- [x] Append query param if provided: /quiz/learning?customTestId=${customTestId}
+	- [x] Reuse existing TypeScript types (no changes needed)
+	- [x] Answer submission endpoint works unchanged (no modifications needed)
 
-#### 8.6.3 Frontend - Quiz Store Refactoring
-- [ ] Add customTestId state to quizStore (string | null)
-- [ ] Update startLearningMode() to accept optional customTestId parameter
-	- [ ] Store customTestId in state
-	- [ ] Pass customTestId to learningApi.getQuestion(customTestId)
-- [ ] Update nextLearningQuestion() to use stored customTestId
-	- [ ] Pass customTestId to learningApi.getQuestion(customTestId)
-- [ ] Update resetQuiz() to clear customTestId
-- [ ] No changes needed to submitLearningAnswer (works with both modes)
+#### 8.6.3 Frontend - Quiz Store Refactoring ✅
+- [x] Add customTestId state to quizStore (string | null)
+- [x] Update startLearningMode() to accept optional customTestId parameter
+	- [x] Store customTestId in state
+	- [x] Pass customTestId to learningApi.getQuestion(customTestId)
+- [x] Update nextLearningQuestion() to use stored customTestId
+	- [x] Pass customTestId to learningApi.getQuestion(customTestId)
+- [x] Update resetQuiz() to clear customTestId
+- [x] No changes needed to submitLearningAnswer (works with both modes)
 
-#### 8.6.4 Frontend - Routing & URL Structure
-- [ ] Update App.tsx route definition from /learning to /learning/:customTestId?
-	- [ ] Support both /learning (regular mode) and /learning/{guid} (custom test mode)
+#### 8.6.4 Frontend - Routing & URL Structure ✅
+- [x] Update App.tsx route definition from /learning to /learning/:customTestId?
+	- [x] Support both /learning (regular mode) and /learning/{guid} (custom test mode)
 
-#### 8.6.5 Frontend - LearningMode Component Refactoring
-- [ ] Import useParams from react-router-dom to extract customTestId from URL
-- [ ] Update useEffect to pass customTestId from route params to startLearningMode(customTestId)
+#### 8.6.5 Frontend - LearningMode Component Refactoring ✅
+- [x] Import useParams from react-router-dom to extract customTestId from URL
+- [x] Update useEffect to pass customTestId from route params to startLearningMode(customTestId)
 - [ ] Optionally fetch and display custom test name in header when customTestId is present
 - [ ] Optionally add "Back to Dashboard" button for custom test mode
-- [ ] Error handling works automatically via existing error state
+- [x] Error handling works automatically via existing error state
 
-#### 8.6.6 Frontend - Dashboard Integration
-- [ ] Update "Practice" button in My Tests section to navigate to /learning/{testId}
-	- [ ] Change from TODO comment to actual Link or navigate() call
+#### 8.6.6 Frontend - Dashboard Integration ✅
+- [x] Update "Practice" button in My Tests section to navigate to /learning/{testId}
+	- [x] Change from TODO comment to actual Link component
 - [ ] Optionally update "Practice" button in ViewCustomTestsModal (if exists)
 - [ ] Test navigation flow from dashboard to custom learning mode
 
