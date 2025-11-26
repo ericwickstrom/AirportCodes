@@ -74,9 +74,10 @@ public class QuizController : ControllerBase
 	/// Start a new test session
 	/// </summary>
 	/// <param name="totalQuestions">Number of questions for the test</param>
+	/// <param name="customTestId">Optional custom test ID to generate questions from</param>
 	/// <returns>Test session information</returns>
 	[HttpPost("test/start")]
-	public async Task<ActionResult<TestSessionDto>> StartTest([FromQuery] int totalQuestions = 10)
+	public async Task<ActionResult<TestSessionDto>> StartTest([FromQuery] int totalQuestions = 10, [FromQuery] Guid? customTestId = null)
 	{
 		try
 		{
@@ -85,12 +86,25 @@ public class QuizController : ControllerBase
 				return BadRequest(new { message = "Total questions must be at least 1" });
 			}
 
-			var session = await _quizService.StartTestAsync(totalQuestions);
+			// Get userId from JWT claims if user is authenticated
+			Guid? userId = null;
+			var userIdClaim = User.FindFirst("sub") ?? User.FindFirst("userId");
+			if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var parsedUserId))
+			{
+				userId = parsedUserId;
+			}
+
+			var session = await _quizService.StartTestAsync(totalQuestions, customTestId, userId);
 			return Ok(session);
+		}
+		catch (UnauthorizedAccessException ex)
+		{
+			_logger.LogWarning(ex, "Unauthorized access to custom test {CustomTestId}", customTestId);
+			return Forbid();
 		}
 		catch (InvalidOperationException ex)
 		{
-			_logger.LogError(ex, "Failed to start test with {TotalQuestions} questions", totalQuestions);
+			_logger.LogError(ex, "Failed to start test with {TotalQuestions} questions for custom test {CustomTestId}", totalQuestions, customTestId);
 			return BadRequest(new { message = ex.Message });
 		}
 	}

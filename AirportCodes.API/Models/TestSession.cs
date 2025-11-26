@@ -8,4 +8,5 @@ public class TestSession
 	public int CorrectAnswers { get; set; }
 	public HashSet<Guid> UsedAirportIds { get; set; } = new();
 	public DateTime CreatedAt { get; set; }
+	public Guid? CustomTestId { get; set; }
 }

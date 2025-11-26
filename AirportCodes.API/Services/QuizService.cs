@@ -142,18 +142,49 @@ public class QuizService : IQuizService
 		};
 	}
 
-	public async Task<TestSessionDto> StartTestAsync(int totalQuestions)
+	public async Task<TestSessionDto> StartTestAsync(int totalQuestions, Guid? customTestId = null, Guid? userId = null)
 	{
-		// Validate that we have enough airports for the test
-		var totalAirports = await _context.Airports.CountAsync();
-		if (totalAirports < totalQuestions)
+		int availableAirports;
+
+		// If customTestId is provided, validate and get airport count from custom test
+		if (customTestId.HasValue)
 		{
-			throw new InvalidOperationException($"Not enough airports in database. Requested {totalQuestions} questions but only {totalAirports} airports available.");
+			// Validate custom test exists and is not deleted
+			var customTest = await _context.CustomTests
+				.Include(ct => ct.CustomTestAirports)
+				.FirstOrDefaultAsync(ct => ct.Id == customTestId.Value && !ct.IsDeleted);
+
+			if (customTest == null)
+			{
+				throw new InvalidOperationException("Custom test not found");
+			}
+
+			// Check authorization: test must be public OR user must be the creator
+			if (!customTest.IsPublic && (!userId.HasValue || customTest.CreatedByUserId != userId.Value))
+			{
+				throw new UnauthorizedAccessException("You do not have access to this custom test");
+			}
+
+			availableAirports = customTest.CustomTestAirports.Count;
+
+			// Cap totalQuestions to available airports in custom test
+			totalQuestions = Math.Min(totalQuestions, availableAirports);
+		}
+		else
+		{
+			// Regular test mode - use all airports
+			availableAirports = await _context.Airports.CountAsync();
 		}
 
-		if (totalAirports < 4)
+		// Validate that we have enough airports for the test
+		if (availableAirports < totalQuestions)
 		{
-			throw new InvalidOperationException("Not enough airports in database to generate questions (minimum 4 required)");
+			throw new InvalidOperationException($"Not enough airports. Requested {totalQuestions} questions but only {availableAirports} airports available.");
+		}
+
+		if (availableAirports < 4)
+		{
+			throw new InvalidOperationException("Not enough airports to generate questions (minimum 4 required)");
 		}
 
 		// Create new test session
@@ -164,7 +195,8 @@ public class QuizService : IQuizService
 			QuestionsAnswered = 0,
 			CorrectAnswers = 0,
 			UsedAirportIds = new HashSet<Guid>(),
-			CreatedAt = DateTime.UtcNow
+			CreatedAt = DateTime.UtcNow,
+			CustomTestId = customTestId
 		};
 
 		// Store session in cache with 30-minute expiration
@@ -191,6 +223,30 @@ public class QuizService : IQuizService
 			throw new InvalidOperationException("Test is already complete");
 		}
 
+		IQueryable<Airport> airportQuery;
+
+		// If session has customTestId, query from custom test's airports
+		if (session.CustomTestId.HasValue)
+		{
+			var customTest = await _context.CustomTests
+				.Include(ct => ct.CustomTestAirports)
+				.FirstOrDefaultAsync(ct => ct.Id == session.CustomTestId.Value && !ct.IsDeleted);
+
+			if (customTest == null)
+			{
+				throw new InvalidOperationException("Custom test not found");
+			}
+
+			var airportIds = customTest.CustomTestAirports.Select(cta => cta.AirportId).ToList();
+			airportQuery = _context.Airports
+				.Where(a => airportIds.Contains(a.Id));
+		}
+		else
+		{
+			// Regular test mode - use all airports
+			airportQuery = _context.Airports;
+		}
+
 		// Get a random airport that hasn't been used yet
 		var random = new Random();
 		Airport? correctAirport = null;
@@ -199,9 +255,9 @@ public class QuizService : IQuizService
 
 		while (correctAirport == null && attempts < maxAttempts)
 		{
-			var totalCount = await _context.Airports.CountAsync();
+			var totalCount = await airportQuery.CountAsync();
 			var skipCount = random.Next(0, totalCount);
-			var candidate = await _context.Airports
+			var candidate = await airportQuery
 				.Include(a => a.City)
 					.ThenInclude(c => c.Country)
 				.Skip(skipCount)
@@ -220,8 +276,8 @@ public class QuizService : IQuizService
 			throw new InvalidOperationException("Failed to find an unused airport for the question");
 		}
 
-		// Get 3 random distractor airports (excluding the correct one and already used ones)
-		var distractors = await _context.Airports
+		// Get 3 random distractor airports (excluding the correct one and already used ones) from same query
+		var distractors = await airportQuery
 			.Where(a => a.Id != correctAirport.Id)
 			.OrderBy(a => Guid.NewGuid())
 			.Take(3)
