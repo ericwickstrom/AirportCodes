@@ -435,12 +435,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Update POST /api/custom-tests to accept airport_ids array and bulk insert into custom_test_airports junction table (use transaction)
 - [x] Update PUT /api/custom-tests/{id} to accept airport_ids array and replace existing airports (delete all + insert new, use transaction)
 - [x] Refine authorization attributes (move from controller-level to action-level)
-- [ ] GET /api/custom-tests/{id}/learning - Get learning mode question from custom test
-- [ ] POST /api/custom-tests/{id}/learning/answer - Submit learning mode answer
-- [ ] POST /api/custom-tests/{id}/test/start - Start test mode session for custom test
-- [ ] GET /api/custom-tests/test/{sessionId}/question - Get next question in custom test
-- [ ] POST /api/custom-tests/test/answer - Submit test mode answer
-- [ ] GET /api/custom-tests/test/{sessionId}/results - Get final results
+- [x] ~~Separate custom test quiz endpoints~~ (Implemented via unified endpoints in sections 8.6.1 and 8.7.1)
 
 ### 8.3 Frontend - Custom Test Management UI
 - [x] Create Custom Tests section on Dashboard (list view)
@@ -544,13 +539,45 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Optionally test showing custom test name in header
 - [ ] Test backward compatibility with existing learning mode users
 
-### 8.7 Frontend - Custom Test Test Mode Integration
-- [ ] Integrate custom tests with Test Mode
-	- [ ] Start test session with custom test
-	- [ ] Load custom test questions (shuffled)
-	- [ ] Apply timer if enabled in custom test config
-	- [ ] Display same UI as regular test mode
-	- [ ] Show results at completion
+### 8.7 Frontend - Custom Test Test Mode Integration ✅
+
+#### 8.7.1 Backend - Custom Test Test Mode Endpoints ✅
+- [x] Refactor existing POST /api/quiz/test/start endpoint to support optional customTestId parameter
+	- [x] Validate custom test exists and user has access (public or owned)
+	- [x] Cap totalQuestions to custom test's airport count
+	- [x] Store customTestId in TestSession for question generation
+	- [x] Add proper authorization (public tests accessible to all, private only to creator)
+- [x] Update GET /api/quiz/test/{sessionId}/question to query from custom test airports
+	- [x] Use customTestId from session to filter airports
+	- [x] Select unused airport from custom test's airport list
+	- [x] Generate 3 distractors from same test's airports
+- [x] Reuse existing test mode answer and results endpoints (no changes needed)
+
+#### 8.7.2 Frontend - API Service Layer ✅
+- [x] Update testApi.startTest() in api.ts to accept optional customTestId parameter
+	- [x] Change signature: startTest: (totalQuestions?: number, customTestId?: string) => ...
+	- [x] Append query param if provided: /quiz/test/start?totalQuestions={n}&customTestId={id}
+	- [x] Reuse existing TypeScript types
+
+#### 8.7.3 Frontend - Quiz Store Refactoring ✅
+- [x] Update startTestMode() to accept optional customTestId parameter
+	- [x] Store customTestId in state
+	- [x] Pass customTestId to testApi.startTest(totalQuestions, customTestId)
+
+#### 8.7.4 Frontend - Routing & URL Structure ✅
+- [x] Update App.tsx route definition from /test to /test/:customTestId?
+	- [x] Support both /test (regular mode) and /test/{guid} (custom test mode)
+
+#### 8.7.5 Frontend - TestMode Component Refactoring ✅
+- [x] Import useParams from react-router-dom to extract customTestId from URL
+- [x] Add useEffect to fetch custom test and get airportCount
+- [x] Set default question count to test's airportCount
+- [x] Pass customTestId from route params to startTestMode(selectedQuestionCount, customTestId)
+- [x] Error handling works automatically via existing error state
+
+#### 8.7.6 Frontend - Dashboard Integration ✅
+- [x] Update "Take Test" button in My Tests section to navigate to /test/{testId}
+	- [x] Change from TODO comment to actual Link component
 
 ### 8.8 Testing & Validation
 - [ ] Test CRUD operations for custom tests
