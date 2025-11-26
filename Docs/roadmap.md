@@ -486,18 +486,19 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ### 8.6 Frontend - Custom Test Learning Mode Integration
 
-#### 8.6.1 Backend - Custom Test Learning Endpoints
-- [ ] Create GET /api/custom-tests/{id}/learning endpoint
-	- [ ] Validate custom test exists and user has access (public or owned)
-	- [ ] Select random airport from test's airport list
-	- [ ] Generate 3 distractors from same test's airports (if available) or global pool
-	- [ ] Return same LearningQuestion DTO format
-	- [ ] Add proper authorization (public tests accessible to all, private only to creator)
-- [ ] Create POST /api/custom-tests/{id}/learning/answer endpoint
-	- [ ] Accept same LearningAnswerRequest format
-	- [ ] Validate answer against correct IATA code
-	- [ ] Return same LearningAnswerResponse format
-	- [ ] Handle edge case: custom test with < 4 airports
+#### 8.6.1 Backend - Custom Test Learning Endpoints ✅
+- [x] Refactor existing GET /api/quiz/learning endpoint to support optional customTestId parameter
+	- [x] Validate custom test exists and user has access (public or owned)
+	- [x] Select random airport from test's airport list
+	- [x] Generate 3 distractors from same test's airports
+	- [x] Return same LearningQuestion DTO format
+	- [x] Add proper authorization (public tests accessible to all, private only to creator)
+	- [x] Handle edge case: custom test with < 4 airports
+- [x] Reuse existing POST /api/quiz/learning/answer endpoint (no changes needed)
+	- [x] Accept same LearningAnswerRequest format
+	- [x] Validate answer against correct IATA code
+	- [x] Return same LearningAnswerResponse format
+	- [x] Works seamlessly with both regular and custom test questions
 
 #### 8.6.2 Frontend - API Service Layer
 - [ ] Extend customTestApi in api.ts
