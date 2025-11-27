@@ -9,6 +9,7 @@ import QuizButton from '../components/quiz/QuizButton';
 import LoadingState from '../components/quiz/LoadingState';
 import ErrorState from '../components/quiz/ErrorState';
 import ScoreDisplay from '../components/quiz/ScoreDisplay';
+import TimerDisplay from '../components/quiz/TimerDisplay';
 
 export default function TestMode() {
 	const { customTestId } = useParams<{ customTestId?: string }>();
@@ -29,6 +30,7 @@ export default function TestMode() {
 	const [answer, setAnswer] = useState('');
 	const [selectedQuestionCount, setSelectedQuestionCount] = useState(10);
 	const [hasAutoStarted, setHasAutoStarted] = useState(false);
+	const [timerExpired, setTimerExpired] = useState(false);
 
 	// Auto-start custom tests, skip config screen
 	useEffect(() => {
@@ -85,10 +87,17 @@ export default function TestMode() {
 		}
 	};
 
+	// Timer expiration handler
+	const handleTimerExpire = async () => {
+		setTimerExpired(true);
+		await completeTest();
+	};
+
 	// Completion screen
 	const handleNewTest = () => {
 		resetQuiz();
 		setAnswer('');
+		setTimerExpired(false);
 	};
 
 	// Error state
@@ -155,11 +164,16 @@ export default function TestMode() {
 			<QuizLayout
 				title="Test Mode"
 				headerRight={
-					<ScoreDisplay
-						label="Progress"
-						correct={testQuestion.questionNumber}
-						total={testQuestion.totalQuestions}
-					/>
+					<div className="flex gap-6 items-start">
+						{testSession.timerExpiresAt && (
+							<TimerDisplay timerExpiresAt={testSession.timerExpiresAt} onExpire={handleTimerExpire} />
+						)}
+						<ScoreDisplay
+							label="Progress"
+							correct={testQuestion.questionNumber}
+							total={testQuestion.totalQuestions}
+						/>
+					</div>
 				}
 			>
 				{/* Question Card */}
@@ -199,8 +213,8 @@ export default function TestMode() {
 					{/* Action Buttons */}
 					<div className="flex gap-4">
 						{!testFeedback ? (
-							<QuizButton onClick={handleSubmit} disabled={answer.length !== 3 || isLoading}>
-								{isLoading ? 'Submitting...' : 'Submit Answer'}
+							<QuizButton onClick={handleSubmit} disabled={answer.length !== 3 || isLoading || timerExpired}>
+								{isLoading ? 'Submitting...' : timerExpired ? 'Time Expired' : 'Submit Answer'}
 							</QuizButton>
 						) : (
 							<QuizButton onClick={handleNextQuestion} disabled={isLoading}>
