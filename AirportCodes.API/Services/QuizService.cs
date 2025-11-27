@@ -150,6 +150,9 @@ public class QuizService : IQuizService
 	public async Task<TestSessionDto> StartTestAsync(int totalQuestions, Guid? customTestId = null, Guid? userId = null)
 	{
 		int availableAirports;
+		DateTime? timerStartedAt = null;
+		int? timerDurationSeconds = null;
+		DateTime? timerExpiresAt = null;
 
 		// If customTestId is provided, validate and get airport count from custom test
 		if (customTestId.HasValue)
@@ -174,6 +177,14 @@ public class QuizService : IQuizService
 
 			// Cap totalQuestions to available airports in custom test
 			totalQuestions = Math.Min(totalQuestions, availableAirports);
+
+			// Initialize timer if enabled
+			if (customTest.TimerEnabled && customTest.TimerDurationSeconds.HasValue)
+			{
+				timerStartedAt = DateTime.UtcNow;
+				timerDurationSeconds = customTest.TimerDurationSeconds.Value;
+				timerExpiresAt = timerStartedAt.Value.AddSeconds(timerDurationSeconds.Value);
+			}
 		}
 		else
 		{
@@ -201,7 +212,10 @@ public class QuizService : IQuizService
 			CorrectAnswers = 0,
 			UsedAirportIds = new HashSet<Guid>(),
 			CreatedAt = DateTime.UtcNow,
-			CustomTestId = customTestId
+			CustomTestId = customTestId,
+			TimerStartedAt = timerStartedAt,
+			TimerDurationSeconds = timerDurationSeconds,
+			TimerExpiresAt = timerExpiresAt
 		};
 
 		// Store session in cache with 30-minute expiration
@@ -210,7 +224,10 @@ public class QuizService : IQuizService
 		return new TestSessionDto
 		{
 			SessionId = session.SessionId,
-			TotalQuestions = totalQuestions
+			TotalQuestions = totalQuestions,
+			TimerStartedAt = timerStartedAt,
+			TimerDurationSeconds = timerDurationSeconds,
+			TimerExpiresAt = timerExpiresAt
 		};
 	}
 
@@ -220,6 +237,12 @@ public class QuizService : IQuizService
 		if (!_cache.TryGetValue($"quiz:test:session:{sessionId}", out TestSession? session) || session == null)
 		{
 			throw new InvalidOperationException("Test session not found or has expired");
+		}
+
+		// Check if timer has expired
+		if (session.TimerExpiresAt.HasValue && DateTime.UtcNow > session.TimerExpiresAt.Value)
+		{
+			throw new InvalidOperationException("Test time has expired");
 		}
 
 		// Check if test is complete
@@ -321,6 +344,12 @@ public class QuizService : IQuizService
 		if (!_cache.TryGetValue($"quiz:test:session:{request.SessionId}", out TestSession? session) || session == null)
 		{
 			throw new InvalidOperationException("Test session not found or has expired");
+		}
+
+		// Check if timer has expired
+		if (session.TimerExpiresAt.HasValue && DateTime.UtcNow > session.TimerExpiresAt.Value)
+		{
+			throw new InvalidOperationException("Test time has expired");
 		}
 
 		// Check if question exists in cache
