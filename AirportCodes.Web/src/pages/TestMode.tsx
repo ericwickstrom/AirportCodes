@@ -28,26 +28,28 @@ export default function TestMode() {
 
 	const [answer, setAnswer] = useState('');
 	const [selectedQuestionCount, setSelectedQuestionCount] = useState(10);
+	const [hasAutoStarted, setHasAutoStarted] = useState(false);
 
-	// Fetch custom test details if customTestId is present
+	// Auto-start custom tests, skip config screen
 	useEffect(() => {
-		const fetchCustomTest = async () => {
-			if (customTestId) {
+		const fetchAndStartCustomTest = async () => {
+			if (customTestId && !hasAutoStarted && !testSession) {
 				try {
+					setHasAutoStarted(true);
 					// Get the test from public tests or user tests
 					const publicTests = await customTestApi.getPublicTests();
 					const test = publicTests.find((t) => t.id === customTestId);
 					if (test) {
-						// Set default question count to airport count
-						setSelectedQuestionCount(test.airportCount);
+						// Automatically start test with full airport count
+						await startTestMode(test.airportCount, customTestId);
 					}
 				} catch (err) {
-					console.error('Failed to load custom test:', err);
+					console.error('Failed to load and start custom test:', err);
 				}
 			}
 		};
-		fetchCustomTest();
-	}, [customTestId]);
+		fetchAndStartCustomTest();
+	}, [customTestId, hasAutoStarted, testSession, startTestMode]);
 
 	// Start screen
 	const handleStartTest = async () => {
@@ -94,9 +96,14 @@ export default function TestMode() {
 		return <ErrorState title="Test Mode" error={error} onRetry={handleNewTest} />;
 	}
 
-	// Loading state (initial)
+	// Loading state (initial or custom test auto-starting)
 	if (isLoading && !testSession && !testResult) {
-		return <LoadingState />;
+		return <LoadingState message={customTestId ? 'Starting test...' : 'Loading...'} />;
+	}
+
+	// Custom test loading (waiting for auto-start to complete)
+	if (customTestId && !testSession && !testResult && !error) {
+		return <LoadingState message="Starting test..." />;
 	}
 
 	// Completion screen
@@ -210,8 +217,9 @@ export default function TestMode() {
 		);
 	}
 
-	// Start screen (default)
-	return (
+	// Start screen (only for standard test mode, not custom tests)
+	if (!customTestId) {
+		return (
 		<QuizLayout title="Test Mode">
 			<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
 				<div className="space-y-2">
@@ -252,5 +260,9 @@ export default function TestMode() {
 				</button>
 			</div>
 		</QuizLayout>
-	);
+		);
+	}
+
+	// Fallback for custom tests (should not reach here normally)
+	return <LoadingState message="Starting test..." />;
 }
