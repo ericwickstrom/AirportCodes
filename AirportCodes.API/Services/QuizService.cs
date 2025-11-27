@@ -20,6 +20,7 @@ public class QuizService : IQuizService
 	public async Task<LearningQuestionDto> GetLearningQuestionAsync(Guid? customTestId = null, Guid? userId = null)
 	{
 		IQueryable<Airport> airportQuery;
+		int? totalQuestions = null;
 
 		// If customTestId is provided, query from custom test's airports
 		if (customTestId.HasValue)
@@ -47,6 +48,9 @@ public class QuizService : IQuizService
 			{
 				throw new InvalidOperationException("Custom test must have at least 4 airports to generate multiple choice questions");
 			}
+
+			// Set total questions for custom test
+			totalQuestions = airportIds.Count;
 
 			// Query only the airports in this custom test
 			airportQuery = _context.Airports
@@ -108,7 +112,8 @@ public class QuizService : IQuizService
 			AirportName = correctAirport.AirportName,
 			City = correctAirport.City.Name,
 			Country = correctAirport.City.Country.Name,
-			Options = options
+			Options = options,
+			TotalQuestions = totalQuestions
 		};
 	}
 
