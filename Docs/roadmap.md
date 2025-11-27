@@ -157,7 +157,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Show immediate feedback
 - [x] Add "Next Question" button
 - [x] Track score during session
-- [ ] Add timer (optional)
+- [ ] Add timer (detailed implementation plan in Phase 8.8)
 
 ### 4.5 User Dashboard
 - [x] Create Dashboard page
@@ -579,15 +579,149 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Update "Take Test" button in My Tests section to navigate to /test/{testId}
 	- [x] Change from TODO comment to actual Link component
 
-### 8.8 Testing & Validation
-- [ ] Test CRUD operations for custom tests
-- [ ] Test airport selection with large datasets
-- [ ] Test public/private visibility
-- [ ] Test anonymous/named creator toggle
-- [ ] Test timer functionality in test mode
-- [ ] Test question shuffling
-- [ ] Test soft delete and restore
-- [ ] Test permissions (only creator can edit/delete)
+### 8.8 UX Improvements ✅
+
+#### 8.8.1 Shared Quiz Components ✅
+- [x] Create shared quiz component library to eliminate code duplication
+	- [x] QuizLayout - Page wrapper with header and gradient background
+	- [x] QuestionDisplay - Airport information display component
+	- [x] FeedbackPanel - Answer feedback with configurable explanation
+	- [x] QuizButton - Standardized button with primary/secondary variants
+	- [x] LoadingState - Loading spinner component
+	- [x] ErrorState - Error display with optional retry
+	- [x] ScoreDisplay - Score/progress indicator component
+- [x] Refactor LearningMode to use shared components
+	- [x] Replace duplicated layout code with QuizLayout
+	- [x] Use shared QuestionDisplay for airport info
+	- [x] Use shared FeedbackPanel for answer feedback
+	- [x] Use shared QuizButton for actions
+- [x] Refactor TestMode to use shared components
+	- [x] Replace duplicated layout code with QuizLayout
+	- [x] Use shared QuestionDisplay for airport info
+	- [x] Use shared FeedbackPanel for answer feedback
+	- [x] Use shared QuizButton for actions
+
+#### 8.8.2 Custom Test Question Count Display ✅
+- [x] Backend - Add totalQuestions to LearningQuestionDto
+	- [x] Add TotalQuestions property (nullable int)
+	- [x] Populate with airport count for custom tests
+	- [x] Leave null for standard learning mode
+- [x] Frontend - Update LearningQuestion interface
+	- [x] Add totalQuestions?: number property
+- [x] Frontend - Update score display logic
+	- [x] Show fixed total for custom tests (X/N)
+	- [x] Show incrementing total for standard mode (X/Y)
+
+#### 8.8.3 Skip Config Screen for Custom Tests ✅
+- [x] Update TestMode to auto-start custom tests
+	- [x] Add hasAutoStarted state to prevent duplicate starts
+	- [x] Modify useEffect to fetch and auto-start custom tests
+	- [x] Use full airport count from custom test automatically
+	- [x] Show loading state during auto-start
+	- [x] Keep config screen for standard test mode only
+- [x] Improve user flow for custom tests
+	- [x] Dashboard → "Take Test" → Questions (skip config)
+	- [x] Standard test: Home → Config → Questions (unchanged)
+
+### 8.9 Timer Implementation for Custom Tests
+
+#### 8.9.1 Backend Timer Infrastructure
+- [ ] Update TestSession model to include timer fields
+	- [ ] Add TimerStartedAt (DateTime?, nullable)
+	- [ ] Add TimerDurationSeconds (int?, nullable)
+	- [ ] Add TimerExpiresAt (DateTime?, nullable)
+- [ ] Update TestSessionDto to include timer fields matching model
+- [ ] Update QuizService.StartTestAsync to initialize timer when custom test has TimerEnabled
+	- [ ] Retrieve TimerDurationSeconds from CustomTest
+	- [ ] Set TimerStartedAt to DateTime.UtcNow
+	- [ ] Calculate TimerExpiresAt = TimerStartedAt + TimerDurationSeconds
+	- [ ] Store timer values in TestSession cache
+
+#### 8.9.2 Backend Timer Validation
+- [ ] Add timer expiration check in QuizService.GetTestQuestionAsync
+	- [ ] If TimerExpiresAt exists and current time > TimerExpiresAt, throw exception
+	- [ ] Return meaningful error message: "Test time has expired"
+- [ ] Add timer expiration check in QuizService.SubmitTestAnswerAsync
+	- [ ] Block answer submission if timer expired
+	- [ ] Return error response for late submissions
+- [ ] Update QuizService.GetTestResultsAsync to allow retrieval after expiration
+	- [ ] Include timer status in results (completed within time vs expired)
+
+#### 8.9.3 Frontend Timer UI Component
+- [ ] Create TimerDisplay component (src/components/quiz/TimerDisplay.tsx)
+	- [ ] Accept timerExpiresAt (ISO datetime string) as prop
+	- [ ] Accept onExpire callback prop
+	- [ ] Calculate remaining time from server's TimerExpiresAt vs current client time
+	- [ ] Display in MM:SS format
+	- [ ] Update every second using setInterval
+	- [ ] Implement visual states:
+		- [ ] Normal state (> 60s): gray/white text
+		- [ ] Warning state (30-60s): yellow text
+		- [ ] Critical state (< 30s): red text with pulsing animation
+		- [ ] Expired state: "Time's Up!" in red
+	- [ ] Call onExpire callback when timer reaches 0
+	- [ ] Clean up interval on component unmount
+	- [ ] Handle tab backgrounding (use Date calculations, not counters)
+
+#### 8.9.4 Frontend Timer Integration
+- [ ] Update TestSession interface in types/index.ts
+	- [ ] Add timerStartedAt?: string
+	- [ ] Add timerDurationSeconds?: number
+	- [ ] Add timerExpiresAt?: string
+- [ ] Update TestMode component to integrate timer
+	- [ ] Import TimerDisplay component
+	- [ ] Check if testSession.timerExpiresAt exists
+	- [ ] Render TimerDisplay in header (next to ScoreDisplay) when timer enabled
+	- [ ] Implement onExpire handler:
+		- [ ] Set state to block further answer submissions
+		- [ ] Auto-call completeTest() to retrieve results
+		- [ ] Show "Time expired" message/toast
+- [ ] Update quiz store to handle timer expiration state
+	- [ ] Add timerExpired flag to state
+	- [ ] Block answer submissions when expired
+	- [ ] Handle graceful transition to results
+
+#### 8.9.5 Timer Edge Cases & Polish
+- [ ] Ensure server uses UTC exclusively (DateTime.UtcNow)
+- [ ] Handle network latency for near-expiration submissions
+	- [ ] Backend is source of truth for expiration
+	- [ ] Frontend handles "Answer submitted too late" error
+- [ ] Handle page refresh during timed test
+	- [ ] Document limitation: sessions currently in memory cache
+	- [ ] Note: Requires session persistence for full support
+- [ ] Add timer info to results screen
+	- [ ] Display time taken vs total time allowed
+	- [ ] Show whether test was completed or expired
+- [ ] Optional: Add countdown before timer starts ("Starting in 3... 2... 1...")
+- [ ] Optional: Add audio/visual alerts at 60s and 30s remaining
+
+#### 8.9.6 Testing & Validation
+- [ ] Backend Testing
+	- [ ] Test timer values correctly set on test start
+	- [ ] Test expired timer blocks question fetching
+	- [ ] Test expired timer blocks answer submission
+	- [ ] Test results retrievable after timer expiration
+	- [ ] Test non-timed tests remain unaffected
+- [ ] Frontend Testing
+	- [ ] Test timer displays correctly in MM:SS format
+	- [ ] Test timer counts down accurately every second
+	- [ ] Test warning states trigger at correct thresholds (60s, 30s)
+	- [ ] Test auto-submit triggers on expiration
+	- [ ] Test timer handles tab backgrounding
+	- [ ] Test timer works across timezones (UTC handling)
+	- [ ] Test visual states and animations
+- [ ] Integration Testing
+	- [ ] Test end-to-end timed test flow
+	- [ ] Test answer submission near expiration time
+	- [ ] Test timer expiration mid-question
+	- [ ] Test results screen shows correct timer info
+	- [ ] Test CRUD operations for custom tests
+	- [ ] Test airport selection with large datasets
+	- [ ] Test public/private visibility
+	- [ ] Test anonymous/named creator toggle
+	- [ ] Test question shuffling
+	- [ ] Test soft delete and restore
+	- [ ] Test permissions (only creator can edit/delete)
 
 ---
 
