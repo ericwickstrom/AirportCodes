@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuizStore } from '../stores/quizStore';
+import { useQuizStore, loadSessionFromStorage } from '../stores/quizStore';
 import { customTestApi } from '../services/api';
 import QuizLayout from '../components/quiz/QuizLayout';
 import QuestionDisplay from '../components/quiz/QuestionDisplay';
@@ -21,6 +21,7 @@ export default function TestMode() {
 		isLoading,
 		error,
 		startTestMode,
+		resumeTestSession,
 		getTestQuestion,
 		submitTestAnswer,
 		completeTest,
@@ -32,26 +33,39 @@ export default function TestMode() {
 	const [hasAutoStarted, setHasAutoStarted] = useState(false);
 	const [timerExpired, setTimerExpired] = useState(false);
 
-	// Auto-start custom tests, skip config screen
+	// Check for existing session on mount, or auto-start custom tests
 	useEffect(() => {
-		const fetchAndStartCustomTest = async () => {
-			if (customTestId && !hasAutoStarted && !testSession) {
+		const initializeTest = async () => {
+			// Check localStorage for existing session
+			const { sessionId, customTestId: storedCustomTestId } = loadSessionFromStorage();
+
+			// Priority: URL param > localStorage for customTestId (convert null to undefined)
+			const effectiveCustomTestId = customTestId || storedCustomTestId || undefined;
+
+			if (sessionId && !testSession) {
+				// Resume existing session
+				try {
+					await resumeTestSession(sessionId, effectiveCustomTestId);
+				} catch (err) {
+					console.error('Failed to resume session:', err);
+					// If resume fails, fall through to auto-start logic
+				}
+			} else if (effectiveCustomTestId && !hasAutoStarted && !testSession) {
+				// Auto-start new custom test
 				try {
 					setHasAutoStarted(true);
-					// Get the test from public tests or user tests
 					const publicTests = await customTestApi.getPublicTests();
-					const test = publicTests.find((t) => t.id === customTestId);
+					const test = publicTests.find((t) => t.id === effectiveCustomTestId);
 					if (test) {
-						// Automatically start test with full airport count
-						await startTestMode(test.airportCount, customTestId);
+						await startTestMode(test.airportCount, effectiveCustomTestId);
 					}
 				} catch (err) {
 					console.error('Failed to load and start custom test:', err);
 				}
 			}
 		};
-		fetchAndStartCustomTest();
-	}, [customTestId, hasAutoStarted, testSession, startTestMode]);
+		initializeTest();
+	}, [customTestId, hasAutoStarted, testSession, startTestMode, resumeTestSession]);
 
 	// Start screen
 	const handleStartTest = async () => {
