@@ -78,6 +78,9 @@ export interface LearningAnswerResponse {
 export interface TestSession {
 	sessionId: string;
 	totalQuestions: number;
+	timerStartedAt?: string;
+	timerDurationSeconds?: number;
+	timerExpiresAt?: string;
 }
 
 export interface TestQuestion {
