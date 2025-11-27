@@ -60,6 +60,7 @@ export interface LearningQuestion {
 	city: string;
 	country: string;
 	options: string[];
+	totalQuestions?: number;
 }
 
 export interface LearningAnswerRequest {
