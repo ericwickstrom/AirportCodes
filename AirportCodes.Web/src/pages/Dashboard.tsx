@@ -121,12 +121,6 @@ export default function Dashboard() {
 										<div className="flex gap-2">
 											<button
 												className="flex-1 px-3 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
-												onClick={() => {/* TODO: View details */}}
-											>
-												View
-											</button>
-											<button
-												className="flex-1 px-3 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
 												onClick={() => {/* TODO: Edit test */}}
 											>
 												Edit
