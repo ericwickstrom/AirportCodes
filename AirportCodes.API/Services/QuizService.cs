@@ -218,8 +218,22 @@ public class QuizService : IQuizService
 			TimerExpiresAt = timerExpiresAt
 		};
 
-		// Store session in cache with 30-minute expiration
-		_cache.Set($"quiz:test:session:{session.SessionId}", session, TimeSpan.FromMinutes(30));
+		// Calculate dynamic cache expiration
+		TimeSpan cacheExpiration;
+		if (timerDurationSeconds.HasValue)
+		{
+			// For timed tests: timer duration + 10 minute buffer for network delays
+			cacheExpiration = TimeSpan.FromSeconds(timerDurationSeconds.Value).Add(TimeSpan.FromMinutes(10));
+		}
+		else
+		{
+			// For non-timed tests: estimate ~20 seconds per question + 15 minute buffer for breaks
+			var estimatedMinutes = (totalQuestions * 0.33) + 15;
+			cacheExpiration = TimeSpan.FromMinutes(Math.Max(30, estimatedMinutes));
+		}
+
+		// Store session in cache with dynamic expiration
+		_cache.Set($"quiz:test:session:{session.SessionId}", session, cacheExpiration);
 
 		return new TestSessionDto
 		{
@@ -322,9 +336,23 @@ public class QuizService : IQuizService
 		options.AddRange(distractors);
 		options = options.OrderBy(x => random.Next()).ToList();
 
-		// Generate question ID and store correct answer in cache (30 minute expiration to match session)
+		// Generate question ID and store correct answer in cache
 		var questionId = Guid.NewGuid();
-		_cache.Set($"quiz:test:question:{questionId}", correctAirport.IataCode, TimeSpan.FromMinutes(30));
+
+		// Calculate question cache expiration to align with session
+		TimeSpan questionExpiration;
+		if (session.TimerExpiresAt.HasValue)
+		{
+			// For timed tests: cache until timer expires + 10 minute buffer
+			questionExpiration = session.TimerExpiresAt.Value.AddMinutes(10) - DateTime.UtcNow;
+		}
+		else
+		{
+			// For non-timed tests: generous timeout per question (15 minutes)
+			questionExpiration = TimeSpan.FromMinutes(15);
+		}
+
+		_cache.Set($"quiz:test:question:{questionId}", correctAirport.IataCode, questionExpiration);
 
 		return new TestQuestionDto
 		{
@@ -334,7 +362,10 @@ public class QuizService : IQuizService
 			Country = correctAirport.City.Country.Name,
 			Options = options,
 			QuestionNumber = session.QuestionsAnswered + 1,
-			TotalQuestions = session.TotalQuestions
+			TotalQuestions = session.TotalQuestions,
+			TimerStartedAt = session.TimerStartedAt,
+			TimerDurationSeconds = session.TimerDurationSeconds,
+			TimerExpiresAt = session.TimerExpiresAt
 		};
 	}
 

@@ -9,4 +9,7 @@ public class TestQuestionDto
 	public List<string> Options { get; set; } = new();
 	public int QuestionNumber { get; set; }
 	public int TotalQuestions { get; set; }
+	public DateTime? TimerStartedAt { get; set; }
+	public int? TimerDurationSeconds { get; set; }
+	public DateTime? TimerExpiresAt { get; set; }
 }

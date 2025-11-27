@@ -11,6 +11,31 @@ import type {
 
 type QuizMode = 'learning' | 'test' | null;
 
+// localStorage helpers for session persistence
+const SESSION_STORAGE_KEY = 'test_session_id';
+const CUSTOM_TEST_ID_KEY = 'test_custom_test_id';
+
+const saveSessionToStorage = (sessionId: string, customTestId?: string) => {
+	localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+	if (customTestId) {
+		localStorage.setItem(CUSTOM_TEST_ID_KEY, customTestId);
+	} else {
+		localStorage.removeItem(CUSTOM_TEST_ID_KEY);
+	}
+};
+
+const loadSessionFromStorage = (): { sessionId: string | null; customTestId: string | null } => {
+	return {
+		sessionId: localStorage.getItem(SESSION_STORAGE_KEY),
+		customTestId: localStorage.getItem(CUSTOM_TEST_ID_KEY),
+	};
+};
+
+const clearSessionFromStorage = () => {
+	localStorage.removeItem(SESSION_STORAGE_KEY);
+	localStorage.removeItem(CUSTOM_TEST_ID_KEY);
+};
+
 interface QuizState {
 	mode: QuizMode;
 	isLoading: boolean;
@@ -33,6 +58,7 @@ interface QuizState {
 	nextLearningQuestion: () => Promise<void>;
 
 	startTestMode: (totalQuestions?: number, customTestId?: string) => Promise<void>;
+	resumeTestSession: (sessionId: string, customTestId?: string) => Promise<void>;
 	getTestQuestion: () => Promise<void>;
 	submitTestAnswer: (selectedAnswer: string) => Promise<void>;
 	completeTest: () => Promise<void>;
@@ -40,6 +66,9 @@ interface QuizState {
 	resetQuiz: () => void;
 	clearError: () => void;
 }
+
+// Export localStorage helpers for use in components
+export { loadSessionFromStorage, clearSessionFromStorage };
 
 export const useQuizStore = create<QuizState>((set, get) => ({
 	mode: null,
@@ -124,11 +153,52 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 		});
 		try {
 			const session = await testApi.startTest(totalQuestions, customTestId);
+			// Save session to localStorage for persistence across page refreshes
+			saveSessionToStorage(session.sessionId, customTestId);
 			set({ testSession: session, isLoading: false });
 			await get().getTestQuestion();
 		} catch (error) {
 			set({
 				error: error instanceof Error ? error.message : 'Failed to start test',
+				isLoading: false,
+			});
+			throw error;
+		}
+	},
+
+	resumeTestSession: async (sessionId: string, customTestId?: string) => {
+		set({
+			mode: 'test',
+			isLoading: true,
+			error: null,
+			testFeedback: null,
+			testResult: null,
+			customTestId: customTestId || null,
+		});
+
+		try {
+			// Fetch current question from existing session
+			const question = await testApi.getQuestion(sessionId);
+
+			// Reconstruct session from question response (includes timer data)
+			const session: TestSession = {
+				sessionId: sessionId,
+				totalQuestions: question.totalQuestions,
+				timerStartedAt: question.timerStartedAt,
+				timerDurationSeconds: question.timerDurationSeconds,
+				timerExpiresAt: question.timerExpiresAt,
+			};
+
+			set({
+				testSession: session,
+				testQuestion: question,
+				isLoading: false,
+			});
+		} catch (error) {
+			// Session expired or invalid - clear localStorage
+			clearSessionFromStorage();
+			set({
+				error: error instanceof Error ? error.message : 'Session expired',
 				isLoading: false,
 			});
 			throw error;
@@ -180,6 +250,8 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 		set({ isLoading: true, error: null });
 		try {
 			const result = await testApi.getResults(testSession.sessionId);
+			// Clear session from localStorage after completing test
+			clearSessionFromStorage();
 			set({ testResult: result, isLoading: false });
 		} catch (error) {
 			set({
@@ -191,6 +263,8 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 	},
 
 	resetQuiz: () => {
+		// Clear session from localStorage when resetting
+		clearSessionFromStorage();
 		set({
 			mode: null,
 			learningQuestion: null,

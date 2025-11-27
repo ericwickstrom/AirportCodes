@@ -91,6 +91,9 @@ export interface TestQuestion {
 	options: string[];
 	questionNumber: number;
 	totalQuestions: number;
+	timerStartedAt?: string;
+	timerDurationSeconds?: number;
+	timerExpiresAt?: string;
 }
 
 export interface TestAnswerRequest {
