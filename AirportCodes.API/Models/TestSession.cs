@@ -9,4 +9,7 @@ public class TestSession
 	public HashSet<Guid> UsedAirportIds { get; set; } = new();
 	public DateTime CreatedAt { get; set; }
 	public Guid? CustomTestId { get; set; }
+	public DateTime? TimerStartedAt { get; set; }
+	public int? TimerDurationSeconds { get; set; }
+	public DateTime? TimerExpiresAt { get; set; }
 }
