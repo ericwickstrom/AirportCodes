@@ -29,7 +29,9 @@ public class QuizController : ControllerBase
 		{
 			// Get userId from JWT claims if user is authenticated
 			Guid? userId = null;
-			var userIdClaim = User.FindFirst("sub") ?? User.FindFirst("userId");
+			var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)
+				?? User.FindFirst("sub")
+				?? User.FindFirst("userId");
 			if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var parsedUserId))
 			{
 				userId = parsedUserId;
@@ -88,7 +90,9 @@ public class QuizController : ControllerBase
 
 			// Get userId from JWT claims if user is authenticated
 			Guid? userId = null;
-			var userIdClaim = User.FindFirst("sub") ?? User.FindFirst("userId");
+			var userIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)
+				?? User.FindFirst("sub")
+				?? User.FindFirst("userId");
 			if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out var parsedUserId))
 			{
 				userId = parsedUserId;
