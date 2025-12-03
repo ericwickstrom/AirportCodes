@@ -52,15 +52,12 @@ export default function TestMode() {
 				}
 			} else if (effectiveCustomTestId && !hasAutoStarted && !testSession) {
 				// Auto-start new custom test
+				// Backend will determine question count based on custom test's airport count
 				try {
 					setHasAutoStarted(true);
-					const publicTests = await customTestApi.getPublicTests();
-					const test = publicTests.find((t) => t.id === effectiveCustomTestId);
-					if (test) {
-						await startTestMode(test.airportCount, effectiveCustomTestId);
-					}
+					await startTestMode(undefined, effectiveCustomTestId);
 				} catch (err) {
-					console.error('Failed to load and start custom test:', err);
+					console.error('Failed to start custom test:', err);
 				}
 			}
 		};
