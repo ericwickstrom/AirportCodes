@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CreateTestModal from '../components/CreateTestModal';
+import ConfirmModal from '../components/ConfirmModal';
 import { customTestApi } from '../services/api';
 import type { CustomTest } from '../types';
 
@@ -9,6 +10,11 @@ export default function Dashboard() {
 	const [tests, setTests] = useState<CustomTest[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [deleteConfirmModal, setDeleteConfirmModal] = useState<{ isOpen: boolean; test: CustomTest | null }>({
+		isOpen: false,
+		test: null,
+	});
+	const [isDeleting, setIsDeleting] = useState(false);
 
 	useEffect(() => {
 		loadTests();
@@ -30,6 +36,30 @@ export default function Dashboard() {
 
 	const handleTestCreated = () => {
 		loadTests();
+	};
+
+	const handleDeleteClick = (test: CustomTest) => {
+		setDeleteConfirmModal({ isOpen: true, test });
+	};
+
+	const handleDeleteCancel = () => {
+		setDeleteConfirmModal({ isOpen: false, test: null });
+	};
+
+	const handleDeleteConfirm = async () => {
+		if (!deleteConfirmModal.test) return;
+
+		setIsDeleting(true);
+		try {
+			await customTestApi.delete(deleteConfirmModal.test.id);
+			setDeleteConfirmModal({ isOpen: false, test: null });
+			loadTests();
+		} catch (err) {
+			console.error('Failed to delete custom test:', err);
+			setError('Failed to delete custom test');
+		} finally {
+			setIsDeleting(false);
+		}
 	};
 
 	return (
@@ -127,7 +157,7 @@ export default function Dashboard() {
 											</button>
 											<button
 												className="flex-1 px-3 py-2 text-sm text-red-600 bg-red-50 hover:bg-red-100 rounded-lg font-medium transition-colors"
-												onClick={() => {/* TODO: Delete test */}}
+												onClick={() => handleDeleteClick(test)}
 											>
 												Delete
 											</button>
@@ -144,6 +174,18 @@ export default function Dashboard() {
 				isOpen={isCreateTestModalOpen}
 				onClose={() => setIsCreateTestModalOpen(false)}
 				onTestCreated={handleTestCreated}
+			/>
+
+			<ConfirmModal
+				isOpen={deleteConfirmModal.isOpen}
+				title="Delete Custom Test"
+				message={`Are you sure you want to delete "${deleteConfirmModal.test?.name}"? This action cannot be undone.`}
+				confirmText="Delete"
+				cancelText="Cancel"
+				onConfirm={handleDeleteConfirm}
+				onCancel={handleDeleteCancel}
+				variant="danger"
+				isLoading={isDeleting}
 			/>
 		</div>
 	);
