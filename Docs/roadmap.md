@@ -445,7 +445,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Add action buttons for each test (Practice, Take Test, View, Edit, Delete)
 - [x] Implement delete functionality with confirmation dialog
 - [ ] Implement view details modal/page
-- [ ] Implement edit functionality
+- [x] Implement edit functionality
 - [ ] Add filter/search for user's tests
 
 ### 8.4 Frontend - Custom Test Creation/Edit Form
@@ -469,7 +469,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Add anonymous/named toggle (when public is enabled)
 - [x] Add save button with validation
 - [x] Add cancel button
-- [ ] Reuse form for edit mode (pre-populate fields)
+- [x] Reuse form for edit mode (pre-populate fields)
 
 ### 8.5 Frontend - Public Custom Tests Discovery
 - [ ] Create Public Tests page (browse interface)
