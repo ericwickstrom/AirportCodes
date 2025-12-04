@@ -443,7 +443,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] Show test name, # of airports, public/private status, timer badge
 - [x] Add "Create Test" button
 - [x] Add action buttons for each test (Practice, Take Test, View, Edit, Delete)
-- [ ] Implement delete functionality with confirmation dialog
+- [x] Implement delete functionality with confirmation dialog
 - [ ] Implement view details modal/page
 - [ ] Implement edit functionality
 - [ ] Add filter/search for user's tests
