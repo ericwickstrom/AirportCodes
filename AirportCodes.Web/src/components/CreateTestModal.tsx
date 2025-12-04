@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import Modal from './Modal';
 import { airportApi, customTestApi } from '../services/api';
-import type { Airport } from '../types';
+import type { Airport, CustomTestDetail } from '../types';
 
 interface CreateTestModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	onTestCreated?: () => void;
+	onTestSaved?: () => void;
+	testToEdit?: CustomTestDetail | null;
 }
 
-export default function CreateTestModal({ isOpen, onClose, onTestCreated }: CreateTestModalProps) {
+export default function CreateTestModal({ isOpen, onClose, onTestSaved, testToEdit }: CreateTestModalProps) {
 	const [testName, setTestName] = useState('');
 	const [isTimerEnabled, setIsTimerEnabled] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(10);
@@ -35,6 +36,49 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 	// Save state
 	const [isSaving, setIsSaving] = useState(false);
 	const [saveError, setSaveError] = useState<string | null>(null);
+
+	// Loading state for fetching test details
+	const [isLoadingTest, setIsLoadingTest] = useState(false);
+
+	// Load test data when editing
+	useEffect(() => {
+		if (!testToEdit) {
+			// Reset form if not editing
+			setTestName('');
+			setIsTimerEnabled(false);
+			setTimerDuration(10);
+			setIsPublic(false);
+			setIsAnonymous(false);
+			setSelectedAirports([]);
+			return;
+		}
+
+		// Populate form with test data
+		setTestName(testToEdit.name);
+		setIsTimerEnabled(testToEdit.timerEnabled);
+		setTimerDuration(testToEdit.timerDurationSeconds ? testToEdit.timerDurationSeconds / 60 : 10);
+		setIsPublic(testToEdit.isPublic);
+		setIsAnonymous(testToEdit.isAnonymous);
+
+		// Fetch airport details
+		const loadAirports = async () => {
+			if (!testToEdit.airports || testToEdit.airports.length === 0) return;
+
+			setIsLoadingTest(true);
+			try {
+				const iataCodes = testToEdit.airports.map(a => a.iataCode);
+				const result = await airportApi.bulkLookup(iataCodes);
+				setSelectedAirports(result.validAirports);
+			} catch (error) {
+				console.error('Failed to load airports:', error);
+				setSaveError('Failed to load airport details');
+			} finally {
+				setIsLoadingTest(false);
+			}
+		};
+
+		loadAirports();
+	}, [testToEdit]);
 
 	// Debounced search
 	useEffect(() => {
@@ -163,25 +207,33 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 		setSaveError(null);
 
 		try {
-			await customTestApi.create({
+			const data = {
 				name: testName.trim(),
 				airportIds: selectedAirports.map(a => a.id),
 				isPublic,
 				isAnonymous,
 				timerEnabled: isTimerEnabled,
 				timerDurationSeconds: isTimerEnabled ? timerDuration * 60 : undefined,
-			});
+			};
+
+			if (testToEdit) {
+				// Update existing test
+				await customTestApi.update(testToEdit.id, data);
+			} else {
+				// Create new test
+				await customTestApi.create(data);
+			}
 
 			// Reset form
 			handleCancel();
 
 			// Notify parent component
-			if (onTestCreated) {
-				onTestCreated();
+			if (onTestSaved) {
+				onTestSaved();
 			}
 		} catch (error) {
-			console.error('Failed to create custom test:', error);
-			setSaveError(error instanceof Error ? error.message : 'Failed to create custom test');
+			console.error(`Failed to ${testToEdit ? 'update' : 'create'} custom test:`, error);
+			setSaveError(error instanceof Error ? error.message : `Failed to ${testToEdit ? 'update' : 'create'} custom test`);
 		} finally {
 			setIsSaving(false);
 		}
@@ -206,22 +258,22 @@ export default function CreateTestModal({ isOpen, onClose, onTestCreated }: Crea
 		<Modal
 			isOpen={isOpen}
 			onClose={handleCancel}
-			title="Create Custom Test"
+			title={testToEdit ? 'Edit Custom Test' : 'Create Custom Test'}
 			headerActions={
 				<>
 					<button
 						onClick={handleCancel}
-						disabled={isSaving}
+						disabled={isSaving || isLoadingTest}
 						className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
 					>
 						Cancel
 					</button>
 					<button
 						onClick={handleSave}
-						disabled={!isValid || isSaving}
+						disabled={!isValid || isSaving || isLoadingTest}
 						className="px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
 					>
-						{isSaving ? 'Saving...' : 'Save'}
+						{isSaving ? 'Saving...' : isLoadingTest ? 'Loading...' : testToEdit ? 'Update' : 'Create'}
 					</button>
 				</>
 			}
