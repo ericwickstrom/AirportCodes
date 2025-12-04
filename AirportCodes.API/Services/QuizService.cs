@@ -175,8 +175,9 @@ public class QuizService : IQuizService
 
 			availableAirports = customTest.CustomTestAirports.Count;
 
-			// Cap totalQuestions to available airports in custom test
-			totalQuestions = Math.Min(totalQuestions, availableAirports);
+			// For custom tests, use all airports by default (set totalQuestions to airport count)
+			// This ensures users get all airports in their custom test unless they explicitly request fewer
+			totalQuestions = availableAirports;
 
 			// Initialize timer if enabled
 			if (customTest.TimerEnabled && customTest.TimerDurationSeconds.HasValue)
