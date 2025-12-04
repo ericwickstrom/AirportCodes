@@ -31,6 +31,7 @@ export default function TestMode() {
 	const [selectedQuestionCount, setSelectedQuestionCount] = useState(10);
 	const [hasAutoStarted, setHasAutoStarted] = useState(false);
 	const [timerExpired, setTimerExpired] = useState(false);
+	const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
 	// Check for existing session on mount, or auto-start custom tests
 	useEffect(() => {
@@ -45,6 +46,11 @@ export default function TestMode() {
 				// Resume existing session
 				try {
 					await resumeTestSession(sessionId, effectiveCustomTestId);
+					// Restore correct count from localStorage
+					const storedCount = localStorage.getItem('test_correct_count');
+					if (storedCount) {
+						setCorrectAnswersCount(parseInt(storedCount, 10) || 0);
+					}
 				} catch (err) {
 					console.error('Failed to resume session:', err);
 					// If resume fails, fall through to auto-start logic
@@ -65,6 +71,8 @@ export default function TestMode() {
 
 	// Start screen
 	const handleStartTest = async () => {
+		setCorrectAnswersCount(0);
+		localStorage.removeItem('test_correct_count');
 		await startTestMode(selectedQuestionCount, customTestId);
 	};
 
@@ -79,6 +87,15 @@ export default function TestMode() {
 			await submitTestAnswer(answer);
 		}
 	};
+
+	// Track correct answers when feedback is received
+	useEffect(() => {
+		if (testFeedback?.isCorrect) {
+			const newCount = correctAnswersCount + 1;
+			setCorrectAnswersCount(newCount);
+			localStorage.setItem('test_correct_count', newCount.toString());
+		}
+	}, [testFeedback]);
 
 	const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter' && answer.length === 3 && !testFeedback) {
@@ -108,6 +125,8 @@ export default function TestMode() {
 		resetQuiz();
 		setAnswer('');
 		setTimerExpired(false);
+		setCorrectAnswersCount(0);
+		localStorage.removeItem('test_correct_count');
 	};
 
 	// Error state
@@ -178,6 +197,11 @@ export default function TestMode() {
 						{testSession.timerExpiresAt && (
 							<TimerDisplay timerExpiresAt={testSession.timerExpiresAt} onExpire={handleTimerExpire} />
 						)}
+						<ScoreDisplay
+							label="Correct"
+							correct={correctAnswersCount}
+							total={testQuestion.totalQuestions}
+						/>
 						<ScoreDisplay
 							label="Progress"
 							correct={testQuestion.questionNumber}
