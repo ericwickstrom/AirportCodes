@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CreateTestModal from '../components/CreateTestModal';
 import ConfirmModal from '../components/ConfirmModal';
+import TestSelectionModal from '../components/TestSelectionModal';
 import { customTestApi } from '../services/api';
 import type { CustomTest, CustomTestDetail } from '../types';
 
 export default function Dashboard() {
 	const [isCreateTestModalOpen, setIsCreateTestModalOpen] = useState(false);
+	const [isLearningModalOpen, setIsLearningModalOpen] = useState(false);
+	const [isTestModalOpen, setIsTestModalOpen] = useState(false);
 	const [tests, setTests] = useState<CustomTest[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -92,27 +95,27 @@ export default function Dashboard() {
 				<h1 className="text-4xl font-bold text-gray-900">Dashboard</h1>
 
 				<div className="grid md:grid-cols-2 gap-6">
-					<Link
-						to="/learning"
-						className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4"
+					<button
+						onClick={() => setIsLearningModalOpen(true)}
+						className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
 					>
 						<div className="text-4xl">📚</div>
 						<h2 className="text-2xl font-bold text-gray-900">Learning Mode</h2>
 						<p className="text-gray-600">
 							Practice with multiple choice questions and detailed feedback
 						</p>
-					</Link>
+					</button>
 
-					<Link
-						to="/test"
-						className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4"
+					<button
+						onClick={() => setIsTestModalOpen(true)}
+						className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
 					>
 						<div className="text-4xl">✅</div>
 						<h2 className="text-2xl font-bold text-gray-900">Test Mode</h2>
 						<p className="text-gray-600">
 							Take a timed test and track your progress
 						</p>
-					</Link>
+					</button>
 				</div>
 
 				{/* My Tests Section */}
@@ -212,6 +215,18 @@ export default function Dashboard() {
 				onCancel={handleDeleteCancel}
 				variant="danger"
 				isLoading={isDeleting}
+			/>
+
+			<TestSelectionModal
+				isOpen={isLearningModalOpen}
+				onClose={() => setIsLearningModalOpen(false)}
+				mode="learning"
+			/>
+
+			<TestSelectionModal
+				isOpen={isTestModalOpen}
+				onClose={() => setIsTestModalOpen(false)}
+				mode="test"
 			/>
 		</div>
 	);
