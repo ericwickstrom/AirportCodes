@@ -227,6 +227,11 @@ export const customTestApi = {
 
 	getPublicTests: () =>
 		fetchApi<CustomTest[]>('/custom-tests/public'),
+
+	delete: (id: string) =>
+		fetchApi<void>(`/custom-tests/${id}`, {
+			method: 'DELETE',
+		}),
 };
 
 // User Settings API
