@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import CreateTestModal from '../components/CreateTestModal';
 import ConfirmModal from '../components/ConfirmModal';
 import { customTestApi } from '../services/api';
-import type { CustomTest } from '../types';
+import type { CustomTest, CustomTestDetail } from '../types';
 
 export default function Dashboard() {
 	const [isCreateTestModalOpen, setIsCreateTestModalOpen] = useState(false);
@@ -15,6 +15,8 @@ export default function Dashboard() {
 		test: null,
 	});
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [editTest, setEditTest] = useState<CustomTestDetail | null>(null);
+	const [isLoadingEdit, setIsLoadingEdit] = useState(false);
 
 	useEffect(() => {
 		loadTests();
@@ -34,8 +36,29 @@ export default function Dashboard() {
 		}
 	};
 
-	const handleTestCreated = () => {
+	const handleTestSaved = () => {
 		loadTests();
+		setEditTest(null);
+	};
+
+	const handleEditClick = async (test: CustomTest) => {
+		setIsLoadingEdit(true);
+		setError(null);
+		try {
+			const testDetails = await customTestApi.getById(test.id);
+			setEditTest(testDetails);
+			setIsCreateTestModalOpen(true);
+		} catch (err) {
+			console.error('Failed to load test details:', err);
+			setError('Failed to load test details');
+		} finally {
+			setIsLoadingEdit(false);
+		}
+	};
+
+	const handleCloseModal = () => {
+		setIsCreateTestModalOpen(false);
+		setEditTest(null);
 	};
 
 	const handleDeleteClick = (test: CustomTest) => {
@@ -151,8 +174,9 @@ export default function Dashboard() {
 										</div>
 										<div className="flex gap-2">
 											<button
-												className="flex-1 px-3 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
-												onClick={() => {/* TODO: Edit test */}}
+												className="flex-1 px-3 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+												onClick={() => handleEditClick(test)}
+												disabled={isLoadingEdit}
 											>
 												Edit
 											</button>
@@ -173,8 +197,9 @@ export default function Dashboard() {
 
 			<CreateTestModal
 				isOpen={isCreateTestModalOpen}
-				onClose={() => setIsCreateTestModalOpen(false)}
-				onTestCreated={handleTestCreated}
+				onClose={handleCloseModal}
+				onTestSaved={handleTestSaved}
+				testToEdit={editTest}
 			/>
 
 			<ConfirmModal
