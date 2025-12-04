@@ -233,6 +233,15 @@ export const customTestApi = {
 	getPublicTests: () =>
 		fetchApi<CustomTest[]>('/custom-tests/public'),
 
+	getById: (id: string) =>
+		fetchApi<CustomTestDetail>(`/custom-tests/${id}`),
+
+	update: (id: string, data: CreateCustomTestRequest) =>
+		fetchApi<CustomTestDetail>(`/custom-tests/${id}`, {
+			method: 'PUT',
+			body: JSON.stringify(data),
+		}),
+
 	delete: (id: string) =>
 		fetchApi<void>(`/custom-tests/${id}`, {
 			method: 'DELETE',
