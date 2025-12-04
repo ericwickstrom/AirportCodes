@@ -50,6 +50,7 @@ export default function Dashboard() {
 		if (!deleteConfirmModal.test) return;
 
 		setIsDeleting(true);
+		setError(null);
 		try {
 			await customTestApi.delete(deleteConfirmModal.test.id);
 			await loadTests();
