@@ -127,6 +127,11 @@ async function fetchApi<T>(
 		throw new ApiError(response.status, error.message, error.emailNotConfirmed);
 	}
 
+	// Handle 204 No Content responses
+	if (response.status === 204) {
+		return undefined as T;
+	}
+
 	return response.json();
 }
 
