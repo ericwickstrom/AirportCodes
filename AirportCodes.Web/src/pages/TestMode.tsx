@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuizStore, loadSessionFromStorage } from '../stores/quizStore';
-import { customTestApi } from '../services/api';
 import QuizLayout from '../components/quiz/QuizLayout';
 import QuestionDisplay from '../components/quiz/QuestionDisplay';
 import FeedbackPanel from '../components/quiz/FeedbackPanel';
