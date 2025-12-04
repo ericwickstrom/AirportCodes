@@ -22,7 +22,7 @@ interface AuthState {
 	register: (credentials: RegisterRequest) => Promise<void>;
 	logout: () => void;
 	clearError: () => void;
-	initializeAuth: () => void;
+	initializeAuth: () => Promise<void>;
 	refreshToken: () => Promise<void>;
 	startTokenRefreshTimer: () => void;
 	stopTokenRefreshTimer: () => void;
@@ -55,7 +55,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 	user: null,
 	token: null,
 	isAuthenticated: false,
-	isLoading: false,
+	isLoading: true, // Start with loading true until auth is initialized
 	error: null,
 	refreshTimerId: null,
 
@@ -121,7 +121,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
 	clearError: () => set({ error: null }),
 
-	initializeAuth: () => {
+	initializeAuth: async () => {
+		set({ isLoading: true });
+
 		const token = localStorage.getItem('auth_token');
 		const refreshToken = localStorage.getItem('refresh_token');
 		const userStr = localStorage.getItem('user');
@@ -132,12 +134,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 				if (isTokenExpired(token)) {
 					// If we have a refresh token, try to refresh
 					if (refreshToken) {
-						useAuthStore.getState().refreshToken();
+						await useAuthStore.getState().refreshToken();
 					} else {
 						// No refresh token, clear everything
 						localStorage.removeItem('auth_token');
 						localStorage.removeItem('refresh_token');
 						localStorage.removeItem('user');
+						set({ isLoading: false });
 					}
 					return;
 				}
@@ -147,6 +150,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 					user,
 					token,
 					isAuthenticated: true,
+					isLoading: false,
 				});
 				get().startTokenRefreshTimer();
 			} catch {
@@ -154,7 +158,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 				localStorage.removeItem('auth_token');
 				localStorage.removeItem('refresh_token');
 				localStorage.removeItem('user');
+				set({ isLoading: false });
 			}
+		} else {
+			set({ isLoading: false });
 		}
 	},
 
