@@ -52,13 +52,13 @@ export default function Dashboard() {
 		setIsDeleting(true);
 		try {
 			await customTestApi.delete(deleteConfirmModal.test.id);
-			setDeleteConfirmModal({ isOpen: false, test: null });
-			loadTests();
+			await loadTests();
 		} catch (err) {
 			console.error('Failed to delete custom test:', err);
 			setError('Failed to delete custom test');
 		} finally {
 			setIsDeleting(false);
+			setDeleteConfirmModal({ isOpen: false, test: null });
 		}
 	};
 
