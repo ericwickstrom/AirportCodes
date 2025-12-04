@@ -30,16 +30,20 @@ export default function Modal({ isOpen, onClose, children, title, headerActions 
 				onClick={onClose}
 			/>
 			<div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-				<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between gap-4">
-					{title && <h2 className="text-2xl font-bold text-gray-900">{title}</h2>}
-					{headerActions && <div className="flex gap-3">{headerActions}</div>}
-					<button
-						onClick={onClose}
-						className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
-						aria-label="Close modal"
-					>
-						×
-					</button>
+				<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4">
+					{/* Title row with X button */}
+					<div className="flex items-center justify-between mb-3">
+						{title && <h2 className="text-2xl font-bold text-gray-900">{title}</h2>}
+						<button
+							onClick={onClose}
+							className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+							aria-label="Close modal"
+						>
+							×
+						</button>
+					</div>
+					{/* Action buttons row (right-aligned) */}
+					{headerActions && <div className="flex justify-end gap-3">{headerActions}</div>}
 				</div>
 				<div className="p-6">
 					{children}
