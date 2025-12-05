@@ -159,7 +159,10 @@ export default function TestMode() {
 	// Completion screen
 	if (testResult) {
 		return (
-			<QuizLayout title="Test Complete!">
+			<QuizLayout
+				title="Test Complete!"
+				subtitle={testQuestion?.customTestName}
+			>
 				<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
 					{/* Score Display */}
 					<div className="text-center space-y-4">
@@ -204,6 +207,7 @@ export default function TestMode() {
 		return (
 			<QuizLayout
 				title="Test Mode"
+				subtitle={testQuestion.customTestName}
 				headerRight={
 					<div className="flex gap-6 items-center">
 						{testSession.timerExpiresAt && (
