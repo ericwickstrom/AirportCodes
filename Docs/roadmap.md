@@ -476,8 +476,8 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [x] List all public custom tests (currently in ViewCustomTestsModal, fetches from API)
 - [x] Show test name, creator (or "Anonymous"), # of airports
 - [ ] Add search/filter functionality
-- [ ] Add "Practice" button (learning mode)
-- [ ] Add "Take Test" button (test mode)
+- [x] Add "Practice" button (learning mode)
+- [x] Add "Take Test" button (test mode)
 
 ### 8.6 Frontend - Custom Test Learning Mode Integration
 
