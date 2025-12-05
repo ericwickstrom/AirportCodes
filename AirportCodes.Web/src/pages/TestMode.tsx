@@ -9,6 +9,7 @@ import LoadingState from '../components/quiz/LoadingState';
 import ErrorState from '../components/quiz/ErrorState';
 import ScoreDisplay from '../components/quiz/ScoreDisplay';
 import TimerDisplay from '../components/quiz/TimerDisplay';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function TestMode() {
 	const { customTestId } = useParams<{ customTestId?: string }>();
@@ -32,6 +33,7 @@ export default function TestMode() {
 	const [hasAutoStarted, setHasAutoStarted] = useState(false);
 	const [timerExpired, setTimerExpired] = useState(false);
 	const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+	const [showCancelModal, setShowCancelModal] = useState(false);
 
 	// Check for existing session on mount, or auto-start custom tests
 	useEffect(() => {
@@ -129,6 +131,16 @@ export default function TestMode() {
 		localStorage.removeItem('test_correct_count');
 	};
 
+	// Cancel test
+	const handleCancelTest = () => {
+		resetQuiz();
+		setAnswer('');
+		setTimerExpired(false);
+		setCorrectAnswersCount(0);
+		localStorage.removeItem('test_correct_count');
+		setShowCancelModal(false);
+	};
+
 	// Error state
 	if (error) {
 		return <ErrorState title="Test Mode" error={error} onRetry={handleNewTest} />;
@@ -193,7 +205,7 @@ export default function TestMode() {
 			<QuizLayout
 				title="Test Mode"
 				headerRight={
-					<div className="flex gap-6 items-start">
+					<div className="flex gap-6 items-center">
 						{testSession.timerExpiresAt && (
 							<TimerDisplay timerExpiresAt={testSession.timerExpiresAt} onExpire={handleTimerExpire} />
 						)}
@@ -206,6 +218,16 @@ export default function TestMode() {
 							correct={testQuestion.questionNumber}
 							total={testQuestion.totalQuestions}
 						/>
+						<button
+							onClick={() => setShowCancelModal(true)}
+							className="text-gray-400 hover:text-red-600 transition-colors p-1"
+							aria-label="Cancel test"
+							title="Cancel test"
+						>
+							<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
 					</div>
 				}
 			>
@@ -260,6 +282,17 @@ export default function TestMode() {
 						)}
 					</div>
 				</div>
+
+				<ConfirmModal
+					isOpen={showCancelModal}
+					title="Cancel Test?"
+					message="Are you sure you want to cancel this test? Your progress will be lost."
+					confirmText="Yes, Cancel Test"
+					cancelText="No, Continue"
+					onConfirm={handleCancelTest}
+					onCancel={() => setShowCancelModal(false)}
+					variant="warning"
+				/>
 			</QuizLayout>
 		);
 	}
