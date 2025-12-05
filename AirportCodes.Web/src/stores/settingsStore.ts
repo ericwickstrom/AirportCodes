@@ -2,12 +2,12 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface SettingsState {
-	theme: 'light' | 'dark';
+	theme: 'light' | 'dark' | 'system';
 	soundEnabled: boolean;
 	defaultTestQuestions: number;
 
 	// Actions
-	setTheme: (theme: 'light' | 'dark') => void;
+	setTheme: (theme: 'light' | 'dark' | 'system') => void;
 	toggleSound: () => void;
 	setDefaultTestQuestions: (count: number) => void;
 }
