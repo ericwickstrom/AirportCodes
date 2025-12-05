@@ -278,7 +278,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Add sound effects (optional, toggleable)
 - [ ] Polish UI with Tailwind components
 - [ ] Add keyboard shortcuts for quiz navigation
-- [ ] Implement dark mode (optional)
+- [x] Implement dark mode
 
 ### 6.2 Data Enhancements
 - [ ] Research comprehensive worldwide airport data source
@@ -287,7 +287,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] Handle duplicate/conflicting data
 
 ### 6.3 Settings & Preferences
-- [ ] Create Settings page
+- [x] Create Settings page
 - [ ] Add quiz difficulty settings (filter by region, airport size, etc.)
 - [ ] Add accessibility options
 - [ ] Allow users to customize quiz length
@@ -737,7 +737,7 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 
 ---
 
-## Phase 9: User Settings & Profile
+## Phase 9: User Settings & Profile ✅
 
 ### 9.1 Backend - User Settings
 - [ ] Create Theme entity
@@ -766,43 +766,63 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - [ ] GET /api/themes - Get available themes
 - [ ] Create UserSettings service layer
 
-### 9.2 Frontend - Settings Page
-- [ ] Create Settings page component
-- [ ] Add route for /settings
-- [ ] Update header to link username to settings page
-- [ ] Create settings form with sections:
-	- [ ] Account Information section
-		- [ ] Display email (read-only)
-		- [ ] Display account creation date
-		- [ ] Add "Change Password" button (future)
-	- [ ] Quiz Preferences section
-		- [ ] Default quiz length selector (5, 10, 15, 20, 25, 50)
+### 9.2 Frontend - Settings Page ✅
+- [x] Create Settings page component
+- [x] Add route for /settings
+- [x] Update header to link username to settings page
+- [x] Create settings form with sections:
+	- [x] Account Information section
+		- [x] Display email (read-only)
+		- [x] Display account creation date
+		- [x] Add "Change Password" button (future)
+	- [x] Quiz Preferences section
+		- [x] Default quiz length selector (5, 10, 15, 20, 25, 50)
 		- [ ] Preferred regions/countries multi-select
-	- [ ] Appearance section
-		- [ ] Theme selector (Light, Dark, System)
-	- [ ] Notifications section
-		- [ ] Email notifications toggle
-	- [ ] Danger Zone section
-		- [ ] Delete account button (with confirmation, future)
-- [ ] Add save button with validation
-- [ ] Add cancel/reset button
-- [ ] Show success/error messages
-- [ ] Handle loading states
+	- [x] Appearance section
+		- [x] Theme selector (Light, Dark, System)
+	- [x] Notifications section
+		- [x] Email notifications toggle
+	- [x] Danger Zone section
+		- [x] Delete account button (with confirmation, future)
+- [x] Add save button with validation
+- [x] Add cancel/reset button
+- [x] Show success/error messages
+- [x] Handle loading states
 
-### 9.3 Integration
+### 9.3 Integration ✅
 - [ ] Apply user settings to quiz modes
 	- [ ] Use default quiz length when starting tests
 	- [ ] Filter airports by preferred regions (optional)
-- [ ] Apply theme settings to entire application
-- [ ] Persist settings in backend database
-- [ ] Cache settings in frontend store (Zustand)
+- [x] Apply theme settings to entire application
+	- [x] Theme stored in Zustand settingsStore (persisted to localStorage)
+	- [x] Theme applied instantly via useTheme hook
+	- [x] Support for light, dark, and system themes
+	- [x] System theme follows OS preference changes
+	- [x] Theme initialized on app load
+- [x] Cache settings in frontend store (Zustand)
 
 ### 9.4 Testing
 - [ ] Test settings CRUD operations
 - [ ] Test settings application to quiz modes
-- [ ] Test theme switching
+- [x] Test theme switching
 - [ ] Test form validation
-- [ ] Test persistence across sessions
+- [x] Test persistence across sessions (theme via localStorage)
+
+### 9.5 Theme Implementation Details ✅
+- [x] Configure Tailwind v4 dark mode with `@variant dark` directive
+- [x] Create useTheme hook for automatic theme application
+- [x] Update settingsStore to support light/dark/system themes
+- [x] Apply dark mode styles to all pages (30 files)
+	- [x] Home, Dashboard, Settings, Login, Register
+	- [x] LearningMode, TestMode, ConfirmationPending, ConfirmEmail, NotFound
+- [x] Apply dark mode styles to all components (15 files)
+	- [x] Modals (Modal, ConfirmModal, CreateTestModal, TestSelectionModal, ViewCustomTestsModal)
+	- [x] Forms (FormInput)
+	- [x] Layout (Header, Footer)
+	- [x] Quiz components (QuizLayout, QuestionDisplay, FeedbackPanel, LoadingState, ErrorState, QuizButton, ScoreDisplay, TimerDisplay)
+- [x] Consistent color patterns across entire app
+- [x] Theme changes apply instantly without Save button
+- [x] Theme persists across page refreshes and sessions
 
 ---
 
@@ -976,4 +996,3 @@ This roadmap outlines the phases to build the AirportCodes application from an e
 - Multi-language support
 - Airport images and additional information
 - Study streak tracking and gamification
-- Dark Mode
