@@ -200,7 +200,6 @@ export default function TestMode() {
 						<ScoreDisplay
 							label="Correct"
 							correct={correctAnswersCount}
-							total={testQuestion.totalQuestions}
 						/>
 						<ScoreDisplay
 							label="Progress"
