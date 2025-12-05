@@ -35,7 +35,7 @@ export default function Settings() {
 		}
 	};
 
-	const handleCancel = () => {
+	const handleUndo = () => {
 		// Reset form to original values
 		setDefaultQuizLength(null);
 		setSelectedTheme('light');
@@ -55,23 +55,45 @@ export default function Settings() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
 			<div className="max-w-4xl mx-auto space-y-6">
-				<div className="flex items-center gap-4">
-					<button
-						onClick={handleBack}
-						className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
-						aria-label="Go back"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-8 w-8"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
+				<div className="flex flex-wrap items-center justify-between gap-4">
+					<div className="flex items-center gap-4">
+						<button
+							onClick={handleBack}
+							className="text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+							aria-label="Go back"
 						>
-							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-						</svg>
-					</button>
-					<h1 className="text-4xl font-bold text-gray-900">Settings</h1>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								className="h-8 w-8"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+							</svg>
+						</button>
+						<h1 className="text-4xl font-bold text-gray-900">Settings</h1>
+					</div>
+					<div className="flex items-center gap-3">
+						{saveSuccess && <span className="text-green-600 font-medium">Settings saved!</span>}
+						{saveError && <span className="text-red-600 font-medium">{saveError}</span>}
+						<button
+							onClick={handleUndo}
+							disabled={isSaving}
+							aria-label="Undo changes"
+							className="px-6 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+						>
+							Undo
+						</button>
+						<button
+							onClick={handleSave}
+							disabled={isSaving}
+							aria-label={isSaving ? 'Saving changes' : 'Save changes'}
+							className="px-6 py-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
+						>
+							{isSaving ? 'Saving...' : 'Save Changes'}
+						</button>
+					</div>
 				</div>
 
 				{/* Account Information */}
@@ -224,38 +246,6 @@ export default function Settings() {
 							<p className="text-xs text-gray-500 mt-2">
 								Permanently delete your account and all associated data
 							</p>
-						</div>
-					</div>
-				</div>
-
-				{/* Save/Cancel Buttons */}
-				<div className="bg-white rounded-2xl shadow-xl p-6">
-					<div className="flex items-center justify-between">
-						<div>
-							{saveSuccess && (
-								<span className="text-green-600 font-medium">Settings saved successfully!</span>
-							)}
-							{saveError && (
-								<span className="text-red-600 font-medium">{saveError}</span>
-							)}
-						</div>
-						<div className="flex gap-3">
-							<button
-								onClick={handleCancel}
-								disabled={isSaving}
-								aria-label="Cancel changes"
-								className="px-6 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
-							>
-								Cancel
-							</button>
-							<button
-								onClick={handleSave}
-								disabled={isSaving}
-								aria-label={isSaving ? 'Saving changes' : 'Save changes'}
-								className="px-6 py-2 text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed rounded-lg font-medium transition-colors"
-							>
-								{isSaving ? 'Saving...' : 'Save Changes'}
-							</button>
 						</div>
 					</div>
 				</div>
