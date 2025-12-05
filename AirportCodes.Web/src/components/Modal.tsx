@@ -29,14 +29,14 @@ export default function Modal({ isOpen, onClose, children, title, headerActions 
 				className="absolute inset-0 bg-black/50"
 				onClick={onClose}
 			/>
-			<div className="relative bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-				<div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4">
+			<div className="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+				<div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-600 px-6 py-4">
 					{/* Title row with X button */}
 					<div className="flex items-center justify-between mb-3">
-						{title && <h2 className="text-2xl font-bold text-gray-900">{title}</h2>}
+						{title && <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{title}</h2>}
 						<button
 							onClick={onClose}
-							className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+							className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl leading-none"
 							aria-label="Close modal"
 						>
 							×

@@ -30,54 +30,54 @@ export default function ConfirmationPending() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-			<div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-8 space-y-6">
+		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+			<div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 space-y-6">
 				<div className="text-center space-y-4">
 					<div className="text-6xl">📧</div>
-					<h1 className="text-3xl font-bold text-gray-900">Check Your Email</h1>
-					<p className="text-gray-600">
+					<h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Check Your Email</h1>
+					<p className="text-gray-600 dark:text-gray-300">
 						We've sent a confirmation email to:
 					</p>
-					{email && <p className="font-semibold text-blue-600">{email}</p>}
+					{email && <p className="font-semibold text-blue-600 dark:text-indigo-400">{email}</p>}
 				</div>
 
 				<div className="space-y-4">
-					<p className="text-gray-600 text-center">
+					<p className="text-gray-600 dark:text-gray-300 text-center">
 						Click the confirmation link in the email to activate your account.
 					</p>
 
 					{message && (
-						<div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg text-sm">
+						<div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg text-sm">
 							{message}
 						</div>
 					)}
 
 					{error && (
-						<div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+						<div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
 							{error}
 						</div>
 					)}
 
 					<div className="text-center space-y-3">
-						<p className="text-sm text-gray-500">Didn't receive the email?</p>
+						<p className="text-sm text-gray-500 dark:text-gray-400">Didn't receive the email?</p>
 						<button
 							onClick={handleResend}
 							disabled={isResending || !email}
-							className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+							className="w-full bg-blue-600 dark:bg-indigo-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 dark:hover:bg-indigo-600 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
 						>
 							{isResending ? 'Sending...' : 'Resend Confirmation Email'}
 						</button>
 					</div>
 
 					<div className="text-center pt-4">
-						<Link to="/login" className="text-blue-600 hover:text-blue-800 text-sm">
+						<Link to="/login" className="text-blue-600 dark:text-indigo-400 hover:text-blue-800 dark:hover:text-indigo-300 text-sm">
 							Back to Login
 						</Link>
 					</div>
 				</div>
 
-				<div className="border-t pt-4">
-					<p className="text-xs text-gray-500 text-center">
+				<div className="border-t dark:border-gray-700 pt-4">
+					<p className="text-xs text-gray-500 dark:text-gray-400 text-center">
 						Check your spam folder if you don't see the email in your inbox.
 					</p>
 				</div>

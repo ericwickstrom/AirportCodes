@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './stores/authStore';
+import { useTheme } from './hooks/useTheme';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -16,6 +17,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
 	const initializeAuth = useAuthStore((state) => state.initializeAuth);
+	useTheme(); // Initialize and apply theme on app load
 
 	useEffect(() => {
 		initializeAuth();

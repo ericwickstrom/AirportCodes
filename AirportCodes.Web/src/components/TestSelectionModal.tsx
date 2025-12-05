@@ -129,27 +129,27 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 				{/* My Tests (if authenticated) */}
 				{isAuthenticated && (
 					<div>
-						<h3 className="text-lg font-semibold text-gray-900 mb-3">My Tests</h3>
+						<h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">My Tests</h3>
 						{isLoadingUser ? (
-							<p className="text-gray-500 text-center py-4">Loading...</p>
+							<p className="text-gray-500 dark:text-gray-400 text-center py-4">Loading...</p>
 						) : userTests.length === 0 ? (
-							<p className="text-gray-500 text-center py-4 text-sm">No custom tests yet</p>
+							<p className="text-gray-500 dark:text-gray-400 text-center py-4 text-sm">No custom tests yet</p>
 						) : (
 							<div className="space-y-2 max-h-48 overflow-y-auto">
 								{userTests.map((test) => (
 									<button
 										key={test.id}
 										onClick={() => handleTestSelect(test.id)}
-										className="w-full border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors text-left"
+										className="w-full border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
 									>
 										<div className="flex justify-between items-center">
 											<div>
-												<h4 className="font-semibold text-gray-900">{test.name}</h4>
-												<p className="text-sm text-gray-500">
+												<h4 className="font-semibold text-gray-900 dark:text-gray-100">{test.name}</h4>
+												<p className="text-sm text-gray-500 dark:text-gray-400">
 													{test.airportCount} {test.airportCount === 1 ? 'airport' : 'airports'}
 												</p>
 											</div>
-											<div className="text-indigo-600 font-medium text-sm">
+											<div className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">
 												{mode === 'learning' ? 'Practice →' : 'Take Test →'}
 											</div>
 										</div>
@@ -162,30 +162,30 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 
 				{/* Public Tests */}
 				<div>
-					<h3 className="text-lg font-semibold text-gray-900 mb-3">Public Tests</h3>
+					<h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3">Public Tests</h3>
 					{isLoadingPublic ? (
-						<p className="text-gray-500 text-center py-4">Loading...</p>
+						<p className="text-gray-500 dark:text-gray-400 text-center py-4">Loading...</p>
 					) : error ? (
 						<p className="text-red-600 text-center py-4 text-sm">{error}</p>
 					) : publicTests.length === 0 ? (
-						<p className="text-gray-500 text-center py-4 text-sm">No public tests available</p>
+						<p className="text-gray-500 dark:text-gray-400 text-center py-4 text-sm">No public tests available</p>
 					) : (
 						<div className="space-y-2 max-h-64 overflow-y-auto">
 							{publicTests.map((test) => (
 								<button
 									key={test.id}
 									onClick={() => handleTestSelect(test.id)}
-									className="w-full border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors text-left"
+									className="w-full border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left"
 								>
 									<div className="flex justify-between items-center">
 										<div>
-											<h4 className="font-semibold text-gray-900">{test.name}</h4>
-											<p className="text-sm text-gray-500">
+											<h4 className="font-semibold text-gray-900 dark:text-gray-100">{test.name}</h4>
+											<p className="text-sm text-gray-500 dark:text-gray-400">
 												{test.airportCount} {test.airportCount === 1 ? 'airport' : 'airports'}
 												{test.creatorName && ` • by ${test.creatorName}`}
 											</p>
 										</div>
-										<div className="text-indigo-600 font-medium text-sm">
+										<div className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">
 											{mode === 'learning' ? 'Practice →' : 'Take Test →'}
 										</div>
 									</div>

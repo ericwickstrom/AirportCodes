@@ -49,18 +49,18 @@ export default function TimerDisplay({ timerExpiresAt, onExpire }: TimerDisplayP
 
 	const getTimerClass = (): string => {
 		if (remainingSeconds === 0) {
-			return 'text-red-600 font-bold';
+			return 'text-red-600 dark:text-red-500 font-bold';
 		} else if (remainingSeconds < 30) {
-			return 'text-red-500 animate-pulse';
+			return 'text-red-500 dark:text-red-400 animate-pulse';
 		} else if (remainingSeconds < 60) {
-			return 'text-yellow-500';
+			return 'text-yellow-500 dark:text-yellow-400';
 		}
-		return 'text-gray-700';
+		return 'text-gray-700 dark:text-gray-300';
 	};
 
 	return (
 		<div className="text-right">
-			<p className="text-sm text-gray-600">Time Remaining</p>
+			<p className="text-sm text-gray-600 dark:text-gray-400">Time Remaining</p>
 			<p className={`text-2xl font-bold ${getTimerClass()}`}>
 				{remainingSeconds === 0 ? "Time's Up!" : formatTime(remainingSeconds)}
 			</p>
