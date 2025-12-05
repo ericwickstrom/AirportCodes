@@ -91,6 +91,7 @@ export default function LearningMode() {
 	return (
 		<QuizLayout
 			title="Learning Mode"
+			subtitle={learningQuestion.customTestName}
 			headerRight={<ScoreDisplay label="Score" correct={correctAnswers} total={scoreTotal} />}
 		>
 			{/* Question Card */}
