@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
+import ConfirmModal from './ConfirmModal';
 import { customTestApi } from '../services/api';
 import { useAuthStore } from '../stores/authStore';
+import { loadSessionFromStorage } from '../stores/quizStore';
 import type { CustomTest } from '../types';
 
 interface TestSelectionModalProps {
@@ -20,15 +22,30 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 	const [isLoadingPublic, setIsLoadingPublic] = useState(false);
 	const [isLoadingUser, setIsLoadingUser] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [showActiveSessionModal, setShowActiveSessionModal] = useState(false);
 
 	useEffect(() => {
-		if (isOpen) {
-			loadPublicTests();
-			if (isAuthenticated) {
-				loadUserTests();
+		// Reset state when modal closes
+		if (!isOpen) {
+			setShowActiveSessionModal(false);
+			return;
+		}
+
+		// Check for active test session only in test mode
+		if (mode === 'test') {
+			const { sessionId } = loadSessionFromStorage();
+			if (sessionId) {
+				setShowActiveSessionModal(true);
+				return; // Don't load tests yet
 			}
 		}
-	}, [isOpen, isAuthenticated]);
+
+		// Load tests if no active session or in learning mode
+		loadPublicTests();
+		if (isAuthenticated) {
+			loadUserTests();
+		}
+	}, [isOpen, mode, isAuthenticated]);
 
 	const loadPublicTests = async () => {
 		setIsLoadingPublic(true);
@@ -66,6 +83,25 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 		navigate(mode === 'learning' ? `/learning/${testId}` : `/test/${testId}`);
 	};
 
+	const handleReturnToTest = () => {
+		setShowActiveSessionModal(false);
+		onClose();
+		navigate('/test');
+	};
+
+	const handleStartNewTest = () => {
+		// Clear session from localStorage
+		localStorage.removeItem('test_session_id');
+		localStorage.removeItem('test_custom_test_id');
+		localStorage.removeItem('test_correct_count');
+		setShowActiveSessionModal(false);
+		// Now load tests since session is cleared
+		loadPublicTests();
+		if (isAuthenticated) {
+			loadUserTests();
+		}
+	};
+
 	const modeTitle = mode === 'learning' ? 'Choose Your Practice' : 'Choose Your Test';
 	const randomTitle = mode === 'learning' ? 'Random Practice' : 'Random Test';
 	const randomDescription = mode === 'learning'
@@ -73,8 +109,9 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 		: 'Take a test with random airports';
 
 	return (
-		<Modal isOpen={isOpen} onClose={onClose} title={modeTitle}>
-			<div className="space-y-6">
+		<>
+			<Modal isOpen={isOpen && !showActiveSessionModal} onClose={onClose} title={modeTitle}>
+				<div className="space-y-6">
 				{/* Random Practice/Test */}
 				<button
 					onClick={handleRandomPractice}
@@ -157,7 +194,19 @@ export default function TestSelectionModal({ isOpen, onClose, mode }: TestSelect
 						</div>
 					)}
 				</div>
-			</div>
-		</Modal>
+				</div>
+			</Modal>
+
+			<ConfirmModal
+				isOpen={showActiveSessionModal}
+				title="Active Test Detected"
+				message="You have an active test in progress. Would you like to return to it or start a new test?"
+				confirmText="Return to Test"
+				cancelText="Start New Test"
+				onConfirm={handleReturnToTest}
+				onCancel={handleStartNewTest}
+				variant="warning"
+			/>
+		</>
 	);
 }
