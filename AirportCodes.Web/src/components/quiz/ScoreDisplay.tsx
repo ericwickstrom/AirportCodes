@@ -1,7 +1,7 @@
 interface ScoreDisplayProps {
 	label: string;
 	correct: number;
-	total: number;
+	total?: number;
 }
 
 export default function ScoreDisplay({ label, correct, total }: ScoreDisplayProps) {
@@ -9,7 +9,7 @@ export default function ScoreDisplay({ label, correct, total }: ScoreDisplayProp
 		<div className="text-right">
 			<p className="text-sm text-gray-600">{label}</p>
 			<p className="text-2xl font-bold text-indigo-600">
-				{correct}/{total}
+				{total !== undefined ? `${correct}/${total}` : correct}
 			</p>
 		</div>
 	);
