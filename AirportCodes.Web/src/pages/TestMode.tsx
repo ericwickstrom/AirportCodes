@@ -160,28 +160,28 @@ export default function TestMode() {
 	if (testResult) {
 		return (
 			<QuizLayout title="Test Complete!">
-				<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+				<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
 					{/* Score Display */}
 					<div className="text-center space-y-4">
-						<div className="text-8xl font-bold text-indigo-600">
+						<div className="text-8xl font-bold text-indigo-600 dark:text-indigo-400">
 							{testResult.scorePercentage.toFixed(0)}%
 						</div>
-						<p className="text-xl text-gray-600">Final Score</p>
+						<p className="text-xl text-gray-600 dark:text-gray-300">Final Score</p>
 					</div>
 
 					{/* Breakdown */}
-					<div className="grid grid-cols-3 gap-4 pt-6 border-t">
+					<div className="grid grid-cols-3 gap-4 pt-6 border-t dark:border-gray-700">
 						<div className="text-center">
-							<p className="text-3xl font-bold text-gray-900">{testResult.totalQuestions}</p>
-							<p className="text-sm text-gray-600">Total Questions</p>
+							<p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{testResult.totalQuestions}</p>
+							<p className="text-sm text-gray-600 dark:text-gray-400">Total Questions</p>
 						</div>
 						<div className="text-center">
-							<p className="text-3xl font-bold text-green-600">{testResult.correctAnswers}</p>
-							<p className="text-sm text-gray-600">Correct</p>
+							<p className="text-3xl font-bold text-green-600 dark:text-green-400">{testResult.correctAnswers}</p>
+							<p className="text-sm text-gray-600 dark:text-gray-400">Correct</p>
 						</div>
 						<div className="text-center">
-							<p className="text-3xl font-bold text-red-600">{testResult.incorrectAnswers}</p>
-							<p className="text-sm text-gray-600">Incorrect</p>
+							<p className="text-3xl font-bold text-red-600 dark:text-red-400">{testResult.incorrectAnswers}</p>
+							<p className="text-sm text-gray-600 dark:text-gray-400">Incorrect</p>
 						</div>
 					</div>
 
@@ -232,7 +232,7 @@ export default function TestMode() {
 				}
 			>
 				{/* Question Card */}
-				<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+				<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
 					{/* Airport Information */}
 					<QuestionDisplay
 						airportName={testQuestion.airportName}
@@ -242,7 +242,7 @@ export default function TestMode() {
 
 					{/* Answer Input */}
 					<div className="space-y-2">
-						<label className="block text-sm font-medium text-gray-700">Enter 3-letter IATA code:</label>
+						<label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Enter 3-letter IATA code:</label>
 						<input
 							type="text"
 							value={answer}
@@ -250,11 +250,11 @@ export default function TestMode() {
 							onKeyPress={handleKeyPress}
 							disabled={!!testFeedback}
 							placeholder="ABC"
-							className="w-full px-4 py-3 text-2xl font-bold text-center uppercase border-2 border-gray-300 rounded-lg focus:border-indigo-600 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+							className="w-full px-4 py-3 text-2xl font-bold text-center uppercase border-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-lg focus:border-indigo-600 dark:focus:border-indigo-400 focus:outline-none disabled:bg-gray-100 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
 							maxLength={3}
 							autoFocus
 						/>
-						<p className="text-xs text-gray-500 text-center">{answer.length}/3 letters</p>
+						<p className="text-xs text-gray-500 dark:text-gray-400 text-center">{answer.length}/3 letters</p>
 					</div>
 
 					{/* Feedback Panel */}
@@ -301,10 +301,10 @@ export default function TestMode() {
 	if (!customTestId) {
 		return (
 		<QuizLayout title="Test Mode">
-			<div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+			<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
 				<div className="space-y-2">
-					<h2 className="text-2xl font-bold text-gray-900">Ready to test your knowledge?</h2>
-					<p className="text-gray-600">
+					<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Ready to test your knowledge?</h2>
+					<p className="text-gray-600 dark:text-gray-300">
 						Type the correct IATA code for each airport. Get immediate feedback and see your final
 						score!
 					</p>
@@ -312,7 +312,7 @@ export default function TestMode() {
 
 				{/* Question Count Selection */}
 				<div className="space-y-3">
-					<p className="font-medium text-gray-700">How many questions?</p>
+					<p className="font-medium text-gray-700 dark:text-gray-300">How many questions?</p>
 					<div className="grid grid-cols-3 gap-4">
 						{[10, 20, 50].map((count) => (
 							<button
@@ -320,8 +320,8 @@ export default function TestMode() {
 								onClick={() => setSelectedQuestionCount(count)}
 								className={`py-4 px-6 rounded-lg font-semibold transition-all ${
 									selectedQuestionCount === count
-										? 'bg-indigo-600 text-white'
-										: 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+										? 'bg-indigo-600 dark:bg-indigo-500 text-white'
+										: 'bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100'
 								}`}
 							>
 								{count}
@@ -334,7 +334,7 @@ export default function TestMode() {
 				<button
 					onClick={handleStartTest}
 					disabled={isLoading}
-					className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-300 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg"
+					className="w-full bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 text-white font-semibold py-4 px-6 rounded-lg transition-colors text-lg"
 				>
 					{isLoading ? 'Starting Test...' : 'Start Test'}
 				</button>

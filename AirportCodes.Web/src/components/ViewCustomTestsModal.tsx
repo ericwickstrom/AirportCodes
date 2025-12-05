@@ -37,21 +37,21 @@ export default function ViewCustomTestsModal({ isOpen, onClose }: ViewCustomTest
 		<Modal isOpen={isOpen} onClose={onClose} title="Custom Tests">
 			<div className="space-y-4">
 				{isLoading ? (
-					<p className="text-gray-500 text-center py-8">Loading...</p>
+					<p className="text-gray-500 dark:text-gray-400 text-center py-8">Loading...</p>
 				) : error ? (
 					<p className="text-red-600 text-center py-8">{error}</p>
 				) : tests.length === 0 ? (
-					<p className="text-gray-500 text-center py-8">No custom tests yet</p>
+					<p className="text-gray-500 dark:text-gray-400 text-center py-8">No custom tests yet</p>
 				) : (
 					<div className="space-y-2">
 						{tests.map((test) => (
 							<div
 								key={test.id}
-								className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
+								className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
 							>
 								<div className="flex justify-between items-center">
-									<h3 className="font-semibold text-gray-900">{test.name}</h3>
-									<span className="text-sm text-gray-500">
+									<h3 className="font-semibold text-gray-900 dark:text-gray-100">{test.name}</h3>
+									<span className="text-sm text-gray-500 dark:text-gray-400">
 										{test.airportCount} {test.airportCount === 1 ? 'airport' : 'airports'}
 									</span>
 								</div>
