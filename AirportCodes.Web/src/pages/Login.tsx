@@ -76,6 +76,7 @@ export default function Login() {
 						placeholder="you@example.com"
 						disabled={isLoading}
 						autoComplete="email"
+						maxLength={100}
 					/>
 
 					<FormInput
@@ -89,6 +90,7 @@ export default function Login() {
 						disabled={isLoading}
 						showPasswordToggle
 						autoComplete="current-password"
+						maxLength={100}
 					/>
 
 					<div className="flex items-center justify-between">
