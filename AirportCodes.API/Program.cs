@@ -28,7 +28,7 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options =>
 	options.Password.RequireLowercase = true;
 	options.Password.RequireUppercase = true;
 	options.Password.RequireNonAlphanumeric = false;
-	options.Password.RequiredLength = 6;
+	options.Password.RequiredLength = 8;
 
 	// User settings
 	options.User.RequireUniqueEmail = true;

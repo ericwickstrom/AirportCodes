@@ -58,7 +58,7 @@ public class CustomTestController : ControllerBase
 	/// Get all custom tests created by the current user
 	/// </summary>
 	[HttpGet]
-	//[Authorize]
+	[Authorize]
 	public async Task<ActionResult<List<CustomTestDto>>> GetUserCustomTests([FromQuery] bool includeDeleted = false)
 	{
 		try
