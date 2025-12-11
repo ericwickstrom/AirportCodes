@@ -91,17 +91,18 @@ export default function BrowsePublicTestsModal({ isOpen, onClose }: BrowsePublic
 				</div>
 
 				{/* Tests List */}
-				{isLoading ? (
-					<p className="text-gray-500 dark:text-gray-400 text-center py-8">Loading...</p>
-				) : error ? (
-					<p className="text-red-600 dark:text-red-400 text-center py-8">{error}</p>
-				) : filteredTests.length === 0 ? (
-					<p className="text-gray-500 dark:text-gray-400 text-center py-8">
-						{searchQuery ? 'No tests found matching your search' : 'No public tests available yet'}
-					</p>
-				) : (
-					<div className="space-y-3 max-h-96 overflow-y-auto">
-						{filteredTests.map((test) => (
+				<div className="h-96 overflow-y-auto">
+					{isLoading ? (
+						<p className="text-gray-500 dark:text-gray-400 text-center py-8">Loading...</p>
+					) : error ? (
+						<p className="text-red-600 dark:text-red-400 text-center py-8">{error}</p>
+					) : filteredTests.length === 0 ? (
+						<p className="text-gray-500 dark:text-gray-400 text-center py-8">
+							{searchQuery ? 'No tests found matching your search' : 'No public tests available yet'}
+						</p>
+					) : (
+						<div className="space-y-3">
+							{filteredTests.map((test) => (
 							<div
 								key={test.id}
 								className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
@@ -146,8 +147,9 @@ export default function BrowsePublicTestsModal({ isOpen, onClose }: BrowsePublic
 								</div>
 							</div>
 						))}
-					</div>
-				)}
+						</div>
+					)}
+				</div>
 			</div>
 		</Modal>
 	);
