@@ -10,5 +10,6 @@ public interface ICustomTestService
 	Task<CustomTestDetailDto> UpdateCustomTestAsync(Guid customTestId, Guid userId, UpdateCustomTestRequest request);
 	Task<bool> SoftDeleteCustomTestAsync(Guid customTestId, Guid userId);
 	Task<List<CustomTestDto>> GetPublicCustomTestsAsync();
+	Task<List<CustomTestDto>> SearchPublicCustomTestsAsync(string query);
 	Task<bool> UserOwnsCustomTestAsync(Guid customTestId, Guid userId);
 }
