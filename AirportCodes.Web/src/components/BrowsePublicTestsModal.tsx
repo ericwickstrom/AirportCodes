@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from './Modal';
-import { customTestApi } from '../services/api';
+import { customTestApi, favoritesApi } from '../services/api';
+import { useAuthStore } from '../stores/authStore';
 import type { CustomTest } from '../types';
 
 interface BrowsePublicTestsModalProps {
@@ -11,6 +12,7 @@ interface BrowsePublicTestsModalProps {
 
 export default function BrowsePublicTestsModal({ isOpen, onClose }: BrowsePublicTestsModalProps) {
 	const navigate = useNavigate();
+	const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 	const [tests, setTests] = useState<CustomTest[]>([]);
 	const [filteredTests, setFilteredTests] = useState<CustomTest[]>([]);
 	const [searchQuery, setSearchQuery] = useState('');
@@ -55,6 +57,34 @@ export default function BrowsePublicTestsModal({ isOpen, onClose }: BrowsePublic
 	const handleStartTest = (testId: string) => {
 		onClose();
 		navigate(`/test/${testId}`);
+	};
+
+	const handleToggleFavorite = async (testId: string, currentlyFavorited: boolean) => {
+		if (!isAuthenticated) {
+			return;
+		}
+
+		try {
+			if (currentlyFavorited) {
+				await favoritesApi.removeFavorite(testId);
+			} else {
+				await favoritesApi.addFavorite(testId);
+			}
+
+			// Update local state optimistically
+			setTests(prevTests =>
+				prevTests.map(test =>
+					test.id === testId ? { ...test, isFavorited: !currentlyFavorited } : test
+				)
+			);
+			setFilteredTests(prevTests =>
+				prevTests.map(test =>
+					test.id === testId ? { ...test, isFavorited: !currentlyFavorited } : test
+				)
+			);
+		} catch (err) {
+			console.error('Failed to toggle favorite:', err);
+		}
 	};
 
 	const formatTimerDuration = (seconds?: number) => {
@@ -138,12 +168,35 @@ export default function BrowsePublicTestsModal({ isOpen, onClose }: BrowsePublic
 											)}
 										</div>
 									</div>
-									<button
-										onClick={() => handleStartTest(test.id)}
-										className="px-4 py-2 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white rounded-lg font-medium transition-colors whitespace-nowrap"
-									>
-										Start Test
-									</button>
+									<div className="flex items-center gap-2">
+										{isAuthenticated && (
+											<button
+												onClick={() => handleToggleFavorite(test.id, test.isFavorited)}
+												className="p-2 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors"
+												aria-label={test.isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+											>
+												<svg
+													className="w-6 h-6 text-red-500"
+													fill={test.isFavorited ? 'currentColor' : 'none'}
+													stroke="currentColor"
+													strokeWidth={test.isFavorited ? 0 : 2}
+													viewBox="0 0 24 24"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+													/>
+												</svg>
+											</button>
+										)}
+										<button
+											onClick={() => handleStartTest(test.id)}
+											className="px-4 py-2 bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 text-white rounded-lg font-medium transition-colors whitespace-nowrap"
+										>
+											Start Test
+										</button>
+									</div>
 								</div>
 							</div>
 						))}

@@ -17,6 +17,7 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 	public DbSet<City> Cities { get; set; }
 	public DbSet<CustomTest> CustomTests { get; set; }
 	public DbSet<CustomTestAirport> CustomTestAirports { get; set; }
+	public DbSet<UserFavoriteTest> UserFavoriteTests { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
@@ -97,6 +98,26 @@ public class AirportCodesDbContext : IdentityDbContext<User, IdentityRole<Guid>,
 				.WithMany()
 				.HasForeignKey(cta => cta.AirportId)
 				.OnDelete(DeleteBehavior.Restrict);
+		});
+
+		// UserFavoriteTest configuration
+		modelBuilder.Entity<UserFavoriteTest>(entity =>
+		{
+			entity.HasKey(uft => uft.Id);
+			entity.HasIndex(uft => uft.UserId);
+			entity.HasIndex(uft => uft.CustomTestId);
+			entity.HasIndex(uft => new { uft.UserId, uft.CustomTestId })
+				.IsUnique();
+			entity.HasOne(uft => uft.User)
+				.WithMany()
+				.HasForeignKey(uft => uft.UserId)
+				.OnDelete(DeleteBehavior.Cascade);
+			entity.HasOne(uft => uft.CustomTest)
+				.WithMany()
+				.HasForeignKey(uft => uft.CustomTestId)
+				.OnDelete(DeleteBehavior.Cascade);
+			entity.Property(uft => uft.CreatedDate)
+				.HasDefaultValueSql("NOW()");
 		});
 	}
 }

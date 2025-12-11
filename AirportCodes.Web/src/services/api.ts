@@ -251,6 +251,23 @@ export const customTestApi = {
 		}),
 };
 
+// Favorites API
+export const favoritesApi = {
+	addFavorite: (customTestId: string) =>
+		fetchApi<void>('/favorites', {
+			method: 'POST',
+			body: JSON.stringify({ customTestId }),
+		}),
+
+	removeFavorite: (customTestId: string) =>
+		fetchApi<void>(`/favorites/${customTestId}`, {
+			method: 'DELETE',
+		}),
+
+	getFavorites: () =>
+		fetchApi<CustomTest[]>('/favorites'),
+};
+
 // User Settings API
 export const settingsApi = {
 	getUserSettings: () =>

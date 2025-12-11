@@ -125,6 +125,7 @@ export interface CustomTest {
 	timerEnabled: boolean;
 	timerDurationSeconds?: number;
 	isDeleted: boolean;
+	isFavorited: boolean;
 	createdDate: string;
 	updatedDate: string;
 }
