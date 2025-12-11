@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import CreateTestModal from '../components/CreateTestModal';
 import ConfirmModal from '../components/ConfirmModal';
 import TestSelectionModal from '../components/TestSelectionModal';
+import BrowsePublicTestsModal from '../components/BrowsePublicTestsModal';
 import { customTestApi } from '../services/api';
 import type { CustomTest, CustomTestDetail } from '../types';
 
@@ -10,6 +11,7 @@ export default function Dashboard() {
 	const [isCreateTestModalOpen, setIsCreateTestModalOpen] = useState(false);
 	const [isLearningModalOpen, setIsLearningModalOpen] = useState(false);
 	const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+	const [isBrowsePublicTestsOpen, setIsBrowsePublicTestsOpen] = useState(false);
 	const [tests, setTests] = useState<CustomTest[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -94,7 +96,7 @@ export default function Dashboard() {
 			<div className="max-w-6xl mx-auto space-y-6">
 				<h1 className="text-4xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
 
-				<div className="grid md:grid-cols-2 gap-6">
+				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 					<button
 						onClick={() => setIsLearningModalOpen(true)}
 						className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
@@ -114,6 +116,17 @@ export default function Dashboard() {
 						<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Test Mode</h2>
 						<p className="text-gray-600 dark:text-gray-300">
 							Take a timed test and track your progress
+						</p>
+					</button>
+
+					<button
+						onClick={() => setIsBrowsePublicTestsOpen(true)}
+						className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
+					>
+						<div className="text-4xl">🌍</div>
+						<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Browse Tests</h2>
+						<p className="text-gray-600 dark:text-gray-300">
+							Discover and take tests created by other users
 						</p>
 					</button>
 				</div>
@@ -227,6 +240,11 @@ export default function Dashboard() {
 				isOpen={isTestModalOpen}
 				onClose={() => setIsTestModalOpen(false)}
 				mode="test"
+			/>
+
+			<BrowsePublicTestsModal
+				isOpen={isBrowsePublicTestsOpen}
+				onClose={() => setIsBrowsePublicTestsOpen(false)}
 			/>
 		</div>
 	);
