@@ -259,6 +259,33 @@ public class CustomTestService : ICustomTestService
 		}).ToList();
 	}
 
+	public async Task<List<CustomTestDto>> SearchPublicCustomTestsAsync(string query)
+	{
+		var normalizedQuery = query.Trim().ToLower();
+
+		var customTests = await _context.CustomTests
+			.Include(ct => ct.CreatedBy)
+			.Include(ct => ct.CustomTestAirports)
+			.Where(ct => ct.IsPublic && !ct.IsDeleted && ct.Name.ToLower().Contains(normalizedQuery))
+			.OrderByDescending(ct => ct.CreatedDate)
+			.ToListAsync();
+
+		return customTests.Select(ct => new CustomTestDto
+		{
+			Id = ct.Id,
+			Name = ct.Name,
+			AirportCount = ct.CustomTestAirports.Count,
+			IsPublic = ct.IsPublic,
+			IsAnonymous = ct.IsAnonymous,
+			CreatorName = ct.IsAnonymous ? null : ct.CreatedBy.UserName,
+			TimerEnabled = ct.TimerEnabled,
+			TimerDurationSeconds = ct.TimerDurationSeconds,
+			IsDeleted = ct.IsDeleted,
+			CreatedDate = ct.CreatedDate,
+			UpdatedDate = ct.UpdatedDate
+		}).ToList();
+	}
+
 	public async Task<bool> UserOwnsCustomTestAsync(Guid customTestId, Guid userId)
 	{
 		return await _context.CustomTests

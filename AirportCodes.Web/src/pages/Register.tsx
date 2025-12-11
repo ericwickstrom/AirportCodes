@@ -109,6 +109,7 @@ export default function Register() {
 						placeholder="you@example.com"
 						disabled={isLoading}
 						autoComplete="email"
+						maxLength={100}
 					/>
 
 					<div>
@@ -123,6 +124,7 @@ export default function Register() {
 							disabled={isLoading}
 							showPasswordToggle
 							autoComplete="new-password"
+							maxLength={100}
 						/>
 						{password && passwordStrength && (
 							<div className="mt-2">
@@ -152,6 +154,7 @@ export default function Register() {
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						error={validationErrors.confirmPassword}
 						placeholder="Re-enter your password"
+						maxLength={100}
 						disabled={isLoading}
 						showPasswordToggle
 						autoComplete="new-password"

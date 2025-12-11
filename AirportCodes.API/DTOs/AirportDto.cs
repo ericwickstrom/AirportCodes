@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace AirportCodes.API.DTOs;
 
 public class AirportDto
@@ -11,6 +13,8 @@ public class AirportDto
 
 public class BulkLookupRequest
 {
+	[Required]
+	[MaxLength(1000)]
 	public List<string> IataCodes { get; set; } = new();
 }
 

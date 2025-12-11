@@ -58,7 +58,7 @@ public class CustomTestController : ControllerBase
 	/// Get all custom tests created by the current user
 	/// </summary>
 	[HttpGet]
-	//[Authorize]
+	[Authorize]
 	public async Task<ActionResult<List<CustomTestDto>>> GetUserCustomTests([FromQuery] bool includeDeleted = false)
 	{
 		try
@@ -189,6 +189,30 @@ public class CustomTestController : ControllerBase
 		{
 			_logger.LogError(ex, "Failed to get public custom tests");
 			return StatusCode(500, new { message = "An error occurred while retrieving public custom tests" });
+		}
+	}
+
+	/// <summary>
+	/// Search public custom tests by name
+	/// </summary>
+	[HttpGet("public/search")]
+	[AllowAnonymous]
+	public async Task<ActionResult<List<CustomTestDto>>> SearchPublicCustomTests([FromQuery] string query)
+	{
+		try
+		{
+			if (string.IsNullOrWhiteSpace(query))
+			{
+				return BadRequest(new { message = "Search query cannot be empty" });
+			}
+
+			var customTests = await _customTestService.SearchPublicCustomTestsAsync(query);
+			return Ok(customTests);
+		}
+		catch (Exception ex)
+		{
+			_logger.LogError(ex, "Failed to search public custom tests");
+			return StatusCode(500, new { message = "An error occurred while searching public custom tests" });
 		}
 	}
 }

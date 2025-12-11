@@ -12,6 +12,8 @@ public static class SeedData
 	{
 		return;
 		// Read airport data from JSON file
+		// TODO: When re-enabling, use IWebHostEnvironment.ContentRootPath instead of relative path navigation
+		// Example: var jsonPath = Path.Combine(hostEnvironment.ContentRootPath, "Docs", "airport_data.json");
 		var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Docs", "airport_data.json");
 		var jsonData = File.ReadAllText(jsonPath);
 		var airportDataList = JsonSerializer.Deserialize<List<AirportData>>(jsonData);

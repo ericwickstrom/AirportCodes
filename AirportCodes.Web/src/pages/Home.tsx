@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TestSelectionModal from '../components/TestSelectionModal';
+import BrowsePublicTestsModal from '../components/BrowsePublicTestsModal';
 
 export default function Home() {
 	const [isLearningModalOpen, setIsLearningModalOpen] = useState(false);
 	const [isTestModalOpen, setIsTestModalOpen] = useState(false);
+	const [isBrowsePublicTestsOpen, setIsBrowsePublicTestsOpen] = useState(false);
 
 	return (
 		<div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-8 min-h-full">
@@ -14,7 +16,7 @@ export default function Home() {
 					<p className="text-xl text-gray-600 dark:text-gray-300">Master IATA airport codes from around the world</p>
 				</div>
 
-				<div className="grid md:grid-cols-2 gap-6">
+				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 					<button
 						onClick={() => setIsLearningModalOpen(true)}
 						className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
@@ -34,6 +36,17 @@ export default function Home() {
 						<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Test Mode</h2>
 						<p className="text-gray-600 dark:text-gray-300">
 							Take a timed test and track your progress
+						</p>
+					</button>
+
+					<button
+						onClick={() => setIsBrowsePublicTestsOpen(true)}
+						className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow space-y-4 text-left cursor-pointer"
+					>
+						<div className="text-4xl">🌍</div>
+						<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Browse Tests</h2>
+						<p className="text-gray-600 dark:text-gray-300">
+							Discover and take tests created by other users
 						</p>
 					</button>
 				</div>
@@ -58,6 +71,11 @@ export default function Home() {
 				isOpen={isTestModalOpen}
 				onClose={() => setIsTestModalOpen(false)}
 				mode="test"
+			/>
+
+			<BrowsePublicTestsModal
+				isOpen={isBrowsePublicTestsOpen}
+				onClose={() => setIsBrowsePublicTestsOpen(false)}
 			/>
 		</div>
 	);
