@@ -233,6 +233,9 @@ export const customTestApi = {
 	getPublicTests: () =>
 		fetchApi<CustomTest[]>('/custom-tests/public'),
 
+	searchPublicTests: (query: string) =>
+		fetchApi<CustomTest[]>(`/custom-tests/public/search?query=${encodeURIComponent(query)}`),
+
 	getById: (id: string) =>
 		fetchApi<CustomTestDetail>(`/custom-tests/${id}`),
 
