@@ -61,6 +61,7 @@ export interface LearningQuestion {
 	country: string;
 	options: string[];
 	totalQuestions?: number;
+	customTestName?: string;
 }
 
 export interface LearningAnswerRequest {
@@ -94,6 +95,7 @@ export interface TestQuestion {
 	timerStartedAt?: string;
 	timerDurationSeconds?: number;
 	timerExpiresAt?: string;
+	customTestName?: string;
 }
 
 export interface TestAnswerRequest {

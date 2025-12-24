@@ -267,6 +267,7 @@ export const useQuizStore = create<QuizState>((set, get) => ({
 		clearSessionFromStorage();
 		set({
 			mode: null,
+			isLoading: false,
 			learningQuestion: null,
 			learningFeedback: null,
 			customTestId: null,
