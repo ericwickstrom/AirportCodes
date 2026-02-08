@@ -100,7 +100,7 @@ using (var scope = app.Services.CreateScope())
 	}
 }
 
-// Seed database
+// Migrate & Seed database
 using (var scope = app.Services.CreateScope())
 {
 	var context = scope.ServiceProvider.GetRequiredService<AirportCodesDbContext>();
@@ -108,6 +108,10 @@ using (var scope = app.Services.CreateScope())
 	
 	try
 	{
+		logger.LogInformation("Applying database migrations...");
+		context.Database.Migrate();
+		logger.LogInformation("Database migrations applied successfully");
+
 		logger.LogInformation("Starting database seeding...");
 
 		SeedData.SeedCountries(context);
