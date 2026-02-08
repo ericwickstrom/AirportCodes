@@ -2,6 +2,8 @@
 
 A web application for learning and testing knowledge of airport IATA codes worldwide.
 
+Currently live at https://airport-codes.vercel.app
+
 ## Tech Stack
 
 ### Backend
