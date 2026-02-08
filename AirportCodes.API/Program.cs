@@ -91,7 +91,31 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
 	var context = scope.ServiceProvider.GetRequiredService<AirportCodesDbContext>();
-	SeedData.SeedCustomTests(context);
+	var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+	
+	try
+	{
+		logger.LogInformation("Starting database seeding...");
+
+		SeedData.SeedCountries(context);
+		logger.LogInformation("Countries seeded");
+
+		SeedData.SeedCities(context);
+		logger.LogInformation("Cities seeded");
+
+		SeedData.SeedAirports(context);
+		logger.LogInformation("Airports seeded");
+
+		SeedData.SeedCustomTests(context);
+		logger.LogInformation("Custom tests seeded");
+
+		logger.LogInformation("Database seeding completed successfully");
+	}
+	catch (Exception ex)
+	{
+		logger.LogError(ex, "An error occurred while seeding the database");
+		throw;
+	}
 }
 
 // Configure the HTTP request pipeline
