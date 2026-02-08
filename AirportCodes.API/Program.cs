@@ -87,6 +87,19 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// DEBUG: Log connection string (TEMPORARY - remove after fixing)
+using (var scope = app.Services.CreateScope())
+{
+	var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+	var connString = builder.Configuration.GetConnectionString("DefaultConnection");
+	logger.LogInformation($"Connection string length: {connString?.Length ?? 0}");
+	logger.LogInformation($"Connection string is null or empty: {string.IsNullOrEmpty(connString)}");
+	if (!string.IsNullOrEmpty(connString))
+	{
+		logger.LogInformation($"Connection string starts with: {connString.Substring(0, Math.Min(20, connString.Length))}...");
+	}
+}
+
 // Seed database
 using (var scope = app.Services.CreateScope())
 {
