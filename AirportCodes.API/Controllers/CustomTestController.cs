@@ -182,7 +182,15 @@ public class CustomTestController : ControllerBase
 	{
 		try
 		{
-			var customTests = await _customTestService.GetPublicCustomTestsAsync();
+			// Try to get user ID if authenticated, otherwise null
+			Guid? userId = null;
+			var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			if (userIdClaim != null && Guid.TryParse(userIdClaim, out var parsedUserId))
+			{
+				userId = parsedUserId;
+			}
+
+			var customTests = await _customTestService.GetPublicCustomTestsAsync(userId);
 			return Ok(customTests);
 		}
 		catch (Exception ex)
@@ -206,7 +214,15 @@ public class CustomTestController : ControllerBase
 				return BadRequest(new { message = "Search query cannot be empty" });
 			}
 
-			var customTests = await _customTestService.SearchPublicCustomTestsAsync(query);
+			// Try to get user ID if authenticated, otherwise null
+			Guid? userId = null;
+			var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			if (userIdClaim != null && Guid.TryParse(userIdClaim, out var parsedUserId))
+			{
+				userId = parsedUserId;
+			}
+
+			var customTests = await _customTestService.SearchPublicCustomTestsAsync(query, userId);
 			return Ok(customTests);
 		}
 		catch (Exception ex)

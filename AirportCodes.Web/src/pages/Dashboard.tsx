@@ -4,7 +4,7 @@ import CreateTestModal from '../components/CreateTestModal';
 import ConfirmModal from '../components/ConfirmModal';
 import TestSelectionModal from '../components/TestSelectionModal';
 import BrowsePublicTestsModal from '../components/BrowsePublicTestsModal';
-import { customTestApi } from '../services/api';
+import { customTestApi, favoritesApi } from '../services/api';
 import type { CustomTest, CustomTestDetail } from '../types';
 
 export default function Dashboard() {
@@ -13,7 +13,9 @@ export default function Dashboard() {
 	const [isTestModalOpen, setIsTestModalOpen] = useState(false);
 	const [isBrowsePublicTestsOpen, setIsBrowsePublicTestsOpen] = useState(false);
 	const [tests, setTests] = useState<CustomTest[]>([]);
+	const [favoriteTests, setFavoriteTests] = useState<CustomTest[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isFavoritesLoading, setIsFavoritesLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [deleteConfirmModal, setDeleteConfirmModal] = useState<{ isOpen: boolean; test: CustomTest | null }>({
 		isOpen: false,
@@ -25,6 +27,7 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		loadTests();
+		loadFavorites();
 	}, []);
 
 	const loadTests = async () => {
@@ -38,6 +41,27 @@ export default function Dashboard() {
 			setError('Failed to load custom tests');
 		} finally {
 			setIsLoading(false);
+		}
+	};
+
+	const loadFavorites = async () => {
+		setIsFavoritesLoading(true);
+		try {
+			const favorites = await favoritesApi.getFavorites();
+			setFavoriteTests(favorites);
+		} catch (err) {
+			console.error('Failed to load favorite tests:', err);
+		} finally {
+			setIsFavoritesLoading(false);
+		}
+	};
+
+	const handleRemoveFavorite = async (testId: string) => {
+		try {
+			await favoritesApi.removeFavorite(testId);
+			setFavoriteTests(prev => prev.filter(test => test.id !== testId));
+		} catch (err) {
+			console.error('Failed to remove favorite:', err);
 		}
 	};
 
@@ -130,6 +154,66 @@ export default function Dashboard() {
 						</p>
 					</button>
 				</div>
+
+				{/* Favorite Tests Section */}
+				{favoriteTests.length > 0 && (
+					<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+						<h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Favorite Tests</h2>
+						{isFavoritesLoading ? (
+							<p className="text-gray-500 dark:text-gray-400 text-center py-8">Loading...</p>
+						) : (
+							<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+								{favoriteTests.map((test) => (
+									<div
+										key={test.id}
+										className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors space-y-3"
+									>
+										<div>
+											<h3 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">{test.name}</h3>
+											<p className="text-sm text-gray-500 dark:text-gray-400">
+												{test.airportCount} {test.airportCount === 1 ? 'airport' : 'airports'}
+											</p>
+											{test.creatorName && (
+												<p className="text-xs text-gray-500 dark:text-gray-400">
+													by {test.creatorName}
+												</p>
+											)}
+										</div>
+										<div className="flex gap-2 text-xs">
+											{test.timerEnabled && (
+												<span className="px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">
+													Timed
+												</span>
+											)}
+										</div>
+										<div className="flex flex-col gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+											<div className="flex gap-2">
+												<Link
+													to={`/learning/${test.id}`}
+													className="flex-1 px-3 py-2 text-sm bg-indigo-600 dark:bg-indigo-500 text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 rounded-lg font-medium transition-colors text-center"
+												>
+													Practice
+												</Link>
+												<Link
+													to={`/test/${test.id}`}
+													className="flex-1 px-3 py-2 text-sm bg-green-600 dark:bg-green-500 text-white hover:bg-green-700 dark:hover:bg-green-600 rounded-lg font-medium transition-colors text-center"
+												>
+													Take Test
+												</Link>
+											</div>
+											<button
+												className="w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 rounded-lg font-medium transition-colors"
+												onClick={() => handleRemoveFavorite(test.id)}
+											>
+												Remove Favorite
+											</button>
+										</div>
+									</div>
+								))}
+							</div>
+						)}
+					</div>
+				)}
 
 				{/* My Tests Section */}
 				<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">

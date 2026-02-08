@@ -234,7 +234,7 @@ public class CustomTestService : ICustomTestService
 		return true;
 	}
 
-	public async Task<List<CustomTestDto>> GetPublicCustomTestsAsync()
+	public async Task<List<CustomTestDto>> GetPublicCustomTestsAsync(Guid? userId = null)
 	{
 		var customTests = await _context.CustomTests
 			.Include(ct => ct.CreatedBy)
@@ -242,6 +242,17 @@ public class CustomTestService : ICustomTestService
 			.Where(ct => ct.IsPublic && !ct.IsDeleted)
 			.OrderByDescending(ct => ct.CreatedDate)
 			.ToListAsync();
+
+		// Get favorited test IDs if user is authenticated
+		var favoritedIds = new HashSet<Guid>();
+		if (userId.HasValue)
+		{
+			var favoritedList = await _context.UserFavoriteTests
+				.Where(uft => uft.UserId == userId.Value)
+				.Select(uft => uft.CustomTestId)
+				.ToListAsync();
+			favoritedIds = favoritedList.ToHashSet();
+		}
 
 		return customTests.Select(ct => new CustomTestDto
 		{
@@ -254,12 +265,13 @@ public class CustomTestService : ICustomTestService
 			TimerEnabled = ct.TimerEnabled,
 			TimerDurationSeconds = ct.TimerDurationSeconds,
 			IsDeleted = ct.IsDeleted,
+			IsFavorited = favoritedIds.Contains(ct.Id),
 			CreatedDate = ct.CreatedDate,
 			UpdatedDate = ct.UpdatedDate
 		}).ToList();
 	}
 
-	public async Task<List<CustomTestDto>> SearchPublicCustomTestsAsync(string query)
+	public async Task<List<CustomTestDto>> SearchPublicCustomTestsAsync(string query, Guid? userId = null)
 	{
 		var normalizedQuery = query.Trim().ToLower();
 
@@ -270,6 +282,17 @@ public class CustomTestService : ICustomTestService
 			.OrderByDescending(ct => ct.CreatedDate)
 			.ToListAsync();
 
+		// Get favorited test IDs if user is authenticated
+		var favoritedIds = new HashSet<Guid>();
+		if (userId.HasValue)
+		{
+			var favoritedList = await _context.UserFavoriteTests
+				.Where(uft => uft.UserId == userId.Value)
+				.Select(uft => uft.CustomTestId)
+				.ToListAsync();
+			favoritedIds = favoritedList.ToHashSet();
+		}
+
 		return customTests.Select(ct => new CustomTestDto
 		{
 			Id = ct.Id,
@@ -281,6 +304,7 @@ public class CustomTestService : ICustomTestService
 			TimerEnabled = ct.TimerEnabled,
 			TimerDurationSeconds = ct.TimerDurationSeconds,
 			IsDeleted = ct.IsDeleted,
+			IsFavorited = favoritedIds.Contains(ct.Id),
 			CreatedDate = ct.CreatedDate,
 			UpdatedDate = ct.UpdatedDate
 		}).ToList();

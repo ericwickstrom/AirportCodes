@@ -11,6 +11,7 @@ public class CustomTestDto
 	public bool TimerEnabled { get; set; }
 	public int? TimerDurationSeconds { get; set; }
 	public bool IsDeleted { get; set; }
+	public bool IsFavorited { get; set; } = false;
 	public DateTime CreatedDate { get; set; }
 	public DateTime UpdatedDate { get; set; }
 }
