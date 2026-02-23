@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuizStore, loadSessionFromStorage } from '../stores/quizStore';
+import { useAuthStore } from '../stores/authStore';
 import QuizLayout from '../components/quiz/QuizLayout';
 import QuestionDisplay from '../components/quiz/QuestionDisplay';
 import FeedbackPanel from '../components/quiz/FeedbackPanel';
@@ -13,6 +14,8 @@ import ConfirmModal from '../components/ConfirmModal';
 
 export default function TestMode() {
 	const { customTestId } = useParams<{ customTestId?: string }>();
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAuthStore();
 	const {
 		testSession,
 		testQuestion,
@@ -34,10 +37,16 @@ export default function TestMode() {
 	const [timerExpired, setTimerExpired] = useState(false);
 	const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 	const [showCancelModal, setShowCancelModal] = useState(false);
+	const wasCancelledRef = useRef(false);
 
 	// Check for existing session on mount, or auto-start custom tests
 	useEffect(() => {
 		const initializeTest = async () => {
+			// Don't auto-start if user just cancelled
+			if (wasCancelledRef.current) {
+				return;
+			}
+
 			// Check localStorage for existing session
 			const { sessionId, customTestId: storedCustomTestId } = loadSessionFromStorage();
 
@@ -73,6 +82,7 @@ export default function TestMode() {
 
 	// Start screen
 	const handleStartTest = async () => {
+		wasCancelledRef.current = false;
 		setCorrectAnswersCount(0);
 		localStorage.removeItem('test_correct_count');
 		await startTestMode(selectedQuestionCount, customTestId);
@@ -124,6 +134,8 @@ export default function TestMode() {
 
 	// Completion screen
 	const handleNewTest = () => {
+		wasCancelledRef.current = false;
+		setHasAutoStarted(false);
 		resetQuiz();
 		setAnswer('');
 		setTimerExpired(false);
@@ -133,12 +145,16 @@ export default function TestMode() {
 
 	// Cancel test
 	const handleCancelTest = () => {
+		wasCancelledRef.current = true;
 		resetQuiz();
 		setAnswer('');
 		setTimerExpired(false);
 		setCorrectAnswersCount(0);
+		setHasAutoStarted(false);
 		localStorage.removeItem('test_correct_count');
 		setShowCancelModal(false);
+		// Navigate to dashboard if logged in, otherwise home
+		navigate(isAuthenticated ? '/dashboard' : '/');
 	};
 
 	// Error state
@@ -159,7 +175,10 @@ export default function TestMode() {
 	// Completion screen
 	if (testResult) {
 		return (
-			<QuizLayout title="Test Complete!">
+			<QuizLayout
+				title="Test Complete!"
+				subtitle={testQuestion?.customTestName}
+			>
 				<div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6">
 					{/* Score Display */}
 					<div className="text-center space-y-4">
@@ -204,6 +223,7 @@ export default function TestMode() {
 		return (
 			<QuizLayout
 				title="Test Mode"
+				subtitle={testQuestion.customTestName}
 				headerRight={
 					<div className="flex gap-6 items-center">
 						{testSession.timerExpiresAt && (

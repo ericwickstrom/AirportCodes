@@ -12,4 +12,5 @@ public class TestQuestionDto
 	public DateTime? TimerStartedAt { get; set; }
 	public int? TimerDurationSeconds { get; set; }
 	public DateTime? TimerExpiresAt { get; set; }
+	public string? CustomTestName { get; set; }
 }

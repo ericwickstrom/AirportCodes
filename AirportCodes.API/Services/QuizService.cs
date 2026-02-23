@@ -21,6 +21,7 @@ public class QuizService : IQuizService
 	{
 		IQueryable<Airport> airportQuery;
 		int? totalQuestions = null;
+		string? customTestName = null;
 
 		// If customTestId is provided, query from custom test's airports
 		if (customTestId.HasValue)
@@ -49,8 +50,9 @@ public class QuizService : IQuizService
 				throw new InvalidOperationException("Custom test must have at least 4 airports to generate multiple choice questions");
 			}
 
-			// Set total questions for custom test
+			// Set total questions and test name for custom test
 			totalQuestions = airportIds.Count;
+			customTestName = customTest.Name;
 
 			// Query only the airports in this custom test
 			airportQuery = _context.Airports
@@ -113,7 +115,8 @@ public class QuizService : IQuizService
 			City = correctAirport.City.Name,
 			Country = correctAirport.City.Country.Name,
 			Options = options,
-			TotalQuestions = totalQuestions
+			TotalQuestions = totalQuestions,
+			CustomTestName = customTestName
 		};
 	}
 
@@ -267,6 +270,7 @@ public class QuizService : IQuizService
 		}
 
 		IQueryable<Airport> airportQuery;
+		string? customTestName = null;
 
 		// If session has customTestId, query from custom test's airports
 		if (session.CustomTestId.HasValue)
@@ -279,6 +283,8 @@ public class QuizService : IQuizService
 			{
 				throw new InvalidOperationException("Custom test not found");
 			}
+
+			customTestName = customTest.Name;
 
 			var airportIds = customTest.CustomTestAirports.Select(cta => cta.AirportId).ToList();
 			airportQuery = _context.Airports
@@ -366,7 +372,8 @@ public class QuizService : IQuizService
 			TotalQuestions = session.TotalQuestions,
 			TimerStartedAt = session.TimerStartedAt,
 			TimerDurationSeconds = session.TimerDurationSeconds,
-			TimerExpiresAt = session.TimerExpiresAt
+			TimerExpiresAt = session.TimerExpiresAt,
+			CustomTestName = customTestName
 		};
 	}
 
